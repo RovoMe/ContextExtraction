@@ -1,0 +1,373 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- 
+	This project requires more than 2 GB of java heap space as training 
+	the classifier stores a lot of trigrams! If you receive an 'OutOfMemoryException: 
+	java heap space' exception you have to set an environment variable MAVEN_OPTS=-Xmx4096m 
+	A list of possible JVM modifications: *) Initial stack size for Java Threads: 
+	-Xiss - default 2kb on Windows, Linux, ... *) Maximum stack size for Java 
+	Threads: -Xss - default 512kb on Windows, Linux, ... *) Stack size for OS 
+	Threads: -Xmso - default 256kb on Windows, Linux, ... *) Initial heap size: 
+	-Xms - default 4 MB on Windows, Linux, ... *) Maximum Java heap size: -Xmx 
+	- default half of memory with min of 16MB and max of 2GB on Windows, max 
+	of 512mb on Linux and OS
+	-->
+
+	<groupId>at.rovo.WebContentExtraction</groupId>
+	<artifactId>WebContentExtraction</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>WebContentExtraction</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<sqlite4java.version>0.282</sqlite4java.version>
+		<plugin.assembly.version>2.3</plugin.assembly.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<profiles>
+		<!-- Linux and Mac dependency entries may be fount at: http://code.google.com/p/sqlite4java/wiki/UsingWithMaven -->
+		<!-- list of arch and familiy names: http://lopica.sourceforge.net/os.html http://www.java-gaming.org/index.php/topic,14110 -->
+		<!-- 64bit Windows -->
+		<profile>
+			<id>win64</id>
+			<activation>
+				<os>
+					<family>windows</family>
+					<arch>amd64</arch>
+				</os>
+			</activation>
+			<properties>
+				<sqlite.artifact>sqlite4java-win32-x64</sqlite.artifact>
+				<sqlite.type>dll</sqlite.type>
+			</properties>
+		</profile>
+		<!-- 32bit Windows -->
+		<profile>
+			<id>win32</id>
+			<activation>
+				<os>
+					<family>windows</family>
+					<arch>x86</arch>
+				</os>
+			</activation>
+			<properties>
+				<sqlite.artifact>sqlite4java-win32-x86</sqlite.artifact>
+				<sqlite.type>dll</sqlite.type>
+			</properties>
+		</profile>
+		<!-- 64bit linux -->
+		<profile>
+			<id>linux64</id>
+			<activation>
+				<os>
+					<family>unix</family>
+					<arch>amd64</arch>
+				</os>
+			</activation>
+			<properties>
+				<sqlite.artifact>libsqlite4java-linux-amd64</sqlite.artifact>
+				<sqlite.type>so</sqlite.type>
+			</properties>
+		</profile>
+		<!-- 32bit linux -->
+		<profile>
+			<id>linux32</id>
+			<activation>
+				<os>
+					<family>unix</family>
+					<arch>i386</arch>
+				</os>
+			</activation>
+			<properties>
+				<sqlite.artifact>libsqlite4java-linux-i386</sqlite.artifact>
+				<sqlite.type>so</sqlite.type>
+			</properties>
+		</profile>
+		<!--  OS-X 10.4 -->
+		<profile>
+			<id>osx-10.4</id>
+			<activation>
+				<os>
+					<family>mac os x</family>
+					<arch>i386</arch>
+					<version>[10.4)</version>
+				</os>
+			</activation>
+			<properties>
+				<sqlite.artifact>libsqlite4java-osx-10.4</sqlite.artifact>
+				<sqlite.type>jnilib</sqlite.type>
+			</properties>
+		</profile>
+		<!--  OS-X -->
+		<profile>
+			<id>osx</id>
+			<activation>
+				<os>
+					<family>mac os x</family>
+					<arch>i386</arch>
+					<version>[10.0,10.4]</version>
+				</os>
+			</activation>
+			<properties>
+				<sqlite.artifact>libsqlite4java-osx</sqlite.artifact>
+				<sqlite.type>jnilib</sqlite.type>
+			</properties>
+		</profile>
+		<!--  OS-X PPC -->
+		<profile>
+			<id>osx-ppc</id>
+			<activation>
+				<os>
+					<family>mac os x</family>
+					<arch>ppc</arch>
+				</os>
+			</activation>
+			<properties>
+				<sqlite.artifact>libsqlite4java-osx-ppc</sqlite.artifact>
+				<sqlite.type>jnilib</sqlite.type>
+			</properties>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<!-- Log4J -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.0-alpha2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.0-alpha2</version>
+		</dependency>
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- SQLite4 -->
+		<dependency>
+			<groupId>com.almworks.sqlite4java</groupId>
+			<artifactId>sqlite4java</artifactId>
+			<type>jar</type>
+			<version>${sqlite4java.version}</version>
+		</dependency>
+		<!-- class-specific sqlite dependencies -->
+		<dependency>
+			<groupId>com.almworks.sqlite4java</groupId>
+			<artifactId>${sqlite.artifact}</artifactId>
+			<type>${sqlite.type}</type>
+			<version>${sqlite4java.version}</version>
+		</dependency>
+	</dependencies>
+	
+	<repositories>
+		<repository>
+			<id>oracleReleases</id>
+			<name>Oracle Released Java Packages</name>
+			<url>http://download.oracle.com/maven</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots />
+		</repository>
+	</repositories>
+	
+	<build>
+		<plugins>
+			<!-- Provides utility goals to work with dependencies like copying, unpacking, 
+				analyzing, resolving and many more. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.almworks.sqlite4java</groupId>
+									<artifactId>${sqlite.artifact}</artifactId>
+									<type>${sqlite.type}</type>
+									<version>${sqlite4java.version}</version>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/lib</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Surefire is a test framework project. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12</version>
+				<configuration>
+					<systemProperties>
+						<property>
+							<name>sqlite4java.library.path</name>
+							<value>${project.build.directory}/lib</value>
+						</property>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			<!-- compiler settings -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+			<!-- to be able to use mvn eclipse:eclipse or mvn eclipse:clean -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<inherited>true</inherited>
+				<configuration>
+					<classpathContainers>
+						<classpathContainer>org.eclipse.jdt.USER_LIBRARY/Activiti Designer
+							Extensions</classpathContainer>
+					</classpathContainers>
+				</configuration>
+			</plugin>
+			<!-- A Mojo for generating bin scripts for Java applications -->
+<!-- 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<programs>
+						<program>
+							<mainClass>at.rovo.textextraction.Main</mainClass>
+							<name>WebCrawler</name>
+						</program>
+					</programs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>assemble</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+						<configuration>
+							<extraJvmArguments>-Dsqlite4java.library.path=lib</extraJvmArguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+			<!-- A plugin to allow execution of system and Java programs -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<configuration>
+					<executable>java</executable>
+                    <arguments>        
+                        <!--  TEXT EXTRACTION METHODS -->
+                    	<!-- <argument>extractionMethod=simple</argument> -->
+                    	<argument>extractionMethod=supervised</argument>
+                    	<!-- <argument>extractionMethod=semiSupervised</argument> -->
+                                	
+                    	<!-- TRAINING STRATEGIES -->                   	
+                     	<!-- <argument>trainingStrategy=TRIGRAM</argument> -->
+                    	<argument>trainingStrategy=BIGRAM</argument>
+                    	<!-- <argument>trainingStrategy=UNIGRAM</argument> -->
+                    	<!-- <argument>trainingStrategy=DOUBLE_UNIGRAM</argument> -->
+                    	<!-- <argument>trainingStrategy=TRIPLE_UNIGRAM</argument> -->
+                                        	
+                    	<!-- TRAINING SOURCE -->
+                    	<argument>trainingSource=DB</argument>
+                    	<!-- <argument>trainingSource=FILE</argument> -->
+                    	<!-- <argument>trainingSource=BOTH</argument> -->
+                    	
+                    	<!-- SAMPLE SIZE PER SOURCE -->
+                    	<argument>trainingSizePerSource=15000</argument>
+                    	
+                    	<!-- NUMBER OF BUCKETS TO USE FOR CACHING -->
+                    	<!-- <argument>numBuckets=2</argument> -->
+                    	<argument>numBuckets=512</argument>
+                    </arguments>
+					<mainClass>at.rovo.Main</mainClass>
+					<systemProperties>
+						<systemProperty>
+							<key>java.library.path</key>
+							<value>${project.build.directory}\lib;${java.library.path}</value>
+						</systemProperty>
+						<systemProperty>
+							<key>sqlite4java.library.path</key>
+							<value>${project.build.directory}\lib</value>
+						</systemProperty>
+						<systemProperty>
+							<key>log4j.configurationFile</key>
+							<value>${project.build.outputDirectory}/log/log4j-config.xml</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<!-- to get rid of "Plugin execution not covered by lifecycle configuration" 
+			error of the error in the execution-tag of maven-dependency-plugin plugin -->
+ 		<pluginManagement>
+			<plugins>
+				<!-- This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself.  -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.0,)</versionRange>
+										<goals>
+											<goal>copy</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+										<execute> <runOnIncremental>false</runOnIncremental> </execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
