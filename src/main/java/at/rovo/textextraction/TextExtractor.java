@@ -109,7 +109,8 @@ public abstract class TextExtractor
 		this.trainingSampleSize = trainingSizePerSource;
 		
 		long startTime = 0;
-		logger.info("Start training");
+		if (logger.isInfoEnabled())
+			logger.info("Start training");
 		startTime = System.currentTimeMillis();
 		
 		if (this.trainFrom.equals(TrainData.FILE))
@@ -128,7 +129,8 @@ public abstract class TextExtractor
 		long min = neededTime/1000/60;
 		long lsec = neededTime - min*1000*60;
 		long sec = lsec/1000;
-		logger.info("Training done. Time needed: "+min+" min "+sec+" sec ("+neededTime+" ms)");
+		if (logger.isInfoEnabled())
+			logger.info("Training done. Time needed: "+min+" min "+sec+" sec ("+neededTime+" ms)");
 		this.isTrained = true;
 	}
 	
@@ -151,7 +153,8 @@ public abstract class TextExtractor
 
 		if (!trainingDir.isDirectory())
 		{
-			logger.error("Could not find training Directory!");
+			if (logger.isErrorEnabled())
+				logger.error("Could not find training Directory!");
 			return;
 		}
 		
@@ -163,7 +166,8 @@ public abstract class TextExtractor
 			if (!file.isDirectory() && file.getName().endsWith(".txt"))
 			{
 				long startTime = 0L;
-				logger.info("Using File "+file.getAbsolutePath()+" for training");
+				if (logger.isInfoEnabled())
+					logger.info("Using File "+file.getAbsolutePath()+" for training");
 				startTime = System.currentTimeMillis();
 				
 				TrainingEntry entry = new TrainingEntry();
@@ -212,7 +216,8 @@ public abstract class TextExtractor
 					}
 					catch (Exception ex)
 					{
-						logger.error(ex);
+						if (logger.isErrorEnabled())
+							logger.error(ex);
 					}
 					finally
 					{
@@ -227,10 +232,12 @@ public abstract class TextExtractor
 				}
 				catch (IOException ioEx)
 				{
+					if (logger.isErrorEnabled())
 					logger.error(ioEx);
 				}
 				
-				logger.info("\tTraining took "+(System.currentTimeMillis()-startTime)+" ms");
+				if (logger.isInfoEnabled())
+					logger.info("\tTraining took "+(System.currentTimeMillis()-startTime)+" ms");
 			}
 		}
 	}
@@ -251,7 +258,8 @@ public abstract class TextExtractor
 
 		if (!trainingDir.isDirectory())
 		{
-			logger.error("Could not find training Directory!");
+			if (logger.isErrorEnabled())
+				logger.error("Could not find training Directory!");
 			return;
 		}
 		
@@ -285,7 +293,8 @@ public abstract class TextExtractor
 		File[] serObjects = trainingDir.listFiles(filter);
 		if (serObjects.length > 0)
 		{
-			logger.info("Trying to reuse previously trained classifier");
+			if (logger.isInfoEnabled())
+				logger.info("Trying to reuse previously trained classifier");
 			for (File serObject : serObjects)
 			{
 				if (serObject.getName().equals("commonTags.ser"))
@@ -295,7 +304,7 @@ public abstract class TextExtractor
 				}
 				
 				Classifier<String, String> cls = new NaiveBayes<String, String>();
-				if (!cls.loadData(serObject))
+				if (!cls.loadData(serObject) && logger.isErrorEnabled())
 					logger.error("Failure loading data file for "+cls);
 				this.classifier = cls;
 			}
@@ -304,7 +313,8 @@ public abstract class TextExtractor
 		{
 			// either no or not all serialized objects have been found - train them from the db
 			String dbFile = trainingDir.getAbsoluteFile()+"\\ate.db";
-			logger.info("Train classifiers from scratch! Using "+dbFile+", Strategy used: "+this.trainingStrategy.name());
+			if (logger.isInfoEnabled())
+				logger.info("Train classifiers from scratch! Using "+dbFile+", Strategy used: "+this.trainingStrategy.name());
 			// create a new db-object
 			SQLiteConnection db = new SQLiteConnection(new File(dbFile));
 		    try 
@@ -345,12 +355,16 @@ public abstract class TextExtractor
 						// as the DB only contains the start position and the length of the 
 						// text we have to extract it from the full-HTML code retrieved in the
 						// previous step
-						logger.debug("start: "+st.columnInt(3));
-						logger.debug("length: "+st.columnInt(4));
-						logger.debug("source: "+st.columnString(0));
+						if (logger.isDebugEnabled())
+						{
+							logger.debug("start: "+st.columnInt(3));
+							logger.debug("length: "+st.columnInt(4));
+							logger.debug("source: "+st.columnString(0));
+						}
 						String text = html.substring(st.columnInt(3), st.columnInt(3)+st.columnInt(4));
 						entry.setFormatedText(text);
-						logger.debug(entry.getText());
+						if (logger.isDebugEnabled())
+							logger.debug(entry.getText());
 						entry.train(false);
 						// clear the memory obtained by the entry
 						entry = null;
@@ -363,7 +377,8 @@ public abstract class TextExtractor
 			} 
 		    catch (SQLiteException e) 
 			{
-		    	logger.error(e);
+		    	if (logger.isErrorEnabled())
+		    		logger.error(e);
 			}
 		    finally
 		    {
@@ -395,17 +410,20 @@ public abstract class TextExtractor
 				if (obj instanceof Hashtable<?, ?>)
 				{
 					dict = (Hashtable<String, List<String>>)obj;
-					logger.info("Found a list of common tags: "+serializedObject.getName()+" - "+dict);
+					if (logger.isInfoEnabled())
+						logger.info("Found a list of common tags: "+serializedObject.getName()+" - "+dict);
 				}
 				else if (obj instanceof Dictionary<?, ?>)
 				{
 					dict = (Dictionary<String, List<String>>)obj;
-					logger.info("Found a list of common tags: "+serializedObject.getName()+" - "+dict);
+					if (logger.isInfoEnabled())
+						logger.info("Found a list of common tags: "+serializedObject.getName()+" - "+dict);
 				}
 			}
 			catch (IOException | ClassNotFoundException e) 
 			{
-				logger.error(e);
+				if (logger.isErrorEnabled())
+					logger.error(e);
 			}
 			finally
 			{
@@ -419,11 +437,13 @@ public abstract class TextExtractor
 		}
 		catch (FileNotFoundException fnfEx)
 		{
-			logger.error(fnfEx);
+			if (logger.isErrorEnabled())
+				logger.error(fnfEx);
 		}
 		catch (IOException e) 
 		{
-			logger.error(e);
+			if (logger.isErrorEnabled())
+				logger.error(e);
 		}
 		return dict;
 	}
@@ -452,7 +472,8 @@ public abstract class TextExtractor
 			} 
 			catch (IOException e) 
 			{
-				logger.error(e);
+				if (logger.isErrorEnabled())
+					logger.error(e);
 			}
 			finally
 			{
@@ -466,7 +487,8 @@ public abstract class TextExtractor
 		} 
 		catch (IOException e)
 		{
-			logger.error(e);
+			if (logger.isErrorEnabled())
+				logger.error(e);
 		}
 	}
 

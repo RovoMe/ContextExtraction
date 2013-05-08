@@ -42,13 +42,13 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
 	<logger name="at.rovo.classifier.NaiveBayes" level="info" additivity="true">
   	  <appender-ref ref="ExtractorFile"/>
   	</logger>
-    <logger name="at.rovo.textextraction.mss.MaximumSubsequenceSegmentation" level="debug" additivity="true">
+    <logger name="at.rovo.textextraction.mss.MaximumSubsequenceSegmentation" level="info" additivity="true">
       <appender-ref ref="ExtractorFile"/>
     </logger>
-  	<logger name="at.rovo.textextraction.mss.SemiSupervisedMSS" level="debug" additivity="true">
+  	<logger name="at.rovo.textextraction.mss.SemiSupervisedMSS" level="info" additivity="true">
       <appender-ref ref="ExtractorFile"/>
     </logger>
-    <logger name="at.rovo.textextraction.mss.SupervisedMSS" level="debug" additivity="true">
+    <logger name="at.rovo.textextraction.mss.SupervisedMSS" level="info" additivity="true">
       <appender-ref ref="ExtractorFile"/>
     </logger>
     <logger name="at.rovo.textextraction.TextExtractor" level="info" additivity="true">

@@ -288,8 +288,8 @@
                     <arguments>        
                         <!--  TEXT EXTRACTION METHODS -->
                     	<!-- <argument>extractionMethod=simple</argument> -->
-                    	<argument>extractionMethod=supervised</argument>
-                    	<!-- <argument>extractionMethod=semiSupervised</argument> -->
+                    	<!-- <argument>extractionMethod=supervised</argument> -->
+                    	<argument>extractionMethod=semiSupervised</argument>
                                 	
                     	<!-- TRAINING STRATEGIES -->                   	
                      	<!-- <argument>trainingStrategy=TRIGRAM</argument> -->

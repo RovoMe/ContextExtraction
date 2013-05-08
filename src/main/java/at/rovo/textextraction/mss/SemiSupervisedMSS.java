@@ -72,7 +72,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		String html = reader.readPage(url);
 		if (html == null || html.equals(""))
 		{
-			logger.error("No html content available!");
+			if (logger.isErrorEnabled())
+				logger.error("No html content available!");
 			return null;
 		}
 		
@@ -83,7 +84,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		//    with trigram and most-recent-unclosed-tag features, as in the supervised approach
 		// is already done by the parent class
 		// 2. Predict extractions for the unlabeled documents U
-		List<Token> htmlToken = Parser.tokenize(html, true);
+		List<Token> htmlToken = Parser.tokenize(html, false);
 		List<Double> score = this.buildScoreList(htmlToken, this.classifier);
 		List<Double> maxSS = new ArrayList<Double>();
 		int start = this.topMaximumSubsequence(score, maxSS);
@@ -111,7 +112,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			score = this.buildScoreList(htmlToken, localClassifier);
 			start = this.topMaximumSubsequence(score, maxSS);
 			predictedText = this.getPredictedContent(L, maxSS, start);
-			// logger.debug("predicted Text: \n"+this.formatText(predictedText));
+			if (logger.isDebugEnabled())
+				logger.debug("predicted Text: \n"+this.formatText(predictedText));
 		}
 		return this.formatText(this.cleanText(predictedText));
 	}
@@ -136,13 +138,14 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			String html = reader.readPage(url);
 			if (html == null || html.equals(""))
 			{
-				logger.error("No html content available for "+url+"!");
+				if (logger.isErrorEnabled())
+					logger.error("No html content available for "+url+"!");
 				continue;
 			}
 		
 			// 1. Training of the Naive Bayes classifier is already done by the parent class
 			// 2. Predict extractions for the unlabeled documents U
-			List<Token> htmlToken = Parser.tokenize(html, true);
+			List<Token> htmlToken = Parser.tokenize(html, false);
 			htmlTokens.add(htmlToken);
 			score = this.buildScoreList(htmlToken, this.classifier);
 			maxSS = new ArrayList<Double>();
@@ -151,10 +154,12 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			maxSSs.add(maxSS);
 			startPos.add(start);
 			
-//			logger.debug("Predicting content of "+url);
+			if (logger.isDebugEnabled())
+				logger.debug("Predicting content of "+url);
 			predictedText = this.getPredictedContent(htmlToken, maxSS, start);
 			predictedTexts.add(predictedText);
-//			logger.debug("predicted Text: \n"+this.formatText(predictedText));
+			if (logger.isDebugEnabled())
+				logger.debug("predicted Text: \n"+this.formatText(this.cleanText(predictedText)));
 		}
 		
 		// 3. Iterate		
@@ -165,6 +170,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			Map<Integer, List<Token>> L = new HashMap<Integer, List<Token>>();
 			for (int j=0; j<htmlTokens.size(); j++)
 			{
+				if (logger.isDebugEnabled())
+					logger.debug("start: "+startPos.get(j)+"; length: "+maxSSs.get(j).size()+"; end: "+(startPos.get(j)+maxSSs.get(j).size())+"; word: "+htmlTokens.get(j).get(startPos.get(j)));
 				double v = this.estimatePredictionCorrectness(htmlTokens.get(j), startPos.get(j), startPos.get(j)+maxSSs.get(j).size());
 				if (v > 0.95)
 					L.put(j, htmlTokens.get(j));
@@ -173,7 +180,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			}
 			// b. Find "importance weights" for the trigrams of the documents in L.
 			// are incorporated in the scoring function
-			
+			if (logger.isDebugEnabled())
+				logger.debug("L size: "+L.size());
 			// c. Train a new Naive Bayes local classifier over the documents in L with 
 			// trigram features.
 			Classifier<String, String> localClassifier = new NaiveBayes<String, String>();
@@ -181,7 +189,13 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			{
 				if (L.get(j) != null)
 				{
-					logger.debug("predicted Text: \n"+this.formatText(predictedTexts.get(j)));
+					if (logger.isDebugEnabled())
+					{
+						logger.debug("L: "+L.get(j).size()+" tokens");
+						logger.debug("predicted Text: \n"+predictedTexts.get(j));
+						logger.debug("url: "+urls.get(j));
+						logger.debug("localClassifier: "+localClassifier);
+					}
 					this.train(L.get(j), predictedTexts.get(j), urls.get(j), localClassifier);
 				}
 			}
@@ -192,15 +206,18 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			{
 				if (L.get(j) != null)
 				{
-					logger.debug("Predicting content of "+urls.get(j));
+					if (logger.isDebugEnabled())
+						logger.debug("Predicting content of "+urls.get(j));
 					score = this.buildScoreList(L.get(j), localClassifier, startPos.get(j), startPos.get(j)+maxSSs.get(j).size()-1);
-					logger.debug("predicted score: "+score);
+					if (logger.isDebugEnabled())
+						logger.debug("predicted score: "+score);
 					int start = this.topMaximumSubsequence(score, maxSS);
 					startPos.set(j, start);
 					maxSSs.set(j, maxSS);
 					predictedText = this.getPredictedContent(L.get(j), maxSS, start);
 					predictedTexts.set(j, predictedText);
-					logger.debug("predicted Text: \n"+this.formatText(predictedText));
+					if (logger.isDebugEnabled())
+						logger.debug("predicted Text: \n"+this.formatText(this.cleanText(predictedText)));
 				}
 			}
 		}
@@ -282,7 +299,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			prob4 *= (1-this.classifier.getWeightedProbability("in", html.get(i).getText()));
 		
 		double v = Math.pow((prob1*prob2*prob3*prob4),(1./n));
-		logger.debug("Estimated corectness: "+v);
+		if (logger.isDebugEnabled())
+			logger.debug("Estimated corectness: "+v);
 		return v;
 	}
 	
@@ -320,7 +338,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	protected List<Double> buildScoreList(List<Token> html, Classifier<String, String> classifier, int j, int k)
 	{
 		List<Double> scoreList = new ArrayList<Double>();
-		logger.debug("Score-List:");
+		if (logger.isDebugEnabled())
+			logger.debug("Score-List:");
 		for (int i=2; i<html.size(); i++)
 		{
 			// prepare and build the trigrams
@@ -328,41 +347,72 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			Token token2 = html.get(i-1);
 			Token token3 = html.get(i);		
 			
-			// TODO: calculateImportanceWeighting always returns 0.0 - why?
-			
 			double score = 0.;
 			Set<List<Token>> featureSet = this.buildFeatureSet(html, token3);
-			logger.debug("featureSet for "+token3+": "+featureSet);
+			
 			if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
-				score = (classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+			{
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("pi: "+classifier.getProbability("in", this.getTrigram(token1, token2, token3)));
+					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
+				}
+				score = (classifier.getProbability("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
 			{
-				logger.debug("pi: "+classifier.getWeightedProbability("in", this.getBigram(token2, token3)));
-				logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
-				score = (classifier.getWeightedProbability("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("pi: "+classifier.getProbability("in", this.getBigram(token2, token3)));
+					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
+				}
+				score = (classifier.getProbability("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
-				score = (classifier.getWeightedProbability("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+			{
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("pi: "+classifier.getProbability("in", this.getUnigram(token3)));
+					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
+				}
+				score = (classifier.getProbability("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
-				score = (classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+			{
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("pi: "+classifier.getProbability("in", this.getDoubleUnigram(token2, token3)));
+					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
+				}
+				score = (classifier.getProbability("in", this.getDoubleUnigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
-				score = (classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
-			
-			logger.debug(new DecimalFormat("#0.000").format(score)+" : "+token3.getText());
+			{
+				if (logger.isDebugEnabled())
+				{
+					logger.debug("pi: "+classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)));
+					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
+				}
+				score = (classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+			}
+				
+			if (logger.isDebugEnabled())
+				logger.debug(new DecimalFormat("#0.000").format(score)+" : "+token3.getText());
 			scoreList.add(score);
 		}
 		return scoreList;
 	}
 	
 	/**
-	 * <p>Builds a set of unique tri-/bi-/unigrams based on the last token. As a trigram
-	 * is only a 'feature' of a token, a single token can have multiple trigrams
+	 * <p>Builds a set of unique tri-/bi-/unigrams based on the last token. As a nGram
+	 * is only a 'feature' of a token, a single token can have multiple nGrams
 	 * inside a certain text. For example in the above sencence 'token' builds 
 	 * two trigrams: 'of a token' and 'a single token'.</p>
+	 * <p>Note that the key-token for a nGram is always the last token.</p>
 	 * 
 	 * @param html A list containing every token of a page
-	 * @param token The token the set of unique trigrams should be build for.
-	 * @return The set containing only unique trigrams for a single token
+	 * @param token The token the set of unique nGram should be build for.
+	 * @return The set containing only unique nGrams for a single token
 	 */
 	protected Set<List<Token>> buildFeatureSet(List<Token> html, Token token)
 	{
@@ -372,24 +422,35 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			Token token1 = html.get(i-2);
 			Token token2 = html.get(i-1);
 			Token token3 = html.get(i);
+			token3.setIndex(i);
 			if (token3.getText().equals(token.getText()))
 			{
-				List<Token> trigram = new ArrayList<Token>();
+				List<Token> nGram = new ArrayList<Token>();
 				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
-					trigram.add(token1);
-				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM) || this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
-					trigram.add(token2);
-				trigram.add(token3);
-				trigrams.add(trigram);
+					nGram.add(token1);
+				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM) || 
+						this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
+					nGram.add(token2);
+				nGram.add(token3);
+				trigrams.add(nGram);
 			}
 		}
 		return trigrams;
 	}
 	
-	protected int index(List<Token> trigram)
+	/**
+	 * <p>nGrams can appear in a text multiple times, therefore this method returns
+	 * the index of the nGrams 'key-token', which is the last token of the nGram,
+	 * according to the position of the nGram within the full HTML document.</p>
+	 * 
+	 * @param nGram A nGram whose position in the origin HTML document should be
+	 *              returned.
+	 * @return The position of the nGrams in the HTML document
+	 */
+	protected int index(List<Token> nGram)
 	{
 		// Based on an email from Jeff Pasternack: "index(t), this occurs in a summation; 
 		// it's the index of each token with the given trigram (not just the first)"
-		return trigram.get(trigram.size()-1).getIndex();
+		return nGram.get(nGram.size()-1).getIndex();
 	}
 }

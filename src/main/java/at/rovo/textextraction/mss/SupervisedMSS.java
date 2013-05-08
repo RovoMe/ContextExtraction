@@ -192,15 +192,15 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 			if (i >= start)
 			{
 				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
-					score = classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token))-0.5;
+					score = classifier.getProbability("in", this.getTrigram(token1, token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
 					score = classifier.getProbability("in", this.getBigram(token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
-					score = classifier.getWeightedProbability("in", this.getUnigram(token))-0.5;
+					score = classifier.getProbability("in", this.getUnigram(token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
-					score = classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token))-0.5;
+					score = classifier.getProbability("in", this.getDoubleUnigram(token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
-					score = classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token))-0.5;
+					score = classifier.getProbability("in", this.getTripleUnigram(token1, token2, token))-0.5;
 				
 				if (logger.isDebugEnabled())
 					logger.debug(new DecimalFormat("#0.000").format(score)+" : "+token.getText());

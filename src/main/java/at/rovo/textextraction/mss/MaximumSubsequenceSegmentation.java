@@ -89,7 +89,7 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 				sum = 0;
 			}
 		}
-		logger.debug("Maximum subsequence: "+maxSS);
+//		logger.debug("Maximum subsequence: "+maxSS);
 		logger.debug("Start at: "+maxStart+", length: "+maxSS.size());
 		return maxStart;
 	}
