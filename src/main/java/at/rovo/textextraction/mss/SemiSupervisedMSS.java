@@ -264,9 +264,9 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		if (html == null || html.isEmpty())
 			throw new IllegalArgumentException("No list of tokens representing the origin page provided!");
 		if (j<0 || j>=html.size())
-			throw new IllegalArgumentException("The index of the predicted first token is not inside the origin list of tokens");
+			throw new IllegalArgumentException("The index of the predicted first token is not inside the origin list of tokens!");
 		if (k<0 || k>=html.size() || k-this.windowRadius < 0)
-			throw new IllegalArgumentException("The index of the predicted last token is not inside the origin list of tokens");
+			throw new IllegalArgumentException("The index of the predicted last token is not inside the origin's list of tokens!");
 		if (j>=k)
 			throw new IllegalArgumentException("The start of the predicted text cannot be after the end or at the same position!");		
 		

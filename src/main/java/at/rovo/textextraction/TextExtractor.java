@@ -542,6 +542,28 @@ public abstract class TextExtractor
 			}
 			lastToken = t;
 		}
-		return builder.toString();
+		
+		// TODO: Replace with existing conversion method/library
+		// replace special character encodings
+		String txt = builder.toString();
+		txt = txt.replaceAll("â€™", "'");
+		txt = txt.replaceAll("â€“", "-");
+		txt = txt.replaceAll("â€œ", "\"");
+		txt = txt.replaceAll("â€", "\"");
+		txt = txt.replaceAll("Â£", "£");
+		txt = txt.replaceAll("&quot;", "\"");
+		txt = txt.replaceAll("&amp;", "&");
+		txt = txt.replaceAll("&#160;", " ");
+		txt = txt.replaceAll("&#39;", "'");
+		txt = txt.replaceAll("&nbsp;", " ");
+		txt = txt.replaceAll("&rsquo;", "'");
+		txt = txt.replaceAll("&#32;", " ");
+		txt = txt.replaceAll("&mdash;", "-");
+		txt = txt.replaceAll("&ldquo;", "\"");
+		txt = txt.replaceAll("&rdquo;", "\"");
+		txt = txt.replaceAll("&#8217;", "'");
+		txt = txt.replaceAll("&#8220;", "\"");
+		txt = txt.replaceAll("&#8221;", "\"");
+		return txt;
 	}
 }

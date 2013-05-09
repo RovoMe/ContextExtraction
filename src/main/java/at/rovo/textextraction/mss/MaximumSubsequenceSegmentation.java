@@ -511,6 +511,7 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 							}
 						}
 						else
+						{
 							// as the end of of sub element was reached add it to the parent element
 							for (Token t : tagStack.pop())
 							{
@@ -518,12 +519,13 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 									tagStack.push(new ArrayList<Token>());
 								tagStack.peek().add(t);
 							}
+						}
 					}
 				}					
 			}
 			else
 			{
-				if (tagStack.get(0) != null)
+				if (tagStack != null && !tagStack.isEmpty() && tagStack.get(0) != null)
 					tagStack.peek().add(token);
 				else
 				{

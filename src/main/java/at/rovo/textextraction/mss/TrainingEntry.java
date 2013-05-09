@@ -311,8 +311,8 @@ public class TrainingEntry
 			else
 				this.tokens = Parser.tokenize(this.html, true);
 		}
-//		if (logger.isDebugEnabled())
-//			logger.debug("Tokens: "+this.tokens);
+		if (logger.isDebugEnabled())
+			logger.debug("Tokens: "+this.tokens);
 		
 		if (this.classifier == null)
 		{
@@ -334,8 +334,8 @@ public class TrainingEntry
 			nGrams = this.buildNgrams(this.tokenText);
 		else
 			nGrams = this.buildNgrams(this.text);
-//		if (logger.isDebugEnabled())
-//			logger.debug("Trigrams: "+nGrams);
+		if (logger.isDebugEnabled())
+			logger.debug("Trigrams: "+nGrams);
 		
 		if (logger.isInfoEnabled())
 			logger.info("Start training on "+url);
@@ -354,29 +354,28 @@ public class TrainingEntry
 		for (int i=0; i<this.tokens.size()-end; i++)
 		{
 			Token token = this.tokens.get(i);
-
-			if (i >= 2)
-			{
-//				if(logger.isDebugEnabled())
-//				{
-//					if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
-//						logger.debug("examin: '"+token1.getText()+"' '"+token2.getText()+"' '"+token.getText()+"'");
-//					else if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
-//						logger.debug("examin: '"+token2.getText()+"' '"+token.getText()+"'");
-//				}
 			
-				if (this.useMostRecentUnclosedTagFeature == true)
-				{
-					if (fixErrors)
-						this.buildMostRecentUnclosedTagStack_FixErrors(token1, token2, token, mostRecentUnclosedTag, nGrams);
-					else
-						this.buildMostRecentUnclosedTagStack(token, mostRecentUnclosedTag, nGrams);
-					
-					this.train(token1, token2, token, mostRecentUnclosedTag, nGrams);
-				}
-				else
-					this.train(token1, token2, token, nGrams);
+			if (i >= 2 && logger.isDebugEnabled())
+			{
+				if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
+					logger.debug("examin: '"+token1.getText()+"' '"+token2.getText()+"' '"+token.getText()+"'");
+				else if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
+					logger.debug("examin: '"+token2.getText()+"' '"+token.getText()+"'");
 			}
+			
+			if (this.useMostRecentUnclosedTagFeature == true)
+			{
+				if (fixErrors)
+					this.buildMostRecentUnclosedTagStack_FixErrors(token1, token2, token, mostRecentUnclosedTag, nGrams);
+				else
+					this.buildMostRecentUnclosedTagStack(token, mostRecentUnclosedTag, nGrams);
+				
+				if (i >= 2)
+					this.train(token1, token2, token, mostRecentUnclosedTag, nGrams);
+			}
+			else
+				if (i >= 2)
+					this.train(token1, token2, token, nGrams);
 			
 			token1 = token2;
 			token2 = token;
@@ -481,8 +480,8 @@ public class TrainingEntry
 				if (tokens.get(i) instanceof Word)
 					t3 = PorterStemmer.stem(t3);
 				
-//				if (logger.isDebugEnabled())
-//					logger.debug("trigram: "+t1+" "+t2+" "+t3);
+				if (logger.isDebugEnabled())
+					logger.debug("trigram: "+t1+" "+t2+" "+t3);
 				
 				nGrams.add(t1+" "+t2+" "+t3);
 			}
@@ -495,8 +494,8 @@ public class TrainingEntry
 				if (tokens.get(i) instanceof Word)
 					t3 = PorterStemmer.stem(t3);
 				
-//				if (logger.isDebugEnabled())
-//					logger.debug("bigram: "+t2+" "+t3);
+				if (logger.isDebugEnabled())
+					logger.debug("bigram: "+t2+" "+t3);
 				nGrams.add(t2+" "+t3);
 			}
 			else
@@ -505,8 +504,8 @@ public class TrainingEntry
 				if (tokens.get(i) instanceof Word)
 					t3 = PorterStemmer.stem(t3);
 				
-//				if (logger.isDebugEnabled())
-//					logger.debug("unigram: "+t3);
+				if (logger.isDebugEnabled())
+					logger.debug("unigram: "+t3);
 				nGrams.add(t3);
 			}
 		}
@@ -603,8 +602,9 @@ public class TrainingEntry
 	}
 	
 	/**
-	 * <p>This method tries to fix some HTML errors as they mess up the 
-	 * training somehow</p>
+	 * <p>This method tries to fix some HTML errors as they mey mess up the 
+	 * training. Unfortunately there are a quite a lot of HTML pages that either
+	 * miss some opening or closing tags or used tags in a wrong order.</p>
 	 * 
 	 * @param token1 Trigram part one
 	 * @param token2 Trigram part two
@@ -755,72 +755,87 @@ public class TrainingEntry
 	{
 		if (t1 == null || t2 == null || t3 == null)
 			throw new IllegalArgumentException("One or all provided tokens are null");
-		if (mostRecentUnclosedTag == null || mostRecentUnclosedTag.isEmpty())
+		if (nGrams == null || nGrams.isEmpty())
+			throw new IllegalArgumentException("No n-Grams provided");
+		int includeMRUT = 0;
+		if (mostRecentUnclosedTag == null)
+			includeMRUT = 1;
+		else if (mostRecentUnclosedTag != null && mostRecentUnclosedTag.isEmpty())
 		{
 			if (logger.isWarnEnabled())
 				logger.warn("Empty stack for trigram: '"+t1.getText()+" "+t2.getText()+" "+t3.getText()+"' source: "+this.getUrl());
 			return;
 		}
-		if (nGrams == null || nGrams.isEmpty())
-			throw new IllegalArgumentException("No n-Grams provided");
-		
-		if (mostRecentUnclosedTag.isEmpty())
-		{
-			if (logger.isDebugEnabled())
-				logger.debug("Stack is empty: "+t1+" "+t2+" "+t3);
-			return;
-		}
+
+		// stem words
+		String _t1 = t1.getText();
+		if (t1 instanceof Word)
+			_t1 = PorterStemmer.stem(_t1);
+		String _t2 = t2.getText();
+		if (t2 instanceof Word)
+			_t2 = PorterStemmer.stem(_t2);
+		String _t3 = t3.getText();
+		if (t3 instanceof Word)
+			_t3 = PorterStemmer.stem(_t3);
 		
 		String categorie = "out";		
 		String[] feature = null;
 		if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
 		{			
-			feature = new String[2];
-			feature[0] = t1.getText()+" "+t2.getText()+" "+t3.getText();
-			feature[1] = mostRecentUnclosedTag.peek();
+			feature = new String[2-includeMRUT];
+			feature[0] = _t1+" "+_t2+" "+_t3;
+			if (mostRecentUnclosedTag != null)
+				feature[1] = mostRecentUnclosedTag.peek();
 			
 			if (nGrams.contains(feature[0]))
 				categorie = "in";
 		}
 		else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
 		{
-			feature = new String[2];
-			feature[0] = t2.getText()+" "+t3.getText();
-			feature[1] = mostRecentUnclosedTag.peek();
+			feature = new String[2-includeMRUT];
+			feature[0] = _t2+" "+_t3;
+			if (mostRecentUnclosedTag != null)
+				feature[1] = mostRecentUnclosedTag.peek();
 			
 			if (nGrams.contains(feature[0]))
 				categorie = "in";
 		}
 		else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
 		{
-			feature = new String[2];
-			feature[0] = t3.getText();
-			feature[1] = mostRecentUnclosedTag.peek();
+			feature = new String[2-includeMRUT];
+			feature[0] = _t3;
+			if (mostRecentUnclosedTag != null)
+				feature[1] = mostRecentUnclosedTag.peek();
 			
 			if (nGrams.contains(feature[0]))
 				categorie = "in";
 		}
 		else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
 		{
-			feature = new String[3];
-			feature[0] = t2.getText();
-			feature[1] = t3.getText();
-			feature[2] = mostRecentUnclosedTag.peek();
+			feature = new String[3-includeMRUT];
+			feature[0] = _t2;
+			feature[1] = _t3;
+			if (mostRecentUnclosedTag != null)
+				feature[2] = mostRecentUnclosedTag.peek();
 			
 			if (nGrams.contains(feature[0]+" "+feature[1]))
 				categorie = "in";
 		}
 		else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
 		{
-			feature = new String[4];
-			feature[0] = t1.getText();
-			feature[1] = t2.getText();
-			feature[2] = t3.getText();
-			feature[3] = mostRecentUnclosedTag.peek();
+			feature = new String[4-includeMRUT];
+			feature[0] = _t1;
+			feature[1] = _t2;
+			feature[2] = _t3;
+			if (mostRecentUnclosedTag != null)
+				feature[3] = mostRecentUnclosedTag.peek();
 			
 			if (nGrams.contains(feature[0]+" "+feature[1]+" "+feature[2]))
 				categorie = "in";
 		}
+		
+		if (logger.isDebugEnabled())
+			logger.debug("classifiying as "+categorie+": "+Arrays.toString(feature));
 		this.classifier.train(feature, categorie);
 	}
 	
@@ -839,73 +854,6 @@ public class TrainingEntry
 	 */
 	private void train(Token t1, Token t2, Token t3, List<String> nGrams)
 	{
-		if (t1 == null || t2 == null || t3 == null)
-			throw new IllegalArgumentException("One or all provided tokens are null");
-		if (nGrams == null || nGrams.isEmpty())
-			throw new IllegalArgumentException("No trigrams provided");
-		
-		// stem words
-		String _t1 = t1.getText();
-		if (t1 instanceof Word)
-			_t1 = PorterStemmer.stem(_t1);
-		String _t2 = t2.getText();
-		if (t2 instanceof Word)
-			_t2 = PorterStemmer.stem(_t2);
-		String _t3 = t3.getText();
-		if (t3 instanceof Word)
-			_t3 = PorterStemmer.stem(_t3);
-		
-		// get classification for the trigram
-		String categorie = "out";
-		
-		// train based on set strategy
-		String[] feature = null;
-		if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
-		{
-			feature = new String[1];
-			feature[0] = _t1+" "+_t2+" "+_t3;
-			
-			if (nGrams.contains(feature[0]))
-				categorie = "in";
-		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
-		{
-			feature = new String[1];
-			feature[0] = _t2+" "+_t3;
-			
-			if (nGrams.contains(feature[0]))
-				categorie = "in";
-		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
-		{
-			feature = new String[1];
-			feature[0] = _t3;
-			
-			if (nGrams.contains(feature[0]))
-				categorie = "in";
-		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
-		{
-			feature = new String[2];
-			feature[0] = _t2;
-			feature[1] = _t3;
-			
-			if (nGrams.contains(feature[0]+" "+feature[1]))
-				categorie = "in";
-		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
-		{
-			feature = new String[3];
-			feature[0] = _t1;
-			feature[1] = _t2;
-			feature[2] = _t3;
-			
-			if (nGrams.contains(feature[0]+" "+feature[1]+" "+feature[2]))
-				categorie = "in";
-		}
-		
-		if (logger.isDebugEnabled())
-			logger.debug("classifiying as "+categorie+": "+Arrays.toString(feature));
-		this.classifier.train(feature, categorie);
+		this.train(t1, t2, t3, null, nGrams);
 	}
 }

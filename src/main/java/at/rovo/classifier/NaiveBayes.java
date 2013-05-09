@@ -562,7 +562,7 @@ public class NaiveBayes<F extends Serializable, C extends Serializable> extends 
 		//
 		// Further P(F) = P(F|C1) + ... + P(F|Cn)
 		//
-		// P(C|F) = [P(F|C)*P(C)]/P(F)
+		// P(C|F) = [P(F|C)*P(C)]/P(F)		
 		if (this.trainingData.getData().containsKey(category))
 		{
 			double catProb = this.getCategoryProbability(category);
@@ -570,13 +570,13 @@ public class NaiveBayes<F extends Serializable, C extends Serializable> extends 
 			double featProb = this.getFeatureProbability(item);
 
 			if (featProb == 0)
-				return 0;
+				return 0.;
 			return condProb*catProb / featProb;
 		}
 		else
 		{
 			// we have never seen this concept before
-			return 0;
+			return 0.;
 		}
 	}
 	
@@ -590,7 +590,7 @@ public class NaiveBayes<F extends Serializable, C extends Serializable> extends 
 		//                                 [P('money'|'good')*P('casino'|'good')*P('good') +
 		//                                  P('money'|'bad')*P('casino'|'bad')*P('bad')]
 		//
-		// P(C|F1,F2) = [P(F1,F2|C)*P(C)] / P(F1, F2)
+		// P(C|F1,F2) = [P(F1,F2|C)*P(C)] / P(F1, F2)			
 		if (this.trainingData.getData().containsKey(category))
 		{
 			double catProb = this.getCategoryProbability(category);
@@ -598,14 +598,23 @@ public class NaiveBayes<F extends Serializable, C extends Serializable> extends 
 			double featProb = this.getFeatureProbability(items);
 			
 			if (featProb == 0)
-				return 0;
+				return 0.;
 			return condProb*catProb / featProb;
 		}
 		else
 		{
 			// we haven't seen this category yet
-			return 0;
+			return 0.;
 		}
+	}
+	
+	@Override
+	public double getProbability_EvenLikelihood(C category, F item)
+	{
+		if (this.getFeatureCount(item)==0)
+			return 0.5;
+		
+		return this.getProbability(category, item);
 	}
 	
 	@Override
