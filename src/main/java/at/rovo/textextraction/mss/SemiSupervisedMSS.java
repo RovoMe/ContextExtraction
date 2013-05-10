@@ -18,18 +18,68 @@ import at.rovo.parser.Token;
 import at.rovo.textextraction.ExtractionException;
 import at.rovo.textextraction.TrainData;
 
+/**
+ * <p>This class represents the semi supervised maximum subsequence segmentation 
+ * approach presented by Jeff Pasternack and Dan Roth in their paper on 
+ * 'Extracting Article Text from the Web with Maximum Subsequence Segmentation' 
+ * to predict the main text of an article.</p>
+ * <p>On predicting the main content either via {@link #predictText(String)} or
+ * {@link #predictText(List)}, the semi supervised approach first uses the same
+ * approach as {@link SupervisedMSS} to get a base extraction for every URL passed.
+ * </p>
+ * <p>After the content of all URLs got predicted initially, a correctness-value
+ * for the prediction is calculated. This correctness prediction estimation is 
+ * then compared with a threshold value, which in the current implementation is
+ * 0.95. If the predicted text exceeds this threshold the prediction is used as
+ * training sample for a new classifier. While {@link #predictText(String)} creates
+ * a new classifier for every URL passed, {@link #predictText(List)} creates only
+ * a single classifier per iteration for all URLs passed. This may therefore lead
+ * to a decrease of accuracy for predicted articles.</p>
+ * <p>The new classifier is then used to predict the new main content of the 
+ * article. For the prediction probabilities for nGrams are taken from a naive 
+ * Bayes classifier. Although NB classifier are not that accurate they are easy
+ * to implement and work well enough on texts. The probabilities are used to 
+ * create a score for each nGram where the last {@link Token} of a nGram is the 
+ * key token for this feature. Therefore each probability is multiplied with a
+ * calculated importance weighting function for a set of nGrams where the last
+ * element of the nGram is the key for this nGram. I.e. the last sentence has a 
+ * bigram 'set of' and 'element of' which are combined in the same set of a nGram.
+ * </p>
+ * <p>The weight importance calculation now considers the position of each nGram
+ * within the origin document and adds a boost to the probability for nGrams near
+ * the border of the predicted text. With {@link #setWindowRadius(int)} a certain
+ * fall-off for the probability boost at the prediction's border can be set. 
+ * Enlarging the value, which by default is 10 tokens, results in more tokens to 
+ * the left and right of each border boosting the probability of these tokens.</p>
+ * <p>The generated score list is now used to feed the {@link 
+ * MaximumSubsequenceSegmentation} algorithm and predict the actual content which
+ * is further cleaned from unneeded HTML-tokens and formated to be read more user 
+ * friendly.</p>
+ * 
+ * @author Roman Vottner
+ */
 public class SemiSupervisedMSS extends SupervisedMSS 
 {
 	private static Logger logger = LogManager.getLogger(SemiSupervisedMSS.class.getName());
+	/** The maximum number of semi supervised training and prediction iterations **/
 	private static int MAX_ITERATIONS = 10;
+	/** The window radius will boost the likelihood of n tokens to the left and 
+	 * right of the prediction border **/
 	private int windowRadius = 10;
 
-	/**
-	 * distance cutoff
-	 */
+	/** distance cutoff **/
 	private final double d = 64.;
+	/** multiplier for the importance weighting **/
 	private final double c = 24.;
 	
+	/**
+	 * <p>Creates a new instance of a semi supervised maximum subsequence 
+	 * segmentation extraction algorithm which predicts the main article of a news
+	 * related web site.</p>
+	 * 
+	 * @param trainForm The training data which should be used by the naive Bayes
+	 *                  classifier
+	 */
 	public SemiSupervisedMSS(TrainData trainForm) 
 	{
 		super(trainForm);
@@ -118,6 +168,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		return this.formatText(this.cleanText(predictedText));
 	}
 	
+	@Override
 	public List<String> predictText(final List<String> urls) throws ExtractionException
 	{
 		if (!this.isTrained)
