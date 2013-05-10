@@ -23,7 +23,5 @@ Note however that the persisted training object is specific to the selected feat
 
 ToDo:
 =====
-*) Implement the Semi-Supervised Maximum Subsequence Segmentation algorithm
 *) Improve Naive Bayes storage (current approach is using to Hashtables inside one Object that gets persisted - with large training data however this requires like 8-9 gigabyte of RAM for training and runtime!)
 *) Currently Bigram achieve best results, though the paper states that with less Trigram training more accurate results should be achievable
-*) Improve usability especially on execution
