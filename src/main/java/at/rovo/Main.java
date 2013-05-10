@@ -154,6 +154,20 @@ public class Main
 		urls.add("http://www.englisharticles.info/2012/08/09/sportswear/");
 //		urls.add("http://www.vogella.com/articles/JavaRegularExpressions/article.html");
 		
-		main.predictContent(urls);
+		// with SemiSupervised approach all different pages train a single local
+		// classifier that tries to extract the main content of the specific page
+		// as the classifier is rather train on general features, results are sometimes
+		// not that accurate
+//		main.predictContent(urls);
+		
+		// preferred method for SemiSupervised approach as each page creates its own
+		// classifier which is trained on site-specific features and therefore returns
+		// more accurate results than the more general approach
+		for (String url : urls)
+		{
+			List<String> page = new ArrayList<>();
+			page.add(url);
+			main.predictContent(page);
+		}
 	}
 }

@@ -503,42 +503,71 @@ public abstract class TextExtractor
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n");
 		boolean blank = false;
+		boolean append = true;
+		boolean newLine = true;
 		Token lastToken = null;
 		for (Token t : text)
 		{
 			// if the last token was a word and this token is a word add a blank before the new token: 'word1 word2'
-			if (blank && t instanceof Word)
+			if (blank && append && t instanceof Word && newLine == false)
 				builder.append(" ");
 			// if the last token was a tag and it was a closing tag and the new token is a word add a blank: '</a> text'
 			// only if the new word is neither a . or :
-			if ((lastToken instanceof Tag && !((Tag)lastToken).isOpeningTag()) && t instanceof Word && 
-					!t.getText().equals(":") && !t.getText().equals("."))
+			if ((append && lastToken instanceof Tag && !((Tag)lastToken).isOpeningTag()) && t instanceof Word && 
+					!t.getText().equals(":") && !t.getText().equals(".") && newLine == false)
 				builder.append(" ");
 			// create a blank before a link if the last token was a word: 'word <a href...>'
-			if (t instanceof Tag && lastToken instanceof Word && ((Tag)t).isOpeningTag() && ((Tag)t).getShortTag().equals("a"))
+			if (append && t instanceof Tag && lastToken instanceof Word && ((Tag)t).isOpeningTag() && 
+					((Tag)t).getShortTag().equals("a") && newLine == false)
 				builder.append(" ");
-//			builder.append(t.getText());
+			
 			if (t instanceof Tag)
 			{
 				blank = false;
 				Tag tag = (Tag)t;
+				// if the text contains <article>...</article> segments only use the part between those tags as content
+				if (tag.getShortTag().equals("article") || tag.getShortTag().equals("more"))
+				{ 
+					if(tag.isOpeningTag())
+						append = true;
+					else 
+						append = false;
+				}
 				// don't show special HTML tags
-				if (!tag.getShortTag().equals("p") && !tag.getShortTag().equals("cite") && !tag.getShortTag().equals("li") && 
+				if (append && !tag.getShortTag().equals("p") && !tag.getShortTag().equals("cite") && !tag.getShortTag().equals("li") && 
 						!tag.getShortTag().equals("strong") && !tag.getShortTag().equals("i") && !tag.getShortTag().equals("b") &&
-						!tag.getShortTag().equals("ul") && !tag.getShortTag().equals("span") && !tag.getShortTag().equals("h2") &&
-						!tag.getShortTag().equals("h3") && !tag.getShortTag().equals("h4"))
+						!tag.getShortTag().equals("ul") && !tag.getShortTag().equals("span") && !tag.getShortTag().matches("h[1-6]") &&
+						!tag.getShortTag().equals("article") && !tag.getShortTag().equals("abbr") && !tag.getShortTag().equals("em"))
+				{
 					builder.append(t.getText());
+					newLine = false;
+				}
 				// insert a new line segment for certain HTML tags
-				if (!tag.isOpeningTag() && (tag.getShortTag().equals("p") || tag.getShortTag().equals("cite") || tag.getShortTag().equals("li")))
+				if (!tag.isOpeningTag() && append && (tag.getShortTag().equals("p") ||tag.getShortTag().matches("h1")))
+				{
 					builder.append("\n\n");
-				// insert a blank after a heading or a span-tag
-				if (!tag.isOpeningTag() && (tag.getShortTag().equals("span") || tag.getShortTag().equals("h2")))
+					newLine = true;
+				}
+				if (!tag.isOpeningTag() && (tag.getShortTag().matches("h[2-6]") || tag.getShortTag().equals("li") || tag.getShortTag().equals("cite")))
+				{
+					builder.append("\n");
+					newLine = true;
+				}
+				// insert a blank after a span-tag
+				if (!tag.isOpeningTag() && append && (tag.getShortTag().equals("span")) && builder.capacity()>0 && newLine==false)
 					builder.append(" ");
 			}
 			else
 			{
-				builder.append(t.getText());
-				blank = true;
+				if (append)
+				{
+					if (!t.getText().trim().equals(""))
+					{
+						builder.append(t.getText());
+						newLine = false;
+						blank = true;
+					}
+				}
 			}
 			lastToken = t;
 		}
@@ -546,24 +575,50 @@ public abstract class TextExtractor
 		// TODO: Replace with existing conversion method/library
 		// replace special character encodings
 		String txt = builder.toString();
-		txt = txt.replaceAll("â€™", "'");
+		txt = txt.replaceAll("’", "'");
+		txt = txt.replaceAll("–", "-");
+		txt = txt.replaceAll("—", "-");
+		txt = txt.replaceAll("‘", "'");
+		txt = txt.replaceAll("’", "'");
+		txt = txt.replaceAll(" ", " ");
+		txt = txt.replaceAll("“", "\"");
+		txt = txt.replaceAll("”", "\"");
+		txt = txt.replaceAll("£", "L");
+		
 		txt = txt.replaceAll("â€“", "-");
 		txt = txt.replaceAll("â€œ", "\"");
 		txt = txt.replaceAll("â€", "\"");
-		txt = txt.replaceAll("Â£", "£");
+			
 		txt = txt.replaceAll("&quot;", "\"");
 		txt = txt.replaceAll("&amp;", "&");
-		txt = txt.replaceAll("&#160;", " ");
-		txt = txt.replaceAll("&#39;", "'");
 		txt = txt.replaceAll("&nbsp;", " ");
 		txt = txt.replaceAll("&rsquo;", "'");
-		txt = txt.replaceAll("&#32;", " ");
 		txt = txt.replaceAll("&mdash;", "-");
 		txt = txt.replaceAll("&ldquo;", "\"");
 		txt = txt.replaceAll("&rdquo;", "\"");
+		
+		txt = txt.replaceAll("&#32;", " ");
+		txt = txt.replaceAll("&#39;", "'");
+		txt = txt.replaceAll("&#160;", " ");
+		
+		txt = txt.replaceAll("&#039;", "'");	
 		txt = txt.replaceAll("&#8217;", "'");
 		txt = txt.replaceAll("&#8220;", "\"");
 		txt = txt.replaceAll("&#8221;", "\"");
-		return txt;
+		
+		txt = txt.replace("+ -", "+/-");
+					
+		// remove links and only present text
+		txt = txt.replaceAll("<a .*?>(.*?)</a>", "$1");
+		txt = txt.replaceAll("</a>", "");
+		txt = txt.replaceAll("<a .*?>", "");
+		
+		txt = txt.replace("<hr>", "");
+		
+		// sometimes div-tags seem to be cut off inappropriately - delete their
+		// garbage
+		txt = txt.replaceAll("id=.*?>", "");
+		txt = txt.replaceAll("class=.*?>", "");	
+		return txt.trim();
 	}
 }
