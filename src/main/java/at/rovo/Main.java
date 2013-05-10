@@ -10,12 +10,93 @@ import at.rovo.textextraction.TextExtractor;
 import at.rovo.textextraction.TrainData;
 import at.rovo.textextraction.mss.*;
 
+/**
+ * <p>The entrance to the application. A couple of parameters are required to 
+ * select for example the training method or the source of training. These arguments
+ * can be either passed as console-arguments to the application or as parameter
+ * to the constructor.</p>
+ * <p>Required arguments or parameters are:</p>
+ * <ul>
+ * <li>extractionMethod - defines the extraction algorithm used for text prediction.
+ *                        <ul><li>simple - {@link SimpleMSS}</li><li>supervised - 
+ *                        {@link SupervisedMSS}</li><li>semiSupervised - 
+ *                        {@link SemiSupervisedMSS}</li></ul></li>
+ * <li>trainingStrategy - specifies how features for the training of the classifier 
+ *                        should be used. This can either be <ul><li>TRIGRAM</li>
+ *                        <li>BIGRAM</li><li>UNIGRAM</li><li>DOUBLE_UNIGRAM</li>
+ *                        <li>TRIPLE_UNIGRAM</li></ul></li>
+ * <li>trainingSource - specifies where samples can be found for the training. 
+ *                      This can either be <ul><li>FILE - a txt file containing 
+ *                      the URL on the first line, the classification of the page 
+ *                      in the second line and the content as plain text including 
+ *                      HTML tags in consecutive lines</li><li>DB - the 'ate.db' 
+ *                      SQLite database used and maintained by Jeff Pasternack 
+ *                      and Dan Roth (http://cogcomp.cs.illinois.edu/Data/MSS/)
+ *                      </li><li>BOTH - both previous listed methods are used for 
+ *                      training the classifier</li></ul>
+ *                      Note: all sample files need to be located in the trainingData 
+ *                      sub directory of the project root</li>
+ * <li>trainingSizePerSource - the number of samples used within the 'ate.db' 
+ *                             SQLite DB per news provider</li>
+ * </ul>
+ * <p>The constructor of this class will use the above parameters to either train
+ * a new classifier or reuse a previously trained one. After a classifier was 
+ * trained successfully the training data is serialized to disk for later usage.</p>
+ * <p>It will reuse an already trained classifier only if the 'trainingData' 
+ * sub-directory contains a classifier whose name includes the <em>trainingStrategy</em> 
+ * and the <em>trainingSizePerSource</em> argument. For example on the first run,
+ * without any pre-existing classifier, a training of 5000 samples per source 
+ * and a BIGRAM strategy the serialized object that contains all trained features
+ * will be named mssClassificationData_5000_BIGRAM.ser. If on consecutive runs both,
+ * trainingStrategy and trainingSizePerSource, match these values the data of the
+ * classifier is reused and therefore training process is skipped.</p>
+ * <p>Once training has completed or an already trained classifier was loaded 
+ * content can either be extracted automatically via an 'extract=URL' argument 
+ * passed to application invocation, where URL is the URL address to the web page,
+ * or via invoking {@link #predictContent(String)} or {@link #predictContent(List)}.
+ * </p>
+ * <p>In case of semi-supervised extraction the primer one only trains a single 
+ * classifier for a URL while the latter one builds a common classifier for all 
+ * provided URLs. This might have a negative influence on the accuracy of the 
+ * prediction for a single URL compared to the primer method.</p>
+ * 
+ * @author Roman Vottner
+ */
 public class Main 
 {
 	private static Logger logger = LogManager.getLogger(Main.class.getName());
 	
+	/** The text extraction implementation to use for main content prediction **/
 	private TextExtractor te = null;
 	
+	/**
+	 * <p>Creates a new instance of the application. Provided arguments are used
+	 * to either train a new general classifier for news related web sites or
+	 * reload an already trained classifier in relation to the training strategy
+	 * and sample size used for the training.</p>
+	 * <p>Training or loading a previously trained classifier will automatically 
+	 * be invoked so that on return of the constructor the application is ready
+	 * to classify and extract content. </p>
+	 * 
+	 * @param extractionMethod The method used for extracting the content. This
+	 *                         can either be 'simple', 'supervised' or 'semiSupervised'
+	 * @param trainingStrategy The training strategy used. This may be one of the
+	 *                         following settings: 'TRIGRAM', 'BIGRAM', 'UNIGRAM', 
+	 *                         'DOUBLE_UNIGRAM' or 'TRIPPLE_UNIGRAM'
+	 * @param trainSource The training source which should be used. This can either 
+	 *                    be 'FILE', 'DB' or 'BOTH'. First will load txt-files 
+	 *                    that contain the URL on the first line, the classification
+	 *                    of the example on the second line and the main-content
+	 *                    including HTML-tags on the remaining lines.
+	 *                    DB will load <em>trainingSizePerSource</em> samples for
+	 *                    each stored news provider from the 'ate.db' SQLite DB 
+	 *                    while BOTH will train the classifier from both sources.
+	 *                    Note that all sample files and the DB have to be in
+	 *                    the trainingData sub-directory of the project root.
+	 * @param trainingSizePerSource The number of samples per news provider stored
+	 *                              in the SQLite DBthat should be used to train
+	 *                              the classifier.
+	 */
 	public Main(String extractionMethod, TrainingStrategy trainingStrategy, TrainData trainSource, int trainingSizePerSource)
 	{
 		// Check if SQLite4java path is set
@@ -46,6 +127,47 @@ public class Main
 		}
 	}
 	
+	/**
+	 * <p>Predicts the main article of a news related web site.</p>
+	 * 
+	 * @param url The page to extract the main article
+	 * @return The prediction of the main article as plain text
+	 */
+	public String predictContent(String url)
+	{
+		if (url == null)
+			throw new IllegalArgumentException("No URL to extract content from provided!");
+		
+		try 
+		{
+			String content = this.te.predictText(url);
+			if (logger.isInfoEnabled())
+			{
+				logger.info("*** "+url+" ***");
+				logger.info(content);
+				logger.info("");
+			}
+			return content;
+		} 
+		catch (ExtractionException e) 
+		{
+			logger.error(e);
+		}
+		return null;
+	}
+	
+	/**
+	 * <p>Predicts the main article of each provided news related web site. This
+	 * method differs from {@link #predictContent(String)} in that all provided
+	 * pages create a single local classifier which is used to predict the main
+	 * content from these pages instead of train a single classifier for each 
+	 * site.</p>
+	 * <p>This may train a more general and robust classifier but also result in
+	 * less accuracy on the prediction for each page.</p>
+	 * 
+	 * @param urls
+	 * @return
+	 */
 	public List<String> predictContent(List<String> urls)
 	{
 		if (urls == null || urls.size() < 1)
@@ -69,12 +191,37 @@ public class Main
 		return null;
 	}
 	
+	/**
+	 * <p>The main entrance to the application.</p>
+	 * <p>Create a new instance of the Main class which on initialization either
+	 * trains a new general classifier based on training examples loaded either
+	 * from an SQLite DB or from txt-files or it loads an already trained classifier
+	 * from a previous run-through.</p>
+	 * <p>After the initialization the application tries to predict the content
+	 * for every URL which was provided via an 'extract=URL' argument where URL
+	 * is the URL of the respective news related web site.</p>
+	 * 
+	 * @param args <p>The arguments passed to the application. 
+	 *             Currently 'trainingSizePerSource', 'trainingStrategy', 
+	 *             'extractionMethod' and 'trainingSource' and 'extract' are 
+	 *             considered.</p>
+	 *             <p>trainingSizePerSource is the number of samples taken per news 
+	 *             domain for training</p>
+	 *             <p>trainingStrategy is the strategy used for training. Possible 
+	 *             values: TRIGRAM, BIGRAM, UNIGRAM, DOUBLE_UNIGRAM and TRIPPLE_UNIGRAM</p>
+	 *             <p>extractionMethod is either 'simple', 'supervised' or 'semiSupervised'
+	 *             and defines the algorithm used for extraction</p>
+	 *             <p>trainingSource can either be FILE, DB or BOTH</p>
+	 *             <p>extract defines a URL to extract and predict content from.</p>
+	 */
 	public static void main(String ... args)
 	{
 		int trainingSizePerSource = 1500;
 		TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
 		String extractionMethod = null;
 		TrainData trainingSource = TrainData.DB;
+		// will hold all URLs to extract content from
+		List<String> urls = new ArrayList<String>();
 		if (args.length > 0)
 		{
 			for (String arg : args)
@@ -121,39 +268,18 @@ public class Main
 					else
 						logger.info("trainingSource set to "+trainingSource);
 				}
+				else if (arg.startsWith("extract"))
+				{
+					String url = arg.substring("extract=".length());
+					urls.add(url);
+				}
 			}
 		}
 		
+		// create a new instance - training or loading of a previously trained 
+		// classifier will start automatically after initialization
 		Main main = new Main(extractionMethod, trainingStrategy, trainingSource, trainingSizePerSource);
-		
-		List<String> urls = new ArrayList<String>();
-		urls.add("http://www.independent.co.uk/news/uk/politics/deficit-reduction-blow-as-figures-reveal-government-borrowed-3-billion-more-than-expected-last-month-8069220.html");
-		urls.add("http://www.independent.co.uk/sport/olympics/news/ioc-president-jacques-rogge-says-usain-bolt-is-not-a-legend-yet-8030630.html");
-		urls.add("http://www.independent.co.uk/news/uk/crime/grandmother-of-missing-tia-sharp-pleads-for-her-return-8030809.html");
-		urls.add("http://www.independent.co.uk/sport/football/premier-league/manchester-united-lower-stock-flotation-value-8030537.html");
-		urls.add("http://www.independent.co.uk/life-style/food-and-drink/news/opening-soon-tesco-espresso-8027282.html");
-		urls.add("http://www.independent.co.uk/travel/africa/zanzibar-adventure-on-the-high-seas-8015606.html"); 
-		
-		// Mentioned 12 well-known newspaper websites in the paper:
-		
-		urls.add("http://abcnews.go.com/Blotter/al-qaeda-releases-video-american-hostage/story?id=17221075#.UFDw4VHiD64");
-		urls.add("http://edition.cnn.com/2012/08/13/world/europe/norway-massacre-report/index.html?hpt=hp_t3");
-		urls.add("http://www.foxnews.com/politics/2012/08/13/in-iowa-face-off-ryan-hammers-jobs-message-as-obama-employs-drought-politics/");
-		urls.add("http://latimesblogs.latimes.com/world_now/2012/08/norway-killer-could-have-been-stopped-sooner-report.html");
-		urls.add("http://www.latimes.com/business/technology/la-fi-tn-curiousity-mars-panorama-20120813,0,956619.story");
-		urls.add("http://www.bbc.co.uk/news/world-europe-19241327");
-		urls.add("http://news.cnet.com/8301-17852_3-57492229-71/obama-to-nasa-i-want-to-know-about-martians-right-away/");
-		urls.add("http://www.washingtonpost.com/business/technology/google-to-make-deep-cuts-at-motorola/2012/08/13/501f20b2-e53b-11e1-8f62-58260e3940a0_story.html?hpid=z3");
-		urls.add("http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html");
-		urls.add("http://www.usatoday.com/news/politics/story/2012-08-13/ryan-romney-poll/57038326/1");
-		urls.add("http://www.nytimes.com/2012/09/13/world/middleeast/us-envoy-to-libya-is-reported-killed.html?src=mv&ref=general");
-
-		// non-news
-		 
-		urls.add("http://www.englisharticles.info/2012/07/07/how-effective-is-advertising/");
-		urls.add("http://www.englisharticles.info/2012/08/09/sportswear/");
-//		urls.add("http://www.vogella.com/articles/JavaRegularExpressions/article.html");
-		
+				
 		// with SemiSupervised approach all different pages train a single local
 		// classifier that tries to extract the main content of the specific page
 		// as the classifier is rather train on general features, results are sometimes
@@ -164,10 +290,6 @@ public class Main
 		// classifier which is trained on site-specific features and therefore returns
 		// more accurate results than the more general approach
 		for (String url : urls)
-		{
-			List<String> page = new ArrayList<>();
-			page.add(url);
-			main.predictContent(page);
-		}
+			main.predictContent(url);
 	}
 }

@@ -479,17 +479,12 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 							{
 								// check if the div-tag contains a p-element
 								List<Token> divTokens = tagStack.peek();
-//								int count = 0;
 								boolean found = false;
 								for (Token t : divTokens)
 								{
 									if (t instanceof Tag)
 									{
 										Tag _tag = (Tag)t;
-//										if (_tag.isOpeningTag() && _tag.getShortTag().equals("div"))
-//											count++;
-//										if (!_tag.isOpeningTag() && _tag.getShortTag().equals("div"))
-//											count--;
 										if (_tag.getShortTag().equals("p"))
 										{
 											found = true;
@@ -499,16 +494,6 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 								}
 								// only add div-tags to the previous elements if they contain
 								// usable data - in example of a p-element
-//								if (count == 0 && found == true)
-//								{
-//									// if not, append the div-tag to its parent tag
-//									for (Token t : tagStack.pop())
-//									{
-//										if (tagStack.isEmpty())
-//											tagStack.push(new ArrayList<Token>());
-//										tagStack.peek().add(t);
-//									}
-//								}
 								if (found == false) // remove the div-tag which contains only useless data
 									tagStack.pop();
 							}
