@@ -19,4 +19,33 @@ public class Word extends Token
 	{
 		super(text);
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 17;
+		result = 31 * result + this.text.hashCode();
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		Word word;
+		if (obj instanceof Word)
+		{
+			word = (Word) obj;
+		} 
+		else 
+		{
+			return false;
+		}
+
+		if (!(this.text.equalsIgnoreCase(word.text)))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -307,9 +307,9 @@ public class TrainingEntry
 		if (this.tokens == null)
 		{	
 			if (this.html.equals(""))
-				this.tokens = Parser.tokenizeURL(this.url, true);
+				this.tokens = Parser.tokenizeURL(this.url, true).getParsedTokens();
 			else
-				this.tokens = Parser.tokenize(this.html, true);
+				this.tokens = Parser.tokenize(this.html, true).getParsedTokens();
 		}
 		if (logger.isDebugEnabled())
 			logger.debug("Tokens: "+this.tokens);
@@ -438,7 +438,7 @@ public class TrainingEntry
 	{
 		// The text might have to be formated as <p>Text does not 
 		// get split up correctly
-		return this.buildNgrams(Parser.tokenize(text, true));
+		return this.buildNgrams(Parser.tokenize(text, true).getParsedTokens());
 	}
 	
 	/**
@@ -770,13 +770,13 @@ public class TrainingEntry
 		// stem words
 		String _t1 = t1.getText();
 		if (t1 instanceof Word)
-			_t1 = PorterStemmer.stem(_t1);
+			_t1 = Parser.formatText(_t1);
 		String _t2 = t2.getText();
 		if (t2 instanceof Word)
-			_t2 = PorterStemmer.stem(_t2);
+			_t2 = Parser.formatText(_t2);
 		String _t3 = t3.getText();
 		if (t3 instanceof Word)
-			_t3 = PorterStemmer.stem(_t3);
+			_t3 = Parser.formatText(_t3);
 		
 		String categorie = "out";		
 		String[] feature = null;

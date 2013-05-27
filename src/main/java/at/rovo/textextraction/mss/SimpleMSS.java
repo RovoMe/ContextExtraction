@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import at.rovo.UrlReader;
+import at.rovo.parser.ParseResult;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -61,7 +62,8 @@ public class SimpleMSS extends MaximumSubsequenceSegmentation
 			return null;
 		}
 		
-		List<Token> htmlToken = Parser.tokenize(html, false);
+		ParseResult parse = Parser.tokenize(html, false);
+		List<Token> htmlToken = parse.getParsedTokens();
 		
 		// Build a score-list for the Maximum Subsequence algorithm to work with
 		// Like in the paper, Jeff Pasternack and Dan Roth suggested, the simple

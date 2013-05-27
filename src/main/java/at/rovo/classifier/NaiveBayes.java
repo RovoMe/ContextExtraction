@@ -658,7 +658,7 @@ public class NaiveBayes<F extends Serializable, C extends Serializable> extends 
 		//
 		// P(C|F1,F2) = [P(F1,F2|C)*P(C)] / P(F1, F2)
 		if (this.trainingData.getData().containsKey(category))
-		{
+		{		
 			double catProb = this.getCategoryProbability(category);
 			double condProb = this.getConditionalProbability(items, category, smoothingPrior);
 			double featProb = this.getFeatureProbability(items);

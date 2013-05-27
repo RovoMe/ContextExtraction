@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import at.rovo.UrlReader;
 import at.rovo.classifier.Classifier;
 import at.rovo.classifier.NaiveBayes;
+import at.rovo.parser.ParseResult;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Token;
 import at.rovo.textextraction.ExtractionException;
@@ -134,7 +135,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		//    with trigram and most-recent-unclosed-tag features, as in the supervised approach
 		// is already done by the parent class
 		// 2. Predict extractions for the unlabeled documents U
-		List<Token> htmlToken = Parser.tokenize(html, false);
+		ParseResult parse = Parser.tokenize(html, false);
+		List<Token> htmlToken = parse.getParsedTokens();
 		List<Double> score = this.buildScoreList(htmlToken, this.classifier);
 		List<Double> maxSS = new ArrayList<Double>();
 		int start = this.topMaximumSubsequence(score, maxSS);
@@ -197,7 +199,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		
 			// 1. Training of the Naive Bayes classifier is already done by the parent class
 			// 2. Predict extractions for the unlabeled documents U
-			List<Token> htmlToken = Parser.tokenize(html, false);
+			ParseResult parse = Parser.tokenize(html, false);
+			List<Token> htmlToken = parse.getParsedTokens();
 			htmlTokens.add(htmlToken);
 			score = this.buildScoreList(htmlToken, this.classifier);
 			maxSS = new ArrayList<Double>();
@@ -210,6 +213,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 				logger.debug("Predicting content of "+url);
 			predictedText = this.getPredictedContent(htmlToken, maxSS, start);
 			predictedTexts.add(predictedText);
+			if (logger.isInfoEnabled())
+				logger.info("predicted Text: \n"+predictedText);
 			if (logger.isDebugEnabled())
 			{
 				logger.debug("predicted Text: \n"+predictedText);
@@ -416,37 +421,37 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getProbability("in", this.getTrigram(token1, token2, token3)));
+					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getProbability("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getProbability("in", this.getBigram(token2, token3)));
+					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getBigram(token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getProbability("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getWeightedProbability("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getProbability("in", this.getUnigram(token3)));
+					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getUnigram(token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getProbability("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getWeightedProbability("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getProbability("in", this.getDoubleUnigram(token2, token3)));
+					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getProbability("in", this.getDoubleUnigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
 			{
@@ -455,7 +460,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 					logger.debug("pi: "+classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 				
 			if (logger.isDebugEnabled())

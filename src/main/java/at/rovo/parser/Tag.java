@@ -193,4 +193,33 @@ public class Tag extends Token
 		else
 			this.text = "</unknown>";
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 17;
+		result = 31 * result + this.text.hashCode();
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		Tag tag;
+		if (obj instanceof Tag)
+		{
+			tag = (Tag) obj;
+		} 
+		else 
+		{
+			return false;
+		}
+
+		if (!(this.text.equalsIgnoreCase(tag.text)))
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -388,8 +388,8 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 						else if (tagStack.peek().size()==2)
 							tagStack.pop();
 						// remove links that do not link to other pages
-						else if (start.getShortTag().equals("a") && !start.getText().contains("href=\"http://"))
-							tagStack.pop();
+//						else if (start.getShortTag().equals("a") && !start.getText().contains("href=\"http://"))
+//							tagStack.pop();
 						// remove li tags that only contain a link
 						else if (start.getShortTag().equals("li"))
 						{

@@ -8,10 +8,10 @@ import org.apache.logging.log4j.Logger;
 
 import at.rovo.UrlReader;
 import at.rovo.classifier.Classifier;
+import at.rovo.parser.ParseResult;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Token;
 import at.rovo.parser.Word;
-import at.rovo.stemmer.PorterStemmer;
 import at.rovo.textextraction.ExtractionException;
 import at.rovo.textextraction.TrainData;
 
@@ -95,7 +95,8 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		List<Double> maxSS = new ArrayList<Double>();
 		String classifierName = null;
 		double maxVal = Double.NEGATIVE_INFINITY;
-		List<Token> htmlToken = Parser.tokenize(html, false);
+		ParseResult parse = Parser.tokenize(html, false);
+		List<Token> htmlToken = parse.getParsedTokens();
 		
 		// Build a score-list for the classifier
 		List<Double> score = this.buildScoreList(htmlToken, this.classifier);
@@ -113,6 +114,16 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 			logger.debug("Using classifier: "+classifierName);
 		
 		List<Token> predictedContent = this.getPredictedContent(htmlToken, maxSS, start);
+		
+		if (logger.isInfoEnabled())
+		{
+			logger.info("title: "+parse.getTitle());
+			logger.info("author: "+parse.getAuthors());
+			logger.info("date: "+parse.getPublishDate());
+			
+//			logger.info("MSS: "+maxSS);
+			logger.info("Predicted Content: "+predictedContent);
+		}
 		// clean and format the text
 		return this.formatText(this.cleanText(predictedContent));
 	}
@@ -173,8 +184,8 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	protected List<Double> buildScoreList(List<Token> html, Classifier<String, String> classifier)
 	{
 		List<Double> scoreList = new ArrayList<Double>();
-		if (logger.isDebugEnabled())
-			logger.debug("Score-List:");
+		if (logger.isInfoEnabled())
+			logger.info("Score-List:");
 		int start = 0;
 		if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy) || TrainingStrategy.DOUBLE_UNIGRAM.equals(this.trainingStrategy))
 			start = 1;
@@ -192,18 +203,24 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 			if (i >= start)
 			{
 				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
-					score = classifier.getProbability("in", this.getTrigram(token1, token2, token))-0.5;
+//					score = classifier.getProbability("in", this.getTrigram(token1, token2, token))-0.5;
+					score = classifier.getProbability_EvenLikelihood("in", this.getTrigram(token1, token2, token))-0.5;
+//					score = classifier.getSmoothedProbability("in", this.getTrigram(token1, token2, token), 1.)-0.5;
+//					score = classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
-					score = classifier.getProbability("in", this.getBigram(token2, token))-0.5;
+//					score = classifier.getProbability("in", this.getBigram(token2, token))-0.5;
+					score = classifier.getProbability_EvenLikelihood("in", this.getBigram(token2, token))-0.5;
+//					score = classifier.getSmoothedProbability("in", this.getBigram(token2, token),1.)-0.5;
+//					score = classifier.getWeightedProbability("in", this.getBigram(token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
-					score = classifier.getProbability("in", this.getUnigram(token))-0.5;
+					score = classifier.getWeightedProbability("in", this.getUnigram(token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
-					score = classifier.getProbability("in", this.getDoubleUnigram(token2, token))-0.5;
+					score = classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
-					score = classifier.getProbability("in", this.getTripleUnigram(token1, token2, token))-0.5;
+					score = classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token))-0.5;
 				
-				if (logger.isDebugEnabled())
-					logger.debug(new DecimalFormat("#0.000").format(score)+" : "+token.getText());
+				if (logger.isInfoEnabled())
+					logger.info((score < 0 ? "": " ")+new DecimalFormat("#0.000").format(score)+" : "+token.getText());
 				scoreList.add(score);
 			}
 			token1 = token2;
@@ -224,17 +241,17 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	{
 		String[] unigram = new String[3];
 		if (t1 instanceof Word)
-			unigram[0] = PorterStemmer.stem(t1.getText());
+			unigram[0] = Parser.formatText(t1.getText());
 		else
 			unigram[0] = t1.getText();
 		
 		if (t2 instanceof Word)
-			unigram[1] = PorterStemmer.stem(t2.getText());
+			unigram[1] = Parser.formatText(t2.getText());
 		else
 			unigram[1] = t2.getText();
 		
 		if (t3 instanceof Word)
-			unigram[2] = PorterStemmer.stem(t3.getText());
+			unigram[2] = Parser.formatText(t3.getText());
 		else
 			unigram[2] = t3.getText();
 		
@@ -254,12 +271,12 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	{
 		String[] unigram = new String[2];
 		if (t1 instanceof Word)
-			unigram[0] = PorterStemmer.stem(t1.getText());
+			unigram[0] = Parser.formatText(t1.getText());
 		else
 			unigram[0] = t1.getText();
 		
 		if (t2 instanceof Word)
-			unigram[1] = PorterStemmer.stem(t2.getText());
+			unigram[1] = Parser.formatText(t2.getText());
 		else
 			unigram[1] = t2.getText();
 		
@@ -277,7 +294,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	{
 		String unigram = null;
 		if (t1 instanceof Word)
-			unigram = PorterStemmer.stem(t1.getText());
+			unigram = Parser.formatText(t1.getText());
 		else
 			unigram = t1.getText();
 		
@@ -297,12 +314,12 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	{
 		String bigram = null;
 		if (t1 instanceof Word)
-			bigram = PorterStemmer.stem(t1.getText());
+			bigram = Parser.formatText(t1.getText());
 		else
 			bigram = t1.getText();
 		
 		if (t2 instanceof Word)
-			bigram += " " + PorterStemmer.stem(t2.getText());
+			bigram += " " + Parser.formatText(t2.getText());
 		else
 			bigram += " " + t2.getText();
 		
@@ -323,17 +340,17 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	{
 		String trigram = null;
 		if (t1 instanceof Word)
-			trigram = PorterStemmer.stem(t1.getText());
+			trigram = Parser.formatText(t1.getText());
 		else
 			trigram = t1.getText();
 		
 		if (t2 instanceof Word)
-			trigram += " " + PorterStemmer.stem(t2.getText());
+			trigram += " " + Parser.formatText(t2.getText());
 		else
 			trigram += " " + t2.getText();
 		
 		if (t3 instanceof Word)
-			trigram += " " + PorterStemmer.stem(t3.getText());
+			trigram += " " + Parser.formatText(t3.getText());
 		else
 			trigram += " " + t3.getText();
 		
