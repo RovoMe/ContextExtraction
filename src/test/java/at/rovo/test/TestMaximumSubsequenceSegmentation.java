@@ -134,7 +134,7 @@ public class TestMaximumSubsequenceSegmentation extends	MaximumSubsequenceSegmen
 		 "  </cite>" +
 		 "</div>" +
 		 "<p class=\"cnn_storypgraphtxt cnn_storypgraph8\">Authorities say he roamed the island shooting at campers, killing 69 people before members of an elite Norwegian police unit took him into custody.</p>";
-		List<Token> tokens = Parser.tokenize(test, false);
+		List<Token> tokens = Parser.tokenize(test, false).getParsedTokens();
 		List<Token> actual = this.cleanText(tokens);
 		StringBuilder builder = new StringBuilder();
 		boolean blank = false;

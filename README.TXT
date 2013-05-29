@@ -9,6 +9,8 @@ While focusing on online news articles, extracting the main article of the page 
 
 This project contains a naive implementation of a largest-cell approach where the div or table HTML-tag that contains most of the content is taken as the main-content. As extracting the main article with this algorithm is often not sufficient enough, the project moreover contains an implementation of the Maximum Subsequence Segmentation algorithm as presented by Jeff Pasternack and Dan Roth. 
 
+A DOM-based template producing content extraction algorithm (Zhang, Lin 2010) and a template independent method to extract content (Wu, Yang 2012) are currently experimentally added. Both algorithms do not extract content currently due to some unclear descriptions in their corresponding papers.
+
 INSTALLATION & EXECUTION:
 =========================
 The project is set up as Apache Maven project. It is currently configured to execute automatically on installation via the pom.xml file. Therefore make sure you have downloaded the training database taken from the MSS creators (http://cogcomp.cs.illinois.edu/Data/MSS/) and put it in the 'trainingData' subdirectory of the project root.
@@ -25,3 +27,5 @@ ToDo:
 =====
 *) Improve Naive Bayes storage (current approach is using to Hashtables inside one Object that gets persisted - with large training data however this requires like 8-9 gigabyte of RAM for training and runtime!)
 *) Currently Bigram achieve best results, though the paper states that with less Trigram training more accurate results should be achievable
+*) Fix Template-based algorithm. ISTM seems to work properly, MMTB should be fine to. MCB and TE are the algorithms that needs to be corrected
+*) TemplateIndependent algorithm: Unclear what exactly should happen at what point in time. Moreover, not sure if an external stopword list should be used or the maximum likelihood estimator (MLE) directly take the words of the segments. 

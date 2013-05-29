@@ -99,6 +99,8 @@ public class Parser
 		html = html.replaceAll(">[^\\w|\\S]*(\\w+)", ">\n$1");
 		// replace multiple whitespace characters with a blank
 		html = html.replaceAll("[\\s]+", " ");
+		// remove gap or whitespace in the middle of a tag-attribute inside a quoted section
+		html = html.replaceAll("(<[^>|\\\"]*\\\"[^\\\"]*)\\s+([^\\\"]*\\\">)", "$1$2");
 		
 		// split the html into a token-array
 		if (logger.isDebugEnabled())
