@@ -28,6 +28,39 @@ public class Tag extends Token
 	public Tag(String text)
 	{
 		super(text);
+		this.html = text;
+	}
+	
+	public Tag(int id, String name, int parent, int numSiblings, int level)
+	{
+		super(id, name, null, parent, numSiblings, level);
+	}
+	
+	public Tag(Token node)
+	{
+		super(node);
+		
+		if (node != null)
+		{
+			// deep copy
+			if (node.matchedNode != null)
+			{
+				if (node.matchedNode instanceof Word)
+					this.matchedNode = new Word((Word)node.matchedNode);
+				else
+					this.matchedNode = new Tag((Tag)node.matchedNode);
+			}
+		}
+	}
+	
+	public Tag(Tag node)
+	{
+		super(node);
+		if (node != null)
+		{
+			if (node.matchedNode != null)
+				this.matchedNode = new Tag((Tag)node.matchedNode);
+		}
 	}
 	
 	/**
@@ -43,8 +76,8 @@ public class Tag extends Token
 	public String append(String text)
 	{
 		if (!this.isValid())
-			this.text = this.text+" "+text;
-		return this.text;
+			this.html = this.html+" "+text;
+		return this.html;
 	}
 	
 	/**
@@ -63,11 +96,11 @@ public class Tag extends Token
 	 */
 	public boolean isValid()
 	{
-		if (this.text.startsWith("<!--") && this.text.endsWith("-->"))
+		if (this.html.startsWith("<!--") && this.html.endsWith("-->"))
 			return true;
-		if (this.text.startsWith("<![") && this.text.endsWith("]]>"))
+		if (this.html.startsWith("<![") && this.html.endsWith("]]>"))
 			return true;
-		if (!this.text.startsWith("<!--") && this.text.endsWith(">"))
+		if (!this.html.startsWith("<!--") && this.html.endsWith(">"))
 			return true;
 		return false;
 	}
@@ -81,7 +114,7 @@ public class Tag extends Token
 	 */
 	public boolean isInlineCloseingTag()
 	{
-		if (this.text.endsWith("/>"))
+		if (this.html.endsWith("/>"))
 			return true;
 		return false;
 	}
@@ -101,7 +134,7 @@ public class Tag extends Token
 	 */
 	public boolean isOpeningTag()
 	{
-		if (this.text.startsWith("</") || this.text.endsWith("-->") || this.text.endsWith("]]>"))
+		if (this.html.startsWith("</") || this.html.endsWith("-->") || this.html.endsWith("]]>"))
 			return false;
 		return true;
 	}
@@ -119,9 +152,11 @@ public class Tag extends Token
 	 */
 	public boolean isComment()
 	{
-		if (this.text.startsWith("<!--") || this.text.endsWith("-->"))
+		if (this.html == null)
+			return false;
+		if (this.html.startsWith("<!--") || this.html.endsWith("-->"))
 			return true;
-		if (this.text.startsWith("<![") || this.text.endsWith("]]>"))
+		if (this.html.startsWith("<![") || this.html.endsWith("]]>"))
 			return true;
 		return false;
 	}
@@ -144,9 +179,9 @@ public class Tag extends Token
 	{
 		String shortTag ="";
 		// closing tags
-		if (this.text.startsWith("</"))
+		if (this.html.startsWith("</"))
 		{
-			shortTag = this.text.substring(2);
+			shortTag = this.html.substring(2);
 			if (shortTag.endsWith(">"))
 				shortTag = shortTag.substring(0, shortTag.indexOf(">"));
 			if (shortTag.contains(" "))
@@ -160,10 +195,10 @@ public class Tag extends Token
 				shortTag = shortTag.substring(0, shortTag.indexOf("\""));
 		}
 		// opening tags
-		else if (this.text.length() > 1 && this.text.startsWith("<") && this.text.charAt(1) != '!' && this.text.charAt(1) != '[')
+		else if (this.html.length() > 1 && this.html.startsWith("<") && this.html.charAt(1) != '!' && this.html.charAt(1) != '[')
 		{
 			// remove leading <
-			shortTag = this.text.substring(1);
+			shortTag = this.html.substring(1);
 			if (shortTag.contains(" "))
 				shortTag = shortTag.substring(0, shortTag.indexOf(" "));
 			if (shortTag.contains("."))
@@ -189,16 +224,16 @@ public class Tag extends Token
 	public void setAsUndefined()
 	{
 		if (this.isOpeningTag())
-			this.text = "<unknown>";
+			this.html = "<unknown>";
 		else
-			this.text = "</unknown>";
+			this.html = "</unknown>";
 	}
 	
 	@Override
 	public int hashCode()
 	{
 		int result = 17;
-		result = 31 * result + this.text.hashCode();
+		result = 31 * result + this.html.hashCode();
 		return result;
 	}
 	
@@ -215,7 +250,7 @@ public class Tag extends Token
 			return false;
 		}
 
-		if (!(this.text.equalsIgnoreCase(tag.text)))
+		if (!(this.html.equalsIgnoreCase(tag.html)))
 		{
 			return false;
 		}

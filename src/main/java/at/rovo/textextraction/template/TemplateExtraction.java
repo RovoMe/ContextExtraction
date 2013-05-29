@@ -1,9 +1,14 @@
 package at.rovo.textextraction.template;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import at.rovo.parser.HTMLNode;
+import java.util.List;
+import at.rovo.UrlReader;
 import at.rovo.parser.Parser;
+import at.rovo.parser.Tag;
+import at.rovo.parser.Token;
+import at.rovo.parser.Word;
 
 /**
  * <p>Zhang and Lin have presented a novel approach on content extraction through
@@ -22,15 +27,15 @@ import at.rovo.parser.Parser;
  */
 public class TemplateExtraction
 {
-	private LinkedList<HTMLNode> matchedChildren = new LinkedList<HTMLNode>();
+	private LinkedList<Token> matchedChildren = new LinkedList<Token>();
 	/** The DOM-tree of the first input page **/
-	private HTMLNode[] ta = null;
+	private List<Token> ta = null;
 	/** The DOM-tree of the second input page **/
-	private HTMLNode[] tb = null;
+	private List<Token> tb = null;
 	/** Maximum matching tree**/
-	private HTMLNode[] tm = null;
+	private List<Token> tm = null;
 	/** Extraction template**/
-	private Deque<HTMLNode> tt = new LinkedList<HTMLNode>();
+	private Deque<Token> tt = new LinkedList<Token>();
 	
 	/**
 	 * <p>Template generating algorithm.</p>
@@ -44,13 +49,13 @@ public class TemplateExtraction
 	 * @return The extraction template <em>tt</em>, which can be used be the
 	 *         news content extraction ({@link NCE}) algorithm
 	 */
-	public Deque<HTMLNode> TG(String url1, String url2)
+	public Deque<Token> TG(String url1, String url2)
 	{
 		this.ta = this.buildDOMTree(url1);
-		System.out.println("URL1 contains "+ta.length+" nodes");
+		System.out.println("URL1 contains "+ta.size()+" nodes");
 		this.tb = this.buildDOMTree(url2);
-		System.out.println("URL2 contains "+tb.length+" nodes");
-		this.tm = new HTMLNode[this.ta.length];
+		System.out.println("URL2 contains "+tb.size()+" nodes");
+		this.tm = new ArrayList<Token>(this.ta.size());
 		
 		// Simple tree matching and backtracking (STMB) algorithm based on 
 		// simple tree matching (STM) and longest common subsequence (LCS)
@@ -93,20 +98,20 @@ public class TemplateExtraction
 	 */
 	private int ISTM(int p, int q)
 	{
-		this.ta[p].addComparedNodes(this.tb[q]);
+		this.ta.get(p).addComparedNodes(this.tb.get(q));
 		// compare names, if they are distinct, the subtree rooted by them do 
 		// not match at all
-		if (!this.ta[p].getName().equals(this.tb[q].getName()))
+		if (!this.ta.get(p).getName().equals(this.tb.get(q).getName()))
 		{
-			this.ta[p].addComparedMatrixes(null);
+			this.ta.get(p).addComparedMatrixes(null);
 			return 0;
 		}
 		// if they match however, the algorithm recursively finds the maximum 
 		// matching between the subtrees rooted by the children ta[p] and tb[q]
 		else
 		{
-			int k = this.ta[p].getChildren().length;
-			int n = this.tb[q].getChildren().length;
+			int k = this.ta.get(p).getChildren().length;
+			int n = this.tb.get(q).getChildren().length;
 			int[][] m = new int[k+1][n+1]; // maximum matched nodes matrix
 			int[][] f = new int[k+1][n+1]; // maximum matched path matrix
 			for (int i=0; i<=k; i++)
@@ -121,11 +126,11 @@ public class TemplateExtraction
 			}
 			for (int i=1; i<=k; i++)
 			{
-				int _p = this.ta[p].getChildren()[i-1].getNo();
+				int _p = this.ta.get(p).getChildren()[i-1].getNo();
 				for (int j=1; j<=n; j++)
 				{
 					// the next index of the child
-					int _q = this.tb[q].getChildren()[j-1].getNo();
+					int _q = this.tb.get(q).getChildren()[j-1].getNo();
 					// recursively seek the maximum match in the child's context
 					int w = this.ISTM(_p, _q);
 					// application of the maximum matching node
@@ -147,8 +152,8 @@ public class TemplateExtraction
 			}
 			
 			// set matched tree path matrixes
-			this.ta[p].setMatchedMatrix(f);
-			this.ta[p].addComparedMatrixes(f);
+			this.ta.get(p).setMatchedMatrix(f);
+			this.ta.get(p).addComparedMatrixes(f);
 			
 			return m[k][n]+1;
 		}
@@ -163,12 +168,16 @@ public class TemplateExtraction
 	 * 
 	 * @param p The index of the p-th element of the DOM-tree ta
 	 */
-	private HTMLNode[] MMTB(int p)
+	private List<Token> MMTB(int p)
 	{
 		// safe copy to prevent changes made to children in tm affect children in ta
-		this.tm[p] = new HTMLNode(this.ta[p]);
-		this.tm[p].setChildren(new LinkedList<HTMLNode>());
-		int f[][] = this.ta[p].getMatchedMatrix();
+		if (this.ta.get(p) instanceof Tag)
+			this.tm.set(p, new Tag(this.ta.get(p)));
+		else
+			this.tm.set(p, new Word(this.ta.get(p)));
+		
+		this.tm.get(p).setChildren(new LinkedList<Token>());
+		int f[][] = this.ta.get(p).getMatchedMatrix();
 		if (f != null)
 		{
 			int i = f.length-1;
@@ -209,29 +218,29 @@ public class TemplateExtraction
 		{
  			this.MCB(p, matchedMatrix, i-1, j-1);
 			// contains elements from 1st page
-//			HTMLNode child = new HTMLNode(this.ta[p].getChildren()[i-1]); // by Val
-			HTMLNode child = this.ta[p].getChildren()[i-1];               // by Ref
+//			Token child = new Token(this.ta.get(p).getChildren()[i-1]); // by Val
+			Token child = this.ta.get(p).getChildren()[i-1];            // by Ref
 			// contains elements from 2nd page
-//			HTMLNode comparedNode = new HTMLNode(this.tb[child.getComparedNodes().peek().getParentNo()]);
-			HTMLNode comparedNode = this.tb[child.getComparedNodes().peek().getParentNo()];
+//			Token comparedNode = new Token(this.tb.get(child.getComparedNodes().peek().getParentNo()));
+			Token comparedNode = this.tb.get(child.getComparedNodes().peek().getParentNo());
 			
-			while (this.ta[p].getMatchedNode() != comparedNode)
+			while (this.ta.get(p).getMatchedNode() != comparedNode)
 			{
 				int k = comparedNode.getChildren().length; 
-				int n = this.ta[p].getChildren().length;
+				int n = this.ta.get(p).getChildren().length;
 				
 				for (int _i=0; _i < k-1; _i++)
 					// Delete child.comparedNodes.firstElement
 					child.getComparedNodes().poll();
 				for (int h=0; h < n-1; h++)
 				{
-					this.ta[p].getChildren()[h].setComparedNodes(child.getComparedNodes());
+					this.ta.get(p).getChildren()[h].setComparedNodes(child.getComparedNodes());
 					for (int _i=0; _i < k-1; _i++)
 						// Delete ta[p].children[h].comparedMatrix.firstElement
-						this.ta[p].getChildren()[h].getComparedMatrix().poll();
+						this.ta.get(p).getChildren()[h].getComparedMatrix().poll();
 				}
 				if (child.getComparedNodes().size() > 0)
-					comparedNode = this.tb[child.getComparedNodes().peek().getParentNo()];
+					comparedNode = this.tb.get(child.getComparedNodes().peek().getParentNo());
 				else
 					break;
 			}
@@ -247,7 +256,7 @@ public class TemplateExtraction
 //			matchedChildren.add(new HTMLNode(child));
 			this.matchedChildren.add(child);
 //			this.tm[p].addChild(new HTMLNode(child));
-			this.tm[p].addChild(child);
+			this.tm.get(p).addChild(child);
 		}
 		else if (matchedMatrix[i][j] == MatchedMatrixValue.UP.getValue())
 			this.MCB(p, matchedMatrix, i-1, j);
@@ -269,27 +278,32 @@ public class TemplateExtraction
 	 * 
 	 * @param i The index of the i-th element of the maximum matching tree tm
 	 */
-	private Deque<HTMLNode> TE(int i)
+	private Deque<Token> TE(int i)
 	{
-		HTMLNode matchedNode = new HTMLNode(this.tm[i].getMatchedNode());
-		if (this.tm != null && !this.tm[i].getSubtreeText().equals(matchedNode.getSubtreeText()) 
-			&& this.tm[i].getAnchorTextRatio()<=1.3 * this.ta[0].getAnchorTextRatio()
-				&& !(this.tm[i].getPunctNum() == 0 && this.tm[i].getSegNum() >= 3))
+		Token matchedNode = null;
+		if (this.tm.get(i).getMatchedNode() instanceof Tag)
+			matchedNode = new Tag(this.tm.get(i).getMatchedNode());
+		else
+			matchedNode = new Word(this.tm.get(i).getMatchedNode());
+		
+		if (this.tm != null && !this.tm.get(i).getSubtreeText().equals(matchedNode.getSubtreeText()) 
+			&& this.tm.get(i).getAnchorTextRatio()<=1.3 * this.ta.get(0).getAnchorTextRatio()
+				&& !(this.tm.get(i).getPunctNum() == 0 && this.tm.get(i).getSegNum() >= 3))
 		{
-			if (this.tm[i].getSibNo() == matchedNode.getSibNo())
+			if (this.tm.get(i).getSibNo() == matchedNode.getSibNo())
 			{
-				this.tt.add(this.tm[i]);
-				for (int j=1; j<this.tm[i].getChildren().length; j++)
+				this.tt.add(this.tm.get(i));
+				for (int j=1; j<this.tm.get(i).getChildren().length; j++)
 				{
-					this.TE(this.tm[i].getChildren()[j].getNo());
+					this.TE(this.tm.get(i).getChildren()[j].getNo());
 				}
 			}
 			// expand extraction range of tt to extract content that did not 
 			// matched in the maximum matching tree tm as they occurred in tb
 			// but not in ta
-			else if (this.tm[this.tm[i].getParentNo()].getSibNo() == this.tb[matchedNode.getParentNo()].getSibNo())
+			else if (this.tm.get(this.tm.get(i).getParentNo()).getSibNo() == this.tb.get(matchedNode.getParentNo()).getSibNo())
 			{
-				while (this.tt.peekLast().getNo() != this.tm[i].getParentNo())
+				while (this.tt.peekLast().getNo() != this.tm.get(i).getParentNo())
 					this.tt.removeLast();
 			}
 		}
@@ -306,10 +320,10 @@ public class TemplateExtraction
 	 * @param tt
 	 * @param tp_i
 	 */
-	public void NCE(Deque<HTMLNode> tt, HTMLNode tp_i)
+	public void NCE(Deque<Token> tt, Token tp_i)
 	{
 		// templateNode <-- tt.firstElement
-		HTMLNode templateNode = tt.getFirst();
+		Token templateNode = tt.getFirst();
 		if (templateNode.getName().equals(tp_i.getName()) &&
 				templateNode.getLevel() == tp_i.getLevel() &&
 				templateNode.getSibNo() == tp_i.getSibNo())
@@ -317,7 +331,7 @@ public class TemplateExtraction
 			tt.removeFirst();
 			if (tt.size() > 0)
 			{
-				HTMLNode nextTemplateNode = tt.getFirst();
+				Token nextTemplateNode = tt.getFirst();
 				if (tp_i.getChildren() == null || tp_i.getChildren().length == 0)
 				{
 					System.out.println(tp_i.getText());
@@ -352,12 +366,53 @@ public class TemplateExtraction
 		return subtreeText;
 	}
 	
-	public HTMLNode[] buildDOMTree(String url)
+	public List<Token> buildDOMTree(String url)
 	{
 		// remove invalid HTML tags including <#comment>, <style>, <script>, 
 		// <noscript>, <img>, <form>, <input> and <select>
+		UrlReader reader = new UrlReader();
+		String html = reader.readPage(url);
 		
-		return Parser.getDOMTree(url);
+		html = html.replaceAll("(?s)<![dD][oO][cC][tT][yY][pP][eE].*?>", "");
+		html = html.replaceAll("(?s)<!--.*?-->", "");
+		html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "");
+		html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "");
+		html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "");
+		html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "");		
+		html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "");		
+		html = html.replaceAll("(?s)<[iI][mM][gG][^>]*?>", "");
+		html = html.replaceAll("(?s)<[fF][oO][rR][mM]([^>]*?)>.*?</[fF][oO][rR][mM]>", "");
+		html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "");
+		html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "");
+		html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>.*?</[sS][eE][lL][eE][cC][tT]>","");
+		html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>","");
+		
+		// HTML error-tag cleaning
+		
+		// <a href="..." />test</a> - removes the inline closer /
+		html = html.replaceAll("(?s)<([a-zA-Z0-9_]+?)([^>]*?)/>(.*?)</\\1>", "<$1$2>$3</$1>");
+		// adds a closing </li> tag if one is missing between two opening <li..> tags
+		// f.e: <ul><li>...</li><li>...<li>...</li><li>...</ul> - 2nd and last <li> 
+		// are missing a closing tag
+		html = html.replaceAll("(?s)<li([^>]*?)>([^</li>]*?)(<li([^>]*?)>|</ul>)", "<li$1>$2</li>$3");
+		
+		html = html.replaceAll(">>", "> >");
+		html = html.replaceAll("><", "> <");
+		// split the content from following tags
+		html = html.replaceAll("(?s)>([^>]*?)<", ">$1\n<");
+		// split the content from preceding tags
+		html = html.replace(">([^ ]*?)", ">\n$1");
+		// replace multiple whitespace characters after a tag-end symbol
+		html = html.replaceAll(">([^\\s]+)", ">\n$1");
+		// replace multiple whitespace characters between a tag-end symbol and a word-beginning
+		html = html.replaceAll(">[^\\w|\\S]*(\\w+)", ">\n$1");
+		// replace multiple whitespace characters with a blank
+		html = html.replaceAll("[\\s]+", " ");
+		
+		Parser parser = new Parser();
+		parser.cleanFully(true);
+		
+		return parser.tokenize(html, false).getParsedTokens();
 	}
 	
 	public static void main(String[] args)
@@ -369,7 +424,7 @@ public class TemplateExtraction
 		String url1 = "http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html";
 		String url2 = "http://www.washingtonpost.com/business/economy/obamas-record-on-outsourcing-draws-criticism-from-the-left/2012/07/09/gJQAljJCZW_story.html";
 		TemplateExtraction te = new TemplateExtraction();
-		Deque<HTMLNode> template = te.TG(url1, url2);
-		te.NCE(template, te.buildDOMTree(url2)[0]);
+		Deque<Token> template = te.TG(url1, url2);
+		te.NCE(template, te.buildDOMTree(url2).get(0));
 	}
 }

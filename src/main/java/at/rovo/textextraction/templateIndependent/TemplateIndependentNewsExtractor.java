@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import at.rovo.UrlReader;
 import at.rovo.parser.ParseResult;
+import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -75,7 +76,12 @@ public class TemplateIndependentNewsExtractor
 		else
 			html = url;
 		
-		ParseResult result = Parser.tokenize(html, false);
+		Parser parser = new Parser();
+		parser.setParseTarget(ParseTarget.NONE);
+		parser.childEndTag(true);
+		parser.cleanFully(true);
+		
+		ParseResult result = parser.tokenize(html, false);
 		List<Token> tokens = result.getParsedTokens();
 		
 		// At the beginning, we define a segment s consists of  sequence of
@@ -180,9 +186,9 @@ public class TemplateIndependentNewsExtractor
 				if (tag.getShortTag().equals("a"))
 				{
 					String urlRef = null;
-					if (tag.isOpeningTag() && tag.getText().contains("href="))
+					if (tag.isOpeningTag() && tag.getHTML().contains("href="))
 					{
-						String _tag = tag.getText();
+						String _tag = tag.getHTML();
 						for (String seg : _tag.split(" "))
 						{
 							if (seg.contains("href"))

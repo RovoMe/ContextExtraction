@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import at.rovo.UrlReader;
 import at.rovo.classifier.Classifier;
 import at.rovo.parser.ParseResult;
+import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Token;
 import at.rovo.parser.Word;
@@ -50,6 +51,7 @@ import at.rovo.textextraction.TrainData;
 public class SupervisedMSS extends MaximumSubsequenceSegmentation
 {
 	private static Logger logger = LogManager.getLogger(SupervisedMSS.class.getName());
+	private Parser parser = null;
 	
 	/**
 	 * <p>Creates a new instance of a supervised maximum subsequence 
@@ -61,6 +63,10 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	public SupervisedMSS(TrainData trainForm)
 	{
 		super(trainForm);
+		
+		this.parser = new Parser();
+		this.parser.setParseTarget(ParseTarget.NONE);
+		this.parser.cleanFully(true);
 	}
 	
 	/**
@@ -95,7 +101,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		List<Double> maxSS = new ArrayList<Double>();
 		String classifierName = null;
 		double maxVal = Double.NEGATIVE_INFINITY;
-		ParseResult parse = Parser.tokenize(html, false);
+		ParseResult parse = this.parser.tokenize(html, false);
 		List<Token> htmlToken = parse.getParsedTokens();
 		
 		// Build a score-list for the classifier
@@ -121,7 +127,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 			logger.info("author: "+parse.getAuthors());
 			logger.info("date: "+parse.getPublishDate());
 			
-//			logger.info("MSS: "+maxSS);
+			logger.info("MSS: "+maxSS);
 			logger.info("Predicted Content: "+predictedContent);
 		}
 		// clean and format the text
@@ -184,8 +190,8 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	protected List<Double> buildScoreList(List<Token> html, Classifier<String, String> classifier)
 	{
 		List<Double> scoreList = new ArrayList<Double>();
-		if (logger.isInfoEnabled())
-			logger.info("Score-List:");
+		if (logger.isDebugEnabled())
+			logger.debug("Score-List:");
 		int start = 0;
 		if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy) || TrainingStrategy.DOUBLE_UNIGRAM.equals(this.trainingStrategy))
 			start = 1;
@@ -219,8 +225,8 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 				else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
 					score = classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token))-0.5;
 				
-				if (logger.isInfoEnabled())
-					logger.info((score < 0 ? "": " ")+new DecimalFormat("#0.000").format(score)+" : "+token.getText());
+				if (logger.isDebugEnabled())
+					logger.debug((score < 0 ? "": " ")+new DecimalFormat("#0.000").format(score)+" : "+token.getText());
 				scoreList.add(score);
 			}
 			token1 = token2;

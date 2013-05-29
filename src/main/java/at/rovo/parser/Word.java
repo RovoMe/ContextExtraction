@@ -20,6 +20,39 @@ public class Word extends Token
 		super(text);
 	}
 	
+	public Word(int id, String name, int parent, int numSiblings, int level)
+	{
+		super(id, name, name, parent, numSiblings, level);
+	}
+	
+	public Word(Token node)
+	{
+		super(node);
+		
+		if (node != null)
+		{
+			// deep copy
+			if (node.matchedNode != null)
+			{
+				if (node.matchedNode instanceof Word)
+					this.matchedNode = new Word((Word)node.matchedNode);
+				else
+					this.matchedNode = new Tag((Tag)node.matchedNode);
+			}
+		}
+	}
+	
+	public Word(Word node)
+	{
+		super(node);
+		if (node != null)
+		{
+			// deep copy
+			if (node.matchedNode != null)
+				this.matchedNode = new Word((Word)node.matchedNode);
+		}
+	}
+	
 	@Override
 	public int hashCode()
 	{

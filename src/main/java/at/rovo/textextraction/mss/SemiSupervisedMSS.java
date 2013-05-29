@@ -14,6 +14,7 @@ import at.rovo.UrlReader;
 import at.rovo.classifier.Classifier;
 import at.rovo.classifier.NaiveBayes;
 import at.rovo.parser.ParseResult;
+import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Token;
 import at.rovo.textextraction.ExtractionException;
@@ -73,6 +74,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	/** multiplier for the importance weighting **/
 	private final double c = 24.;
 	
+	private Parser parser = null;
+	
 	/**
 	 * <p>Creates a new instance of a semi supervised maximum subsequence 
 	 * segmentation extraction algorithm which predicts the main article of a news
@@ -84,6 +87,10 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	public SemiSupervisedMSS(TrainData trainForm) 
 	{
 		super(trainForm);
+		
+		this.parser = new Parser();
+		this.parser.setParseTarget(ParseTarget.NONE);
+		this.parser.cleanFully(true);
 	}
 	
 	/**
@@ -135,7 +142,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		//    with trigram and most-recent-unclosed-tag features, as in the supervised approach
 		// is already done by the parent class
 		// 2. Predict extractions for the unlabeled documents U
-		ParseResult parse = Parser.tokenize(html, false);
+		ParseResult parse = this.parser.tokenize(html, false);
 		List<Token> htmlToken = parse.getParsedTokens();
 		List<Double> score = this.buildScoreList(htmlToken, this.classifier);
 		List<Double> maxSS = new ArrayList<Double>();
@@ -199,7 +206,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		
 			// 1. Training of the Naive Bayes classifier is already done by the parent class
 			// 2. Predict extractions for the unlabeled documents U
-			ParseResult parse = Parser.tokenize(html, false);
+			ParseResult parse = this.parser.tokenize(html, false);
 			List<Token> htmlToken = parse.getParsedTokens();
 			htmlTokens.add(htmlToken);
 			score = this.buildScoreList(htmlToken, this.classifier);

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import at.rovo.classifier.Classifier;
+import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -76,12 +77,16 @@ public class TrainingEntry
 	 */
 	private TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
 	
+	private Parser parser = null;
+	
 	/**
 	 * <p>Creates a new default instance of this class</p>
 	 */
 	public TrainingEntry()
 	{
-		
+		this.parser = new Parser();
+		this.parser.setParseTarget(ParseTarget.NONE);
+		this.parser.cleanFully(true);
 	}
 	
 	/**
@@ -94,6 +99,8 @@ public class TrainingEntry
 	 */
 	public TrainingEntry(String url, String text, String category)
 	{
+		this();
+		
 		this.url = url;
 		this.text = text;
 		this.category = category;
@@ -110,6 +117,8 @@ public class TrainingEntry
 	 */
 	public TrainingEntry(String url, String text, String category, Classifier<String, String> classifier)
 	{
+		this();
+		
 		this.url = url;
 		this.text = text;
 		this.category = category;
@@ -127,6 +136,8 @@ public class TrainingEntry
 	 */
 	public TrainingEntry(List<Token> html, List<Token> text, Classifier<String, String> classifier, boolean useMostRecentUnclosedTagFeature)
 	{
+		this();
+		
 		this.tokens = html;
 		this.tokenText = text;
 		this.classifier = classifier;
@@ -305,11 +316,11 @@ public class TrainingEntry
 			logger.trace("Starting training");
 		// build token sequence if there doesn't exist any yet
 		if (this.tokens == null)
-		{	
+		{				
 			if (this.html.equals(""))
-				this.tokens = Parser.tokenizeURL(this.url, true).getParsedTokens();
+				this.tokens = this.parser.tokenizeURL(this.url, true).getParsedTokens();
 			else
-				this.tokens = Parser.tokenize(this.html, true).getParsedTokens();
+				this.tokens = this.parser.tokenize(this.html, true).getParsedTokens();
 		}
 		if (logger.isDebugEnabled())
 			logger.debug("Tokens: "+this.tokens);
@@ -438,7 +449,7 @@ public class TrainingEntry
 	{
 		// The text might have to be formated as <p>Text does not 
 		// get split up correctly
-		return this.buildNgrams(Parser.tokenize(text, true).getParsedTokens());
+		return this.buildNgrams(parser.tokenize(text, true).getParsedTokens());
 	}
 	
 	/**

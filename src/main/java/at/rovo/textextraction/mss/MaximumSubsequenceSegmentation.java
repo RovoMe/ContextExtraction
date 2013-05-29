@@ -388,17 +388,17 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 						else if (tagStack.peek().size()==2)
 							tagStack.pop();
 						// remove links that do not link to other pages
-//						else if (start.getShortTag().equals("a") && !start.getText().contains("href=\"http://"))
+//						else if (start.getShortTag().equals("a") && !start.getHTML().contains("href=\"http://"))
 //							tagStack.pop();
 						// remove li tags that only contain a link
 						else if (start.getShortTag().equals("li"))
 						{
 							boolean remove = false;
 							if (tagStack.peek().size()>3 && 
-									tagStack.peek().get(0).getText().startsWith("<li") && 
-									tagStack.peek().get(1).getText().startsWith("<a ") &&
-									tagStack.peek().get(tagStack.peek().size()-2).getText().startsWith("</a") &&
-									tagStack.peek().get(tagStack.peek().size()-1).getText().startsWith("</li"))
+									tagStack.peek().get(0).getHTML().startsWith("<li") && 
+									tagStack.peek().get(1).getHTML().startsWith("<a ") &&
+									tagStack.peek().get(tagStack.peek().size()-2).getHTML().startsWith("</a") &&
+									tagStack.peek().get(tagStack.peek().size()-1).getHTML().startsWith("</li"))
 								remove = true;
 							
 							if (remove == true)
@@ -417,10 +417,10 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 						{
 							boolean remove = false;
 							if (tagStack.peek().size()>3 && 
-									tagStack.peek().get(0).getText().startsWith("<p") && 
-									tagStack.peek().get(1).getText().startsWith("<a ") &&
-									tagStack.peek().get(tagStack.peek().size()-2).getText().startsWith("</a") &&
-									tagStack.peek().get(tagStack.peek().size()-1).getText().startsWith("</p"))
+									tagStack.peek().get(0).getHTML().startsWith("<p") && 
+									tagStack.peek().get(1).getHTML().startsWith("<a ") &&
+									tagStack.peek().get(tagStack.peek().size()-2).getHTML().startsWith("</a") &&
+									tagStack.peek().get(tagStack.peek().size()-1).getHTML().startsWith("</p"))
 								remove = true;
 							
 							if (remove == true)
@@ -527,8 +527,8 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 		// ignore output of div- and unknown-tags
 		for (int i=0; i<tagStack.size(); i++)
 			for (Token t : tagStack.get(i))
-				if (!t.getText().startsWith("<div") && !t.getText().startsWith("</div") &&
-						!t.getText().startsWith("<unknown") && !t.getText().startsWith("</unknown"))
+				if (!t.getHTML().startsWith("<div") && !t.getHTML().startsWith("</div") &&
+						!t.getHTML().startsWith("<unknown") && !t.getHTML().startsWith("</unknown"))
 					cleaned.add(t);
 		
 		return cleaned;

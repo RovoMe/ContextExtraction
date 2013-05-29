@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import at.rovo.UrlReader;
 import at.rovo.parser.ParseResult;
+import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -28,6 +29,7 @@ import at.rovo.parser.Word;
 public class SimpleMSS extends MaximumSubsequenceSegmentation
 {
 	private static Logger logger = LogManager.getLogger(SimpleMSS.class.getName());
+	private Parser parser = null;
 	
 	/**
 	 * <p>Creates a new instance of a simple maximum subsequence segmentation method</p> 
@@ -35,6 +37,10 @@ public class SimpleMSS extends MaximumSubsequenceSegmentation
 	public SimpleMSS() 
 	{
 		super();
+		
+		this.parser = new Parser();
+		this.parser.setParseTarget(ParseTarget.NONE);
+		this.parser.cleanFully(true);
 	}
 	
 	/**
@@ -62,7 +68,7 @@ public class SimpleMSS extends MaximumSubsequenceSegmentation
 			return null;
 		}
 		
-		ParseResult parse = Parser.tokenize(html, false);
+		ParseResult parse = this.parser.tokenize(html, false);
 		List<Token> htmlToken = parse.getParsedTokens();
 		
 		// Build a score-list for the Maximum Subsequence algorithm to work with

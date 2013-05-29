@@ -3,10 +3,13 @@ package at.rovo.test;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import junit.framework.Assert;
 import org.junit.Test;
-import at.rovo.parser.HTMLNode;
+import at.rovo.parser.ParseResult;
+import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
+import at.rovo.parser.Token;
 
 public class TemplateExtractionText
 {
@@ -14,8 +17,15 @@ public class TemplateExtractionText
 	public void testDOMGeneration()
 	{
 		String s ="<html><head><title>Dies ist ein Test</title></head><body><p class=\"text\">Erster Test.</p><a href=\"www.test.at\"><img src=\"test.jpg\"/>Anchor Text</a><hr class=\"test\"/><p>Und noch ein Test. Dieser Test wird durch einen weiteren Satz erweitert, der sogar noch einen Nebensatz beinhaltet.</p></body></html>";
-		HTMLNode[] nodes = Parser.getDOMTree(s);
-		for (HTMLNode node : nodes)
+		
+		Parser parser = new Parser();		
+		parser.setParseTarget(ParseTarget.DOM);
+		ParseResult res = parser.tokenize(s, false);
+		List<Token> nodes = res.getParsedTokens();
+		
+		System.out.println(nodes);
+		
+		for (Token node : nodes)
 		{
 			if (node.getChildren() != null && node.getChildren().length > 0)
 			{
@@ -23,7 +33,7 @@ public class TemplateExtractionText
 				System.out.println("Name: "+node.getName());
 				System.out.println("Parent: "+node.getParentNo());
 			
-				for (HTMLNode n : node.getChildren())
+				for (Token n : node.getChildren())
 				{
 					System.out.println("child of "+node.getName()+": "+n.getNo()+" "+n.getName());
 				}
@@ -38,29 +48,29 @@ public class TemplateExtractionText
 
 		String anchorText = "Anchor Text";
 		
-		Assert.assertEquals(text0, nodes[0].getSubtreeText());
-		Assert.assertEquals(text1, nodes[1].getSubtreeText()); 
-		Assert.assertEquals(text4, nodes[4].getSubtreeText());
-		Assert.assertEquals(text10, nodes[10].getSubtreeText());
+		Assert.assertEquals(text0, nodes.get(0).getSubtreeText());
+		Assert.assertEquals(text1, nodes.get(1).getSubtreeText()); 
+		Assert.assertEquals(text4, nodes.get(4).getSubtreeText());
+		Assert.assertEquals(text10, nodes.get(10).getSubtreeText());
 		
-		Assert.assertEquals(anchorText, nodes[0].getSubtreeAnchorText());
+		Assert.assertEquals(anchorText, nodes.get(0).getSubtreeAnchorText());
 		
-		Assert.assertEquals(((double)anchorText.length() / text0.length()), nodes[0].getAnchorTextRatio());
+		Assert.assertEquals(((double)anchorText.length() / text0.length()), nodes.get(0).getAnchorTextRatio());
 		// no anchor text inside of node 1
-		Assert.assertEquals(0.0, nodes[1].getAnchorTextRatio());
-		Assert.assertEquals(((double)anchorText.length() / text4.length()), nodes[4].getAnchorTextRatio());
+		Assert.assertEquals(0.0, nodes.get(1).getAnchorTextRatio());
+		Assert.assertEquals(((double)anchorText.length() / text4.length()), nodes.get(4).getAnchorTextRatio());
 		// no anchor text inside of node 10
-		Assert.assertEquals(0.0, nodes[10].getAnchorTextRatio());
+		Assert.assertEquals(0.0, nodes.get(10).getAnchorTextRatio());
 		
-		Assert.assertEquals(text0.split(" ").length, nodes[0].getSegNum());
-		Assert.assertEquals(text1.split(" ").length, nodes[1].getSegNum());
-		Assert.assertEquals(text4.split(" ").length, nodes[4].getSegNum());
-		Assert.assertEquals(text10.split(" ").length, nodes[10].getSegNum());
+		Assert.assertEquals(text0.split(" ").length, nodes.get(0).getSegNum());
+		Assert.assertEquals(text1.split(" ").length, nodes.get(1).getSegNum());
+		Assert.assertEquals(text4.split(" ").length, nodes.get(4).getSegNum());
+		Assert.assertEquals(text10.split(" ").length, nodes.get(10).getSegNum());
 		
-		Assert.assertEquals((text0.length() - text0.replaceAll("[,|;|.]", "").length()), nodes[0].getPunctNum());
-		Assert.assertEquals((text1.length() - text1.replaceAll("[,|;|.]", "").length()), nodes[1].getPunctNum());
-		Assert.assertEquals((text4.length() - text4.replaceAll("[,|;|.]", "").length()), nodes[4].getPunctNum());
-		Assert.assertEquals((text10.length() - text10.replaceAll("[,|;|.]", "").length()), nodes[10].getPunctNum());
+		Assert.assertEquals((text0.length() - text0.replaceAll("[,|;|.]", "").length()), nodes.get(0).getPunctNum());
+		Assert.assertEquals((text1.length() - text1.replaceAll("[,|;|.]", "").length()), nodes.get(1).getPunctNum());
+		Assert.assertEquals((text4.length() - text4.replaceAll("[,|;|.]", "").length()), nodes.get(4).getPunctNum());
+		Assert.assertEquals((text10.length() - text10.replaceAll("[,|;|.]", "").length()), nodes.get(10).getPunctNum());
 	}
 	
 	@Test
@@ -80,15 +90,19 @@ public class TemplateExtractionText
 						"\t\t</p>\n"+
 						"\t</body>\n"+
 						"</html>";
-		HTMLNode[] nodes = Parser.getDOMTree(url);
+
+		Parser parser = new Parser();		
+		parser.setParseTarget(ParseTarget.DOM);
+		ParseResult res = parser.tokenize(url, false);
+		List<Token> nodes = res.getParsedTokens();
 			
-		String output = this.niceHTMLFormat(nodes[0], false);
+		String output = this.niceHTMLFormat(nodes.get(0), false);
 		
-//		writeFile("output3.html", output);
+//		writeFile("output.html", output);
 		Assert.assertEquals(expected, output);
 	}
 	
-	private String niceHTMLFormat(HTMLNode node, boolean endTagsIncluded)
+	private String niceHTMLFormat(Token node, boolean endTagsIncluded)
 	{
 		StringBuilder builder = new StringBuilder();
 		for (int i=0; i<node.getLevel(); i++)
@@ -100,7 +114,7 @@ public class TemplateExtractionText
 			builder.append(node.getHTML());
 		
 		boolean hasPrintedLeaf = false;
-		for (HTMLNode child : node.getChildren())
+		for (Token child : node.getChildren())
 		{
 			if (child.getText() == null)
 			{
