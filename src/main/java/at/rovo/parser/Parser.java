@@ -24,30 +24,30 @@ import at.rovo.stemmer.PorterStemmer;
  */
 public class Parser 
 {
-	private static Logger logger = LogManager.getLogger(Parser.class.getName());
+	protected static Logger logger = LogManager.getLogger(Parser.class.getName());
 	
 	/** Defines the output target of the parser **/
 	private ParseTarget target = ParseTarget.DOM;
 	
 	/** Specifies if certain tokens should be erased before generating the output **/
-	private boolean cleanTokens = true;
+	protected boolean cleanTokens = true;
 	/** Specifies if the erased tags should be removed completely or just the 
 	 * content of those tags**/
-	private boolean cleanFully = false;
+	protected boolean cleanFully = false;
 	/** Specifies if words inside a tag should be combined into a single 
 	 * word-segment **/
-	private boolean combineWords = false;
+	protected boolean combineWords = false;
 	/** Specifies if end-tags should be included in the output **/
-	private boolean includeEndTags = false;
+	protected boolean includeEndTags = false;
 	/** Specifies if the endTags, if included, are on the same level as the 
 	 * parent tag or included as a child of the opening tag **/
-	private boolean childEndTag = false;
-	
+	protected boolean childEndTag = true;
+		
 	public Parser()
 	{
 		
 	}
-	
+			
 	/**
 	 * <p>Provides a possibility to change the output of the target. Currently
 	 * the parser can output a DOM like sequence which contains structural 
@@ -167,19 +167,19 @@ public class Parser
 		}
 		else
 		{
-			html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "<script></script>");
-			html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "<style></style>");
-			html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "<noscript></noscript>");
+			html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "<script> </script>");
+			html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "<style> </style>");
+			html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "<noscript> </noscript>");
 			
-			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "<link/>");
-			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "<link/>");
+			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "<link> </link>");
+			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "<link />");
 			
 			// forms do not contain content too
-			html = html.replaceAll("(?s)<[fF][oO][rR][mM](.*?)>.*?</[fF][oO][rR][mM]>", "<form$1></form>");
-			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "<input/>");
-			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "<input/>");
-			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>.*?</[sS][eE][lL][eE][cC][tT]>"," <select></select>");
-			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>","<select></select>");
+			html = html.replaceAll("(?s)<[fF][oO][rR][mM](.*?)>.*?</[fF][oO][rR][mM]>", "<form$1> </form>");
+			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "<input />");
+			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "<input />");
+			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?(?<!/)>.*?</[sS][eE][lL][eE][cC][tT]>"," <select> </select>");
+			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?/>","<select />");
 		}
 		
 		// HTML error-tag cleaning
@@ -205,7 +205,7 @@ public class Parser
 		// adds a closing </li> tag if one is missing between two opening <li..> tags
 		// f.e: <ul><li>...</li><li>...<li>...</li><li>...</ul> - 2nd and last <li> 
 		// are missing a closing tag
-		html = html.replaceAll("(?s)<li([^>]*?)>([^</li>]*?)(<li([^>]*?)>|</ul>)", "<li$1>$2</li>$3");
+		html = html.replaceAll("(?s)<li([^n][^k][^>]*?)>([^</li>]*?)(<li([^>]*?)>|</ul>)", "<li$1>$2</li> $3");
 		
 		return html;
 	}
@@ -233,12 +233,7 @@ public class Parser
 			throw new IllegalArgumentException("Invalid html string passed.");
 		
  		if (this.cleanTokens)
- 		{
  			html = this.cleanPage(html, this.cleanFully);
- 		}
- 		
- 		if (logger.isInfoEnabled())
- 			logger.info(html);
 		
 		// split the html into a token-array
 		if (logger.isDebugEnabled())
@@ -263,10 +258,10 @@ public class Parser
 		Word lastWord = null;
 		Tag tag = null;
 		int tokenPos = 0;
-		int id = 0;
+		Integer id = 0;
 		int numWords = 0;
-		if (!childEndTag)
-			stack.add(new Tag(0, "", 0, 0, 0));
+
+		stack.add(new Tag(0, "", 0, 0, 0));
 		for (int i=0; i<tokens.length; i++)
 		{
 			// discard empty tokens
@@ -286,48 +281,37 @@ public class Parser
 				}
 				tag.setIndex(tokenPos++);
 				
-				if (ParseTarget.DOM.equals(target))
-				{
-					lastWord = null;
-					// catches end-tags and omits them from being added to the 
-					// tokenList and show up in the final DOM-tree
-					if (!includeEndTags && tokens[i].startsWith("</"))
-					{ 
-						stack.peek().setParentEndNo(id);
-						if (!stack.isEmpty())
-							checkElementsOnStack(tokens[i], stack);
-						tag = null;
-						continue;
-					}
-				}
+				lastWord = null;
 				
 				Tag node = null;
-				int no;
+				int parent;
 				String tagName = "<"+(!tag.isOpeningTag() && !tag.isInlineCloseingTag() ? "/" : "")
 						+tag.getShortTag()+(tag.isInlineCloseingTag() ? "/" : "") + ">";
 				if (!stack.isEmpty() && stack.peek() != null)
 				{
-					no = stack.peek().getNo();
-					int level = stack.size();
-					if (!childEndTag && tagName.startsWith("</"))
+					parent = stack.peek().getNo();
+					int level = stack.size()-1;
+					if (tagName.startsWith("</"))
+					{
 						level--;
-					if (!childEndTag)
-						level--;
+						parent = tokenList.get(parent).getParentNo();
+					}
 					if (stack.peek().getChildren() != null)
-						node = new Tag(id++, tagName, level, no, stack.peek().getChildren().length);
+						node = new Tag(id++, tagName, level, parent, stack.peek().getChildren().length);
 					else
-						node = new Tag(id++, tagName, level, no, 0);
+						node = new Tag(id++, tagName, level, parent, 0);
 				}
 				else
 				{
 					node = new Tag(id++, tagName, 0, 0, 0);
-					no = 0;
+					parent = 0;
 				}
 				node.setHTML(tagName);
 				
 				boolean addTag = true;
 				if (!childEndTag && (tokens[i].startsWith("</") || tokens[i].endsWith("/>")) && !stack.isEmpty())
 				{
+					stack.peek().setEndNo(id-1);
 					if (checkElementsOnStack(node, stack, tokenList, childEndTag))
 					{
 						id--;
@@ -338,21 +322,27 @@ public class Parser
 				if (addTag)
 				{
 					// add child to the parent
-					if (tokenList.size() > no && !stack.isEmpty())
-						tokenList.get(no).addChild(node);
+					if (tokenList.size() > parent && !stack.isEmpty())
+						tokenList.get(parent).addChild(node);
 					if (!tokens[i].startsWith("</") && !tokens[i].trim().endsWith("/>") 
-							&& !tokens[i].equals("<hr>") && !tokens[i].equals("<br>"))
+							&& !tokens[i].startsWith("<hr") && !tokens[i].startsWith("<br") 
+							&& !tokens[i].startsWith("<meta"))
 						stack.add(node);
+					else
+						node.setEndNo(id-1);
+					
 					tokenList.add(node);
+					if (logger.isDebugEnabled())
+						logger.debug("\tadded Tag: "+tokens[i]);
 				}
 				
 				if (childEndTag && tokens[i].startsWith("</") && !stack.isEmpty())
+				{
+					stack.peek().setEndNo(id-1);
 					if (checkElementsOnStack(node, stack, tokenList, childEndTag))
 						id--;
-				
-				if (logger.isDebugEnabled())
-					logger.debug("\tadded Tag: "+tokens[i]);
-
+				}
+		
 				// collect meta-data
 				
 				if (tag.getHTML().equals("<title>"))
@@ -435,10 +425,10 @@ public class Parser
 						isByline = false;
 				}
 				
+				stack.peek().setHTML(tag.getHTML());
+				
 				if (ParseTarget.DOM.equals(target))
-				{
-					stack.peek().setHTML(tag.getHTML());
-					
+				{	
 					if (tag.getHTML().endsWith("/>"))
 						stack.pop();
 				}
@@ -465,63 +455,24 @@ public class Parser
 					String word = tokens[i].trim();
 					// 'U.S.' will convert to 'U S'
 					word = word.replaceAll(" ", "");
-					if (ParseTarget.DOM.equals(target))
+
+					// As not a reference for an object but a value-copy of the 
+					// reference is passed as argument, changes inside of a method
+					// on a newly created object inside of a method are lost after
+					// the return of the call!
+					// This means if lastWord is defined as null before the method
+					// call and gets assigned a new reference through a instantiating
+					// a new object, this object is removed from the call stack
+					// after the method returns and the old (null) value is restored
+					if (lastWord == null)
 					{
-						if (!combineWords || combineWords && lastWord == null)
-						{
-							Word node = null;
-							int no;
-							if (!stack.isEmpty() && stack.peek() != null)
-							{
-								no = stack.peek().getNo();
-								int level = stack.size();
-								if (!childEndTag)
-									level--;
-								if (stack.peek().getChildren() != null)
-									node = new Word(id++, word, level, no, stack.peek().getChildren().length);
-								else
-									node = new Word(id++, word, level, no, 0);
-							}
-							else
-							{
-								no = 0;
-								node = new Word(id++, word, 0, 0, 0);
-							}
-							
-							// add child to the parent
-							if (tokenList.size() > no)
-								tokenList.get(no).addChild(node);
-							tokenList.add(node);
-							lastWord = node;
-						}
-						else
-						{
-							lastWord.setText(lastWord.getText()+" "+word);
-						}
-						
-						lastWord.setName(lastWord.getText());
+						lastWord = new Word("");
+						lastWord.setText(null);
 					}
-					else if (ParseTarget.NONE.equals(target))
-					{
-						if (word.contains("/") && !word.startsWith("http://"))
-						{
-							for (String w : word.split("/"))
-							{
-								addWord(w, tokenList, tokenPos, formatText);
-							}
-						}
-						else if (word.contains("-"))
-						{
-							for (String w : word.split("-"))
-							{
-								addWord(w, tokenList, tokenPos, formatText);
-							}
-						}
-						else
-						{
-							addWord(word, tokenList, tokenPos, formatText);
-						}
-					}
+					numWords = this.addWord(word, id, stack, tokenList, lastWord, formatText);
+					id += numWords;
+					if (!this.combineWords)
+						lastWord = null;
 				}
 			}
 		}
@@ -532,7 +483,105 @@ public class Parser
 		result.setAuthors(authors);
 		result.setPublishDate(date);
 		result.setByline(byline);
+		result.setNumWords(numWords);
+		result.setNumTokens(tokenList.size());
+		result.setNumTags(id);
 		return result;
+	}
+
+	protected int addWord(String word, int id, Stack<Token> stack, List<Token> tokenList, Word lastWord, boolean formatText)
+	{
+		int numWords = 0;
+		
+		if (formatText)
+			word = formatText(word);
+		
+		if ((word.contains("/") && !word.startsWith("http://")) 
+				|| word.contains("-"))
+		{
+			for (String w : word.split("[/|-]"))
+			{
+				numWords += this.addWord(w, id++,  stack,  tokenList, lastWord);
+			}
+		}
+		else
+		{
+			numWords += this.addWord(word, id,  stack,  tokenList, lastWord);
+		}
+
+		return numWords;
+	}
+	
+	private int addWord(String word, int id, Stack<Token> stack, List<Token> tokenList, Word lastWord)
+	{
+		int ret = 0;
+		if (!this.combineWords || (this.combineWords && (lastWord == null || lastWord.getText()==null) ))
+		{
+			int no;
+			if (!stack.isEmpty() && stack.peek() != null)
+			{
+				no = stack.peek().getNo();
+				int level = stack.size()-1;
+				if (stack.peek().getChildren() != null)
+				{
+					if (lastWord == null)
+						lastWord = new Word(id, word, level, no, stack.peek().getChildren().length);
+					else
+					{
+						lastWord.setNo(id);
+						lastWord.setName(word);
+						lastWord.setText(word);
+						lastWord.setLevel(level);
+						lastWord.setParentNo(no);
+						lastWord.setSibNo(stack.peek().getChildren().length);
+					}
+				}
+				else
+				{
+					if (lastWord == null)
+						lastWord = new Word(id, word, level, no, 0);
+					else
+					{
+						lastWord.setNo(id);
+						lastWord.setName(word);
+						lastWord.setText(word);
+						lastWord.setLevel(level);
+						lastWord.setParentNo(no);
+						lastWord.setSibNo(0);
+					}
+				}
+			}
+			else
+			{
+				no = 0;
+				if (lastWord == null)
+					lastWord = new Word(id, word, 0, 0, 0);
+				else
+				{
+					lastWord.setNo(id);
+					lastWord.setName(word);
+					lastWord.setText(word);
+					lastWord.setLevel(0);
+					lastWord.setParentNo(0);
+					lastWord.setSibNo(0);
+				}
+			}
+			
+			// add child to the parent
+			if (tokenList.size() > no)
+				tokenList.get(no).addChild(lastWord);
+			tokenList.add(lastWord);
+							
+			ret = 1;
+		}
+		else
+		{
+			lastWord.setText(lastWord.getText()+" "+word);
+		}
+		
+		lastWord.setName(lastWord.getText());
+		
+		return ret;
 	}
 	
 	/**
@@ -546,7 +595,7 @@ public class Parser
 	 * @return Returns true if the element is a wild node and has no ancestor 
 	 *         on the stack, false otherwise
 	 */
-	private boolean checkElementsOnStack(String node, Stack<Token> stack)
+	protected boolean checkElementsOnStack(String node, Stack<Token> stack)
 	{
 		for (int i=stack.size()-1; i>=0; i--)
 		{
@@ -581,7 +630,7 @@ public class Parser
 	 * @return Returns true if the element is a wild node and has no ancestor 
 	 *         on the stack, false otherwise
 	 */
-	private boolean checkElementsOnStack(Tag node, Stack<Token> stack, List<Token> tokenList, boolean childEndTag)
+	protected boolean checkElementsOnStack(Tag node, Stack<Token> stack, List<Token> tokenList, boolean childEndTag)
 	{
 		for (int i=stack.size()-1; i>=0; i--)
 		{
@@ -618,35 +667,7 @@ public class Parser
 		}
 		return false;
 	}
-	
-	/**
-	 * <p>Adds a word to the internal {@link List} that keeps track of the 
-	 * current tokens.</p>
-	 * 
-	 * @param word The word to add to the token list
-	 * @param tokenList The list containing all parsed tokens
-	 * @param tokenPos The position of the token within the list
-	 * @param formatText Specifies if the word should be formated with the 
-	 *                   stem-algorithm of Porter
-	 * @return The index of the newly added word
-	 */
-	private int addWord(String word, List<Token> tokenList, int tokenPos, boolean formatText)
-	{
-		if (formatText)
-			word = Parser.formatText(word).trim();
-		else
-			word = word.trim();
-		if (!word.equals(""))
-		{
-			if (logger.isDebugEnabled())
-				logger.debug("\tadding Word: '"+word+"'");
-			Word _w = new Word(word);
-			_w.setIndex(tokenPos++);
-			tokenList.add(_w);
-		}
-		return tokenPos;
-	}
-	
+		
 	/**
 	 * <p>Formats text removing certain characters or symbols</p>
 	 * <p>Stemming is applied here:</p>

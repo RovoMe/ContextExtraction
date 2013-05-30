@@ -107,21 +107,22 @@ public abstract class Token
 	}
 	
 	public int getNo() { return this.no; }
+	public void setNo(int no) { this.no = no; }
 	public String getName() { return this.name; }
 	public void setName(String name) { this.name = name; }
 	public void setText(String text) { this.text = text; }
 	public String getHTML() { return this.html; }
 	public void setHTML(String html) { this.html = html; }
 	public int getLevel() {	return this.level; }
+	public void setLevel(int level) { this.level = level; }
 	public int getParentNo() { return this.parentNo; }
-	public int getParentEndNo() { return this.parentEndNo; }
+	public void setParentNo(int parentNo) { this.parentNo = no; }
 	
-	public void setParentEndNo(int parentEndNo)
-	{
-		this.parentEndNo = parentEndNo;
-	}
+	public int getEndNo() { return this.parentEndNo; }
+	public void setEndNo(int parentEndNo) { this.parentEndNo = parentEndNo; }
 	
 	public int getSibNo() {	return this.sibNo; }
+	public void setSibNo(int sibNo) { this.sibNo = sibNo; }
 	
 	public Token[] getChildren()
 	{
@@ -150,7 +151,7 @@ public abstract class Token
 	
 	public void addChild(Token node)
 	{
-		if (!this.children.contains(node))
+//		if (!this.children.contains(node))
 			this.children.add(node);
 	}
 	

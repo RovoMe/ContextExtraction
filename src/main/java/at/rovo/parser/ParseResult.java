@@ -12,6 +12,9 @@ public class ParseResult
 	private List<String> authorName = null;
 	private String date = "Unknown";
 	private String byline = "Unknonw";
+	private int tokenCount = 0;
+	private int wordCount = 0;
+	private int tagCount = 0;
 	
 	public ParseResult()
 	{
@@ -102,5 +105,35 @@ public class ParseResult
 	public void setByline(String byline)
 	{
 		this.byline = byline;
+	}
+	
+	public void setNumWords(int wordCount)
+	{
+		this.wordCount = wordCount;
+	}
+	
+	public int getNumWords()
+	{
+		return this.wordCount;
+	}
+	
+	public void setNumTags(int tagCount)
+	{
+		this.tagCount = tagCount;
+	}
+	
+	public int getNumTags()
+	{
+		return this.tagCount;
+	}
+	
+	public void setNumTokens(int tokenCount)
+	{
+		this.tokenCount = tokenCount;
+	}
+	
+	public int getNumTokens()
+	{
+		return this.tokenCount;
 	}
 }
