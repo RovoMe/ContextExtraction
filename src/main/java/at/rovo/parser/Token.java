@@ -116,7 +116,7 @@ public abstract class Token
 	public int getLevel() {	return this.level; }
 	public void setLevel(int level) { this.level = level; }
 	public int getParentNo() { return this.parentNo; }
-	public void setParentNo(int parentNo) { this.parentNo = no; }
+	public void setParentNo(int parentNo) { this.parentNo = parentNo; }
 	
 	public int getEndNo() { return this.parentEndNo; }
 	public void setEndNo(int parentEndNo) { this.parentEndNo = parentEndNo; }

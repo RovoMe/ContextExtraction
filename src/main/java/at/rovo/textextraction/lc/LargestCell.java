@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import at.rovo.UrlReader;
-import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -49,7 +48,6 @@ public class LargestCell extends TextExtractor
 			return null;
 		}
 		Parser parser = new Parser();
-		parser.setParseTarget(ParseTarget.NONE);
 		parser.cleanFully(true);
 		List<Token> htmlToken = parser.tokenize(html, false).getParsedTokens();
 		

@@ -5,31 +5,12 @@ import java.util.List;
 import java.util.Stack;
 
 public class DOMParser extends Parser
-{
-	List<String> ignoreTags = new ArrayList<String>();
-	
+{	
 	public DOMParser()
 	{
 		super();
+	}
 		
-		this.ignoreTags.add("hr");
-		this.ignoreTags.add("br");
-		this.ignoreTags.add("meta");
-		this.ignoreTags.add("link");
-	}
-	
-	public void addTagToIgnore(String tagName)
-	{
-		if (!this.ignoreTags.contains(tagName))
-			this.ignoreTags.add(tagName);
-	}
-	
-	public void removeTagToIgnore(String tagName)
-	{
-		if (this.ignoreTags.contains(tagName))
-			this.ignoreTags.remove(tagName);
-	}
-	
 	/**
 	 * <p>Builds a {@link List} of {@link Token}s representing the provided
 	 * string.</p>
@@ -53,8 +34,7 @@ public class DOMParser extends Parser
 		if (html == null || html.equals(""))
 			throw new IllegalArgumentException("Invalid html string passed.");
 		
- 		if (this.cleanTokens)
- 			html = this.cleanPage(html, this.cleanFully);
+ 		html = this.cleanPage(html, this.cleanFully);
 		
 		// split the html into a token-array
 		if (logger.isDebugEnabled())
@@ -113,10 +93,19 @@ public class DOMParser extends Parser
 				{
 					parent = stack.peek().getNo();
 					int level = stack.size()-1;
+					
+					if (logger.isDebugEnabled())
+					{
+						StringBuilder builder = new StringBuilder();
+						for (int _i=0; _i<level; _i++)
+							builder.append("\t");
+						logger.debug(builder.toString()+tagName+" id: "+id+" parent: "+parent);
+					}
+					
 					if (stack.peek().getChildren() != null)
-						node = new Tag(id++, tagName, level, parent, stack.peek().getChildren().length);
+						node = new Tag(id++, tagName, parent, stack.peek().getChildren().length, level);
 					else
-						node = new Tag(id++, tagName, level, parent, 0);
+						node = new Tag(id++, tagName, parent, 0, level);
 				}
 				else
 				{
@@ -129,7 +118,7 @@ public class DOMParser extends Parser
 				if (tokenList.size() > parent && !stack.isEmpty())
 					tokenList.get(parent).addChild(node);
 				if (!tokens[i].startsWith("</") && !tokens[i].trim().endsWith("/>") 
-						&& !this.ignoreTags.contains(node.getShortTag()))
+						&& !this.ignoreParentingTags.contains(node.getShortTag().toLowerCase()))
 					stack.add(node);
 				else
 					node.setEndNo(id-1);
@@ -158,11 +147,10 @@ public class DOMParser extends Parser
 				}
 				
 				metaData.checkTag(tag, tokens[i]);
-				
 				tokenList.get(tokenList.size()-1).setHTML(tag.getHTML());
 				
 				if (tag.getHTML().endsWith("/>") && 
-						!this.ignoreTags.contains(tag.getShortTag()))
+						!this.ignoreParentingTags.contains(tag.getShortTag()))
 					stack.pop();
 				
 				if (tag.isValid())
@@ -174,8 +162,6 @@ public class DOMParser extends Parser
 				if (!tokens[i].trim().equals(""))
 				{					
 					String word = tokens[i].trim();
-					// 'U.S.' will convert to 'U S'
-					word = word.replaceAll(" ", "");
 
 					// As not a reference for an object but a value-copy of the 
 					// reference is passed as argument, changes inside of a method
@@ -191,7 +177,7 @@ public class DOMParser extends Parser
 						lastWord.setText(null);
 					}
 					numWords = this.addWord(word, id, stack, tokenList, lastWord, formatText);
-					metaData.checkToken(lastWord);
+					metaData.checkToken(lastWord, this.combineWords);
 					id += numWords;
 					if (!this.combineWords)
 						lastWord = null;
@@ -209,5 +195,33 @@ public class DOMParser extends Parser
 		result.setNumTokens(tokenList.size());
 		result.setNumTags(id);
 		return result;
+	}
+	
+	/**
+	 * <p>Checks if a HTML node has a corresponding parent on the stack. If so
+	 * nodes are taken from the stack until the parent is reached. The parent is
+	 * now the last entry on the stack.</p>
+	 * 
+	 * @param node The String representation of the end tag node to check if a 
+	 *             corresponding parent is on the stack
+	 * @param stack The stack that includes all ancestors
+	 * @return Returns true if the element is a wild node and has no ancestor 
+	 *         on the stack, false otherwise
+	 */
+	private boolean checkElementsOnStack(String node, Stack<Token> stack)
+	{
+		for (int i=stack.size()-1; i>=0; i--)
+		{
+			Token curNode = stack.elementAt(i);
+			if (curNode.getName().startsWith(node.replace("/", "")))
+			{
+				// match found
+				int numPopRequired = stack.size()-1 - curNode.getLevel();
+				for (int j=0; j<numPopRequired; j++)
+					stack.pop();
+				return false;
+			}
+		}
+		return true;
 	}
 }

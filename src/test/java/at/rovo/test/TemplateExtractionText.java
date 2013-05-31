@@ -6,8 +6,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import junit.framework.Assert;
 import org.junit.Test;
+import at.rovo.parser.DOMParser;
 import at.rovo.parser.ParseResult;
-import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Token;
 
@@ -18,8 +18,8 @@ public class TemplateExtractionText
 	{
 		String s ="<html><head><title>Dies ist ein Test</title></head><body><p class=\"text\">Erster Test.</p><a href=\"www.test.at\"><img src=\"test.jpg\"/>Anchor Text</a><hr class=\"test\"/><p>Und noch ein Test. Dieser Test wird durch einen weiteren Satz erweitert, der sogar noch einen Nebensatz beinhaltet.</p></body></html>";
 		
-		Parser parser = new Parser();		
-		parser.setParseTarget(ParseTarget.DOM);
+		Parser parser = new DOMParser();		
+		parser.combineWords(true);
 		ParseResult res = parser.tokenize(s, false);
 		List<Token> nodes = res.getParsedTokens();
 		
@@ -44,14 +44,15 @@ public class TemplateExtractionText
 		String text0 = "Dies ist ein Test Erster Test. Anchor Text Und noch ein Test. Dieser Test wird durch einen weiteren Satz erweitert, der sogar noch einen Nebensatz beinhaltet.";
 		String text1 = "Dies ist ein Test";
 		String text4 = "Erster Test. Anchor Text Und noch ein Test. Dieser Test wird durch einen weiteren Satz erweitert, der sogar noch einen Nebensatz beinhaltet.";
-		String text10 = "Und noch ein Test. Dieser Test wird durch einen weiteren Satz erweitert, der sogar noch einen Nebensatz beinhaltet.";
+		String text11 = "Und noch ein Test. Dieser Test wird durch einen weiteren Satz erweitert, der sogar noch einen Nebensatz beinhaltet.";
 
 		String anchorText = "Anchor Text";
 		
 		Assert.assertEquals(text0, nodes.get(0).getSubtreeText());
-		Assert.assertEquals(text1, nodes.get(1).getSubtreeText()); 
+		Assert.assertEquals(text1, nodes.get(1).getSubtreeText());
+		Assert.assertEquals(text1, nodes.get(2).getSubtreeText());
 		Assert.assertEquals(text4, nodes.get(4).getSubtreeText());
-		Assert.assertEquals(text10, nodes.get(10).getSubtreeText());
+		Assert.assertEquals(text11, nodes.get(11).getSubtreeText());
 		
 		Assert.assertEquals(anchorText, nodes.get(0).getSubtreeAnchorText());
 		
@@ -60,17 +61,17 @@ public class TemplateExtractionText
 		Assert.assertEquals(0.0, nodes.get(1).getAnchorTextRatio());
 		Assert.assertEquals(((double)anchorText.length() / text4.length()), nodes.get(4).getAnchorTextRatio());
 		// no anchor text inside of node 10
-		Assert.assertEquals(0.0, nodes.get(10).getAnchorTextRatio());
+		Assert.assertEquals(0.0, nodes.get(11).getAnchorTextRatio());
 		
 		Assert.assertEquals(text0.split(" ").length, nodes.get(0).getSegNum());
 		Assert.assertEquals(text1.split(" ").length, nodes.get(1).getSegNum());
 		Assert.assertEquals(text4.split(" ").length, nodes.get(4).getSegNum());
-		Assert.assertEquals(text10.split(" ").length, nodes.get(10).getSegNum());
+		Assert.assertEquals(text11.split(" ").length, nodes.get(11).getSegNum());
 		
 		Assert.assertEquals((text0.length() - text0.replaceAll("[,|;|.]", "").length()), nodes.get(0).getPunctNum());
 		Assert.assertEquals((text1.length() - text1.replaceAll("[,|;|.]", "").length()), nodes.get(1).getPunctNum());
 		Assert.assertEquals((text4.length() - text4.replaceAll("[,|;|.]", "").length()), nodes.get(4).getPunctNum());
-		Assert.assertEquals((text10.length() - text10.replaceAll("[,|;|.]", "").length()), nodes.get(10).getPunctNum());
+		Assert.assertEquals((text11.length() - text11.replaceAll("[,|;|.]", "").length()), nodes.get(11).getPunctNum());
 	}
 	
 	@Test
@@ -91,8 +92,7 @@ public class TemplateExtractionText
 						"\t</body>\n"+
 						"</html>";
 
-		Parser parser = new Parser();		
-		parser.setParseTarget(ParseTarget.DOM);
+		Parser parser = new DOMParser();		
 		ParseResult res = parser.tokenize(url, false);
 		List<Token> nodes = res.getParsedTokens();
 			

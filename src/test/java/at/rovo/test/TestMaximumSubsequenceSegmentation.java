@@ -106,7 +106,7 @@ public class TestMaximumSubsequenceSegmentation extends	MaximumSubsequenceSegmen
 		Assert.assertEquals(r, R);
 	}
 	
-//	@Test
+	@Test
 	public void testTextCleaning()
 	{
 		// part extracted from http://edition.cnn.com/2012/08/13/world/europe/norway-massacre-report/index.html?hpt=hp_t3
@@ -133,8 +133,10 @@ public class TestMaximumSubsequenceSegmentation extends	MaximumSubsequenceSegmen
 		 "    <span>Norway massacre survivor talks </span>" +
 		 "  </cite>" +
 		 "</div>" +
-		 "<p class=\"cnn_storypgraphtxt cnn_storypgraph8\">Authorities say he roamed the island shooting at campers, killing 69 people before members of an elite Norwegian police unit took him into custody.</p>";
-		List<Token> tokens = Parser.tokenize(test, false).getParsedTokens();
+		 "<p class=\"cnn_storypgraphtxt_cnn_storypgraph8\">Authorities say he roamed the island shooting at campers, killing 69 people before members of an elite Norwegian police unit took him into custody.</p>";
+		Parser parser = new Parser();
+		
+		List<Token> tokens = parser.tokenize(test, false).getParsedTokens();
 		List<Token> actual = this.cleanText(tokens);
 		StringBuilder builder = new StringBuilder();
 		boolean blank = false;
@@ -142,15 +144,19 @@ public class TestMaximumSubsequenceSegmentation extends	MaximumSubsequenceSegmen
 		{
 			if (blank && token instanceof Word)
 				builder.append(" ");
-			builder.append(token.getText());
+				
 			if (token instanceof Word)
+			{
+				builder.append(token.getText());
 				blank = true;
+			}
 			else
+			{
+				builder.append(token.getHTML());
 				blank = false;
-			
+			}	
 		}
-//		Assert.assertEquals("<p class=\"cnn_storypgraphtxt cnn_storypgraph8\">Authorities say he roamed the island shooting at campers, killing 69 people before members of an elite Norwegian police unit took him into custody.</p>", builder.toString());
-		Assert.assertEquals("<cite class=\"expCaption\">Norway massacre survivor talks</cite><p class=\"cnn_storypgraphtxt cnn_storypgraph8\">Authorities say he roamed the island shooting at campers, killing 69 people before members of an elite Norwegian police unit took him into custody.</p>", builder.toString());
+		Assert.assertEquals("<p class=\"cnn_storypgraphtxt_cnn_storypgraph8\">Authorities say he roamed the island shooting at campers, killing 69 people before members of an elite Norwegian police unit took him into custody.</p>", builder.toString());
 	}
 
 	@Override

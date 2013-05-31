@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import at.rovo.UrlReader;
 import at.rovo.parser.ParseResult;
-import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -39,7 +38,6 @@ public class SimpleMSS extends MaximumSubsequenceSegmentation
 		super();
 		
 		this.parser = new Parser();
-		this.parser.setParseTarget(ParseTarget.NONE);
 		this.parser.cleanFully(true);
 	}
 	

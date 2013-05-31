@@ -40,11 +40,18 @@ public class ParsingMetaData
 	{
 		// time formats:
 		// Thu May 30 19:26:48 EDT 2013
+		Pattern pattern = Pattern.compile(
 		// DD/MM/YYYY
 		// MM/DD/YYYY
 		// DD/MM/YY
 		// MM/DD/YY
-		Pattern pattern = Pattern.compile("(?:Jan.|Feb.|Mar.|Apr.|May|Jul.|Jun.|Aug.|Sept.|Oct.|Nov.|Dec.) \\d{2}[,]? \\d{4}");
+		"(?:(\\d{1,2}/\\d{2}/\\d{2,4})|"+
+		// 2012-08-14
+		"(\\d{2,4}-\\d{1,2}-\\d{1,2})|"+
+		// Sept. 12, 2012 or September 12, 2012 or Sept. 5th, 2004
+		"((?:Jan|Feb|Mar|Apr|May|Jul|Jun|Aug|Sept|Oct|Nov|Dec|January|February|"+
+		"March|April|June|July|August|September|October|November|December)[\\.|,]? "+
+		"\\d{1,2}(?:st|nd|rd|th)?[,]? \\d{2,4}))");
 		Matcher matcher = pattern.matcher(this.date);
 		List<String> possibleDates = new ArrayList<String>();
 		while (matcher.find())
@@ -152,19 +159,25 @@ public class ParsingMetaData
 			isTitle = false;
 	}
 	
-	public void checkToken(Word word)
+	public void checkToken(Word word, boolean combineWords)
 	{
 		if (isTitle)
 		{
 			if (foundLevel+1 == word.getLevel())
-				title += " "+word.getText();
+				if (!combineWords)
+					title += " "+word.getText();
+				else
+					title = word.getText();
 			else
 				this.clear();
 		}
 		if (isDate)
 		{
 			if (foundLevel+1 == word.getLevel())
-				date += " "+word.getText();
+				if (!combineWords)
+					date += " "+word.getText();
+				else
+					date = word.getText();
 			else
 				this.clear();
 		}

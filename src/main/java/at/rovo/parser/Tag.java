@@ -33,7 +33,7 @@ public class Tag extends Token
 	
 	public Tag(int id, String name, int parent, int numSiblings, int level)
 	{
-		super(id, name, null, parent, numSiblings, level);
+		super(id, name, null, level, parent, numSiblings);
 	}
 	
 	public Tag(Token node)

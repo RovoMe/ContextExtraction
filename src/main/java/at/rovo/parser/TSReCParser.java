@@ -8,6 +8,13 @@ public class TSReCParser extends Parser
 {
 	private List<String> textFlowBreakingTags = null;
 	
+	public TSReCParser()
+	{
+		super();
+		
+		this.loadTextFlowBreakingTags();
+	}
+	
 	private void loadTextFlowBreakingTags()
 	{
 		this.textFlowBreakingTags = new ArrayList<String>();
@@ -25,7 +32,6 @@ public class TSReCParser extends Parser
 		this.textFlowBreakingTags.add("h4");
 		this.textFlowBreakingTags.add("h5");
 		this.textFlowBreakingTags.add("h6");
-		
 	}
 	
 	/**
@@ -51,8 +57,7 @@ public class TSReCParser extends Parser
 		if (html == null || html.equals(""))
 			throw new IllegalArgumentException("Invalid html string passed.");
 		
- 		if (this.cleanTokens)
- 			html = this.cleanPage(html, this.cleanFully);
+ 		html = this.cleanPage(html, this.cleanFully);
 		
 		// split the html into a token-array
 		if (logger.isDebugEnabled())
@@ -71,13 +76,12 @@ public class TSReCParser extends Parser
 		int numWords = 0;
 		
 		stack.add(new Tag(0, "", 0, 0, 0));
-		
 		for (int i=0; i<tokens.length; i++)
 		{
 			// discard empty tokens
 			if (tokens[i].trim().equals(""))
 				continue;
-			
+						
 			// starting token found - check if not an existing token already exists
 			// this is necessary to bump parts of comments into these tags
 			if (tokens[i].startsWith("<") && tag == null)
@@ -106,10 +110,19 @@ public class TSReCParser extends Parser
 						level--;
 						parent = tokenList.get(parent).getParentNo();
 					}
+					
+					if (logger.isDebugEnabled())
+					{
+						StringBuilder builder = new StringBuilder();
+						for (int _i=0; _i<level; _i++)
+							builder.append("\t");
+						logger.debug(builder.toString()+tagName+" id: "+id+" parent: "+parent);
+					}
+					
 					if (stack.peek().getChildren() != null)
-						node = new Tag(id++, tagName, level, parent, stack.peek().getChildren().length);
+						node = new Tag(id++, tagName, parent, stack.peek().getChildren().length, level);
 					else
-						node = new Tag(id++, tagName, level, parent, 0);
+						node = new Tag(id++, tagName, parent, 0, level);
 				}
 				else
 				{
@@ -122,7 +135,7 @@ public class TSReCParser extends Parser
 				if ((tokens[i].startsWith("</") || tokens[i].endsWith("/>")) && !stack.isEmpty())
 				{
 					stack.peek().setEndNo(id-1);
-					if (checkElementsOnStack(node, stack, tokenList, false))
+					if (checkElementsOnStack(node, stack, tokenList))
 					{
 						id--;
 						addTag = false;
@@ -137,8 +150,7 @@ public class TSReCParser extends Parser
 						tokenList.get(parent).addChild(node);
 					
 					if (!tokens[i].startsWith("</") && !tokens[i].endsWith("/>") 
-							&& !tokens[i].startsWith("<hr") && !tokens[i].startsWith("<br") 
-							&& !tokens[i].startsWith("<meta") && !tokens[i].startsWith("<link"))
+							&& !this.ignoreParentingTags.contains(node.getShortTag().toLowerCase()))
 						stack.add(node);
 					else
 						node.setEndNo(id-1);
@@ -146,12 +158,12 @@ public class TSReCParser extends Parser
 					tokenList.add(node);
 					if (logger.isDebugEnabled())
 						logger.debug("\tadded Tag: "+tokens[i]);
+					
+					// collect meta-data
+					tag.setLevel(node.getLevel());
+					metaData.checkTag(tag);
 				}
 						
-				// collect meta-data
-				tag.setLevel(node.getLevel());
-				metaData.checkTag(tag);
-				
 				// one-part tag found: <i>
 				if (tag.getHTML().endsWith(">"))
 					tag = null;
@@ -167,9 +179,7 @@ public class TSReCParser extends Parser
 					tag.append(tokens[i]);
 				}
 				
-				// extract meta-data
 				metaData.checkTag(tag, tokens[i]);
-				
 				tokenList.get(tokenList.size()-1).setHTML(tag.getHTML());
 									
 				if (tag.isValid())
@@ -181,8 +191,6 @@ public class TSReCParser extends Parser
 				if (!tokens[i].trim().equals(""))
 				{					
 					String word = tokens[i].trim();
-					// 'U.S.' will convert to 'U S'
-					word = word.replaceAll(" ", "");
 
 					// As not a reference for an object but a value-copy of the 
 					// reference is passed as argument, changes inside of a method
@@ -198,7 +206,7 @@ public class TSReCParser extends Parser
 						lastWord.setText(null);
 					}
 					numWords = this.addWord(word, id, stack, tokenList, lastWord, formatText);
-					metaData.checkToken(lastWord);
+					metaData.checkToken(lastWord, this.combineWords);
 					id += numWords;
 					if (!this.combineWords)
 						lastWord = null;
@@ -215,6 +223,7 @@ public class TSReCParser extends Parser
 		result.setNumWords(numWords);
 		result.setNumTokens(tokenList.size());
 		result.setNumTags(id);
+		
 		return result;
 	}
 }

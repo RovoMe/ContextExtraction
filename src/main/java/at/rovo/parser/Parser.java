@@ -26,53 +26,58 @@ public class Parser
 {
 	protected static Logger logger = LogManager.getLogger(Parser.class.getName());
 	
-	/** Defines the output target of the parser **/
-	private ParseTarget target = ParseTarget.DOM;
-	
-	/** Specifies if certain tokens should be erased before generating the output **/
-	protected boolean cleanTokens = true;
 	/** Specifies if the erased tags should be removed completely or just the 
 	 * content of those tags**/
 	protected boolean cleanFully = false;
 	/** Specifies if words inside a tag should be combined into a single 
 	 * word-segment **/
 	protected boolean combineWords = false;
-	/** Specifies if end-tags should be included in the output **/
-	protected boolean includeEndTags = false;
-	/** Specifies if the endTags, if included, are on the same level as the 
-	 * parent tag or included as a child of the opening tag **/
-	protected boolean childEndTag = true;
+	
+	protected List<String> ignoreParentingTags = new ArrayList<String>();
+	
+	private boolean cleanMeta = false;
+	private boolean cleanLinks = true;
+	private boolean cleanScripts = true;
+	private boolean cleanStyles = true;
+	private boolean cleanFormElements = true;
+	private boolean cleanImages = false;
+	private boolean cleanAnchors = false;
 		
 	public Parser()
 	{
-		
-	}
-			
-	/**
-	 * <p>Provides a possibility to change the output of the target. Currently
-	 * the parser can output a DOM like sequence which contains structural 
-	 * information such as parent of a {@link Tag} or the level, or just a simple</p>
-	 * 
-	 * @param target
-	 */
-	public void setParseTarget(ParseTarget target)
-	{
-		this.target = target;
+		this.ignoreParentingTags.add("hr");
+		this.ignoreParentingTags.add("br");
+		this.ignoreParentingTags.add("meta");
+		this.ignoreParentingTags.add("link");
+		this.ignoreParentingTags.add("img");
 	}
 	
-	public ParseTarget getParseTarget()
+	public void cleanMeta(boolean clean) { this.cleanMeta = clean; }
+	public void cleanLinks(boolean clean) { this.cleanLinks = clean; }
+	public void cleanScripts(boolean clean) { this.cleanScripts = clean; }
+	public void cleanStyles(boolean clean) { this.cleanStyles = clean; }
+	public void cleanFormElements(boolean clean) { this.cleanFormElements = clean; }
+	public void cleanImages(boolean clean) { this.cleanImages = clean; }
+	public void cleanAnchors(boolean clean) { this.cleanAnchors = clean; }
+	
+	public boolean cleanMeta() { return this.cleanMeta; }
+	public boolean cleanLinks() { return this.cleanLinks; }
+	public boolean cleanScripts() { return this.cleanScripts; }
+	public boolean cleanStyles() { return this.cleanStyles; }
+	public boolean cleanFormElements() { return this.cleanFormElements; }
+	public boolean cleanImages() { return this.cleanImages; }
+	public boolean cleanAnchors() { return this.cleanAnchors; }
+	
+	public void addTagToIgnoreForParenting(String tagName)
 	{
-		return this.target;
+		if (!this.ignoreParentingTags.contains(tagName))
+			this.ignoreParentingTags.add(tagName);
 	}
 	
-	public void cleanTokens(boolean cleanTokens)
+	public void removeTagToIgnoreForParenting(String tagName)
 	{
-		this.cleanTokens = cleanTokens;
-	}
-	
-	public boolean isTokenCleaned()
-	{
-		return this.cleanTokens;
+		if (this.ignoreParentingTags.contains(tagName))
+			this.ignoreParentingTags.remove(tagName);
 	}
 	
 	public void cleanFully(boolean cleanFully)
@@ -94,27 +99,7 @@ public class Parser
 	{
 		return this.combineWords;
 	}
-	
-	public void includeEndTags(boolean includeEndTags)
-	{
-		this.includeEndTags = includeEndTags;
-	}
-	
-	public boolean isEndTagIncluded()
-	{
-		return this.includeEndTags;
-	}
-	
-	public void childEndTag(boolean childEndTag)
-	{
-		this.childEndTag = childEndTag;
-	}
-	
-	public boolean isChildEndTag()
-	{
-		return this.childEndTag;
-	}
-			
+				
 	/**
 	 * <p>Builds a {@link List} of {@link Token}s representing the page referenced
 	 * by the URL provided.</p>
@@ -149,38 +134,72 @@ public class Parser
 		html = html.replaceAll("(?s)<!--.*?-->", "");
 		if (full)
 		{
-			html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "");
-			html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "");
-			html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "");
+			if (this.cleanMeta)
+				html = html.replace("(?s)<[mM][eE][tT][aA][^>]*?[/]?>", "");
 			
-			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "");		
-			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "");	
+			if (this.cleanScripts)
+			{
+				html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "");
+				html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "");
+			}
+			if (this.cleanStyles)
+				html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "");
+			
+			if (this.cleanLinks)
+			{
+				html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "");		
+				html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "");	
+			}
 			
 			// forms do not contain content too
-			html = html.replaceAll("(?s)<[fF][oO][rR][mM](.*?)>.*?</[fF][oO][rR][mM]>", "");
-			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "");
-			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "");
-			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>.*?</[sS][eE][lL][eE][cC][tT]>","");
-			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>","");
+			if (this.cleanFormElements)
+			{
+				html = html.replaceAll("(?s)<[fF][oO][rR][mM](.*?)>.*?</[fF][oO][rR][mM]>", "");
+				html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "");
+				html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "");
+				html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>.*?</[sS][eE][lL][eE][cC][tT]>","");
+				html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>","");
+			}
 			
-			html = html.replaceAll("(?s)<[iI][mM][gG][^>]*?>", "");
+			if (this.cleanImages)
+				html = html.replaceAll("(?s)<[iI][mM][gG][^>]*?>", "");
 		}
 		else
 		{
-			html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "<script> </script>");
-			html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "<style> </style>");
-			html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "<noscript> </noscript>");
+			if (this.cleanMeta)
+				html = html.replace("(?s)<[mM][eE][tT][aA][^>]*?[/]?>", "<meta />");
 			
-			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "<link> </link>");
-			html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "<link />");
+			if (this.cleanScripts)
+			{
+				html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "<script> </script>");
+				html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "<noscript> </noscript>");
+			}
+			if (this.cleanStyles)
+				html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "<style> </style>");
+			
+			
+			if (this.cleanLinks)
+			{
+				html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "<link> </link>");
+				html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "<link />");
+			}
 			
 			// forms do not contain content too
-			html = html.replaceAll("(?s)<[fF][oO][rR][mM](.*?)>.*?</[fF][oO][rR][mM]>", "<form$1> </form>");
-			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "<input />");
-			html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "<input />");
-			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?(?<!/)>.*?</[sS][eE][lL][eE][cC][tT]>"," <select> </select>");
-			html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?/>","<select />");
+			if (this.cleanFormElements)
+			{
+				html = html.replaceAll("(?s)<[fF][oO][rR][mM](.*?)>.*?</[fF][oO][rR][mM]>", "<form$1> </form>");
+				html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "<input />");
+				html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "<input />");
+				html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?(?<!/)>.*?</[sS][eE][lL][eE][cC][tT]>"," <select> </select>");
+				html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?/>","<select />");
+				
+				if (this.cleanImages)
+					html = html.replaceAll("(?s)<[iI][mM][gG][^>]*?>", "<img />");
+			}
 		}
+				
+		if (this.cleanAnchors)
+			html = html.replaceAll("(?s)<a [^>]*?>([^<])*?</a>", "$1");
 		
 		// HTML error-tag cleaning
 
@@ -205,7 +224,7 @@ public class Parser
 		// adds a closing </li> tag if one is missing between two opening <li..> tags
 		// f.e: <ul><li>...</li><li>...<li>...</li><li>...</ul> - 2nd and last <li> 
 		// are missing a closing tag
-		html = html.replaceAll("(?s)<li([^n][^k][^>]*?)>([^</li>]*?)(<li([^>]*?)>|</ul>)", "<li$1>$2</li> $3");
+		html = html.replaceAll("(?s)<li([^n][^k][^>]*?)>((.(?!</li>|</ul>|<ul))*)(<li([^>]*?)>|</ul>)", "<li$1>$2</li> $4");
 		
 		return html;
 	}
@@ -232,8 +251,7 @@ public class Parser
 		if (html == null || html.equals(""))
 			throw new IllegalArgumentException("Invalid html string passed.");
 		
- 		if (this.cleanTokens)
- 			html = this.cleanPage(html, this.cleanFully);
+ 		html = this.cleanPage(html, this.cleanFully);
 		
 		// split the html into a token-array
 		if (logger.isDebugEnabled())
@@ -241,24 +259,14 @@ public class Parser
  		tokens = html.split(" ");
  		 			
  		// Meta-data informations
- 		boolean isTitle = false;
- 		String title = "";
- 		boolean isAuthorName = false;
- 		List<String> authorName = new ArrayList<String>();
- 		boolean isAuthor = false;
- 		List<String> authors = new ArrayList<String>();
- 		boolean isDate = false;
- 		String date = "";
- 		boolean isByline = false;
- 		String bylineTag = null;
- 		String byline = "";
+ 		ParsingMetaData metaData = new ParsingMetaData();
 		
 		List<Token> tokenList = new ArrayList<Token>();
 		Stack<Token> stack = new Stack<Token>();
 		Word lastWord = null;
 		Tag tag = null;
 		int tokenPos = 0;
-		Integer id = 0;
+		int id = 0;
 		int numWords = 0;
 
 		stack.add(new Tag(0, "", 0, 0, 0));
@@ -282,7 +290,7 @@ public class Parser
 				tag.setIndex(tokenPos++);
 				
 				lastWord = null;
-				
+								
 				Tag node = null;
 				int parent;
 				String tagName = "<"+(!tag.isOpeningTag() && !tag.isInlineCloseingTag() ? "/" : "")
@@ -296,10 +304,19 @@ public class Parser
 						level--;
 						parent = tokenList.get(parent).getParentNo();
 					}
+					
+					if (logger.isDebugEnabled())
+					{
+						StringBuilder builder = new StringBuilder();
+						for (int _i=0; _i<level; _i++)
+							builder.append("\t");
+						logger.debug(builder.toString()+tagName+" id: "+id+" parent: "+parent);
+					}
+					
 					if (stack.peek().getChildren() != null)
-						node = new Tag(id++, tagName, level, parent, stack.peek().getChildren().length);
+						node = new Tag(id++, tagName, parent, stack.peek().getChildren().length, level);
 					else
-						node = new Tag(id++, tagName, level, parent, 0);
+						node = new Tag(id++, tagName, parent, 0, level);
 				}
 				else
 				{
@@ -309,10 +326,10 @@ public class Parser
 				node.setHTML(tagName);
 				
 				boolean addTag = true;
-				if (!childEndTag && (tokens[i].startsWith("</") || tokens[i].endsWith("/>")) && !stack.isEmpty())
+				if ((tokens[i].startsWith("</") || tokens[i].endsWith("/>")) && !stack.isEmpty())
 				{
 					stack.peek().setEndNo(id-1);
-					if (checkElementsOnStack(node, stack, tokenList, childEndTag))
+					if (checkElementsOnStack(node, stack, tokenList))
 					{
 						id--;
 						addTag = false;
@@ -325,8 +342,7 @@ public class Parser
 					if (tokenList.size() > parent && !stack.isEmpty())
 						tokenList.get(parent).addChild(node);
 					if (!tokens[i].startsWith("</") && !tokens[i].trim().endsWith("/>") 
-							&& !tokens[i].startsWith("<hr") && !tokens[i].startsWith("<br") 
-							&& !tokens[i].startsWith("<meta"))
+							&& !this.ignoreParentingTags.contains(node.getShortTag().toLowerCase()))
 						stack.add(node);
 					else
 						node.setEndNo(id-1);
@@ -335,46 +351,10 @@ public class Parser
 					if (logger.isDebugEnabled())
 						logger.debug("\tadded Tag: "+tokens[i]);
 				}
-				
-				if (childEndTag && tokens[i].startsWith("</") && !stack.isEmpty())
-				{
-					stack.peek().setEndNo(id-1);
-					if (checkElementsOnStack(node, stack, tokenList, childEndTag))
-						id--;
-				}
-		
+					
 				// collect meta-data
-				
-				if (tag.getHTML().equals("<title>"))
-					isTitle = true;
-				else if (tag.getHTML().equals("</title>"))
-					isTitle = false;
-				
-				if (tag.getHTML().contains("byline"))
-				{
-					isByline = true;
-					byline = tag.getHTML();
-					bylineTag = tag.getShortTag();
-				}
-				
-				if ((tag.isOpeningTag() && tag.getHTML().contains("date")))
-					isDate = true;
-				else if (isDate)
-					isDate = false;
-				if ((tag.isOpeningTag() && tag.getHTML().contains("\"authorName\"")))
-				{
-					authors.add("");
-					isAuthorName = true;
-				}
-				else if (tag.isOpeningTag() && tag.getHTML().contains("\"author\""))
-				{
-					authors.add("");
-					isAuthor = true;
-				}
-				else if (isAuthorName)
-					isAuthorName = false;
-				else if (isAuthor)
-					isAuthor = false;
+				tag.setLevel(node.getLevel());
+				metaData.checkTag(tag);
 				
 				// one-part tag found: <i>
 				if (tag.getHTML().endsWith(">"))
@@ -388,51 +368,13 @@ public class Parser
 				{
 					if (logger.isDebugEnabled())
 						logger.debug("\t   appending to Tag: "+tag.getHTML()+" + "+tokens[i]);
-					tag.append(tokens[i]);
-					
-					// extract meta-data
-					
-					if (tokens[i].contains("date"))
-						isDate = true;
-					if (tokens[i].contains("\"authorName\""))
-					{
-						authorName.add("");
-						isAuthorName = true;
-					}
-					else if (tokens[i].contains("\"author\""))
-					{
-						authors.add("");
-						isAuthor = true;
-					}
-					else if (tag.getHTML().contains("byline"))
-						isByline = true;
+					tag.append(tokens[i]);					
 				}
 				
-				if (tag.getHTML().equals("</title>"))
-					isTitle = false;
-				// set flag for date-values to false if a tag is closed while the 
-				// flag is set to open
-				if (!tag.isOpeningTag() && isDate)
-					isDate = false;
-				if (!tag.isOpeningTag() && isAuthorName)
-					isAuthorName = false;
-				if (!tag.isOpeningTag() && isAuthor)
-					isAuthor = false;
-				if (!tag.isOpeningTag()  && isByline)
-				{
-					byline += tag.getHTML();
-					if (tag.getShortTag().equals(bylineTag))
-						isByline = false;
-				}
+				metaData.checkTag(tag, tokens[i]);
 				
 				stack.peek().setHTML(tag.getHTML());
-				
-				if (ParseTarget.DOM.equals(target))
-				{	
-					if (tag.getHTML().endsWith("/>"))
-						stack.pop();
-				}
-				
+								
 				if (tag.isValid())
 					tag = null;
 			}
@@ -440,18 +382,7 @@ public class Parser
 			{	
 				// we found a word - format it
 				if (!tokens[i].trim().equals(""))
-				{
-					if (isTitle)
-						title += " "+tokens[i];
-					if (isDate)
-						date += " "+tokens[i];
-					if (isAuthorName)
-						authorName.set(authorName.size()-1, (authorName.get(authorName.size()-1)+" "+tokens[i]).trim());
-					if (isAuthor)
-						authors.set(authors.size()-1, (authors.get(authors.size()-1)+" "+tokens[i]).trim());
-					if (isByline)
-						byline += " "+tokens[i];
-					
+				{					
 					String word = tokens[i].trim();
 					// 'U.S.' will convert to 'U S'
 					word = word.replaceAll(" ", "");
@@ -470,6 +401,7 @@ public class Parser
 						lastWord.setText(null);
 					}
 					numWords = this.addWord(word, id, stack, tokenList, lastWord, formatText);
+					metaData.checkToken(lastWord, this.combineWords);
 					id += numWords;
 					if (!this.combineWords)
 						lastWord = null;
@@ -477,15 +409,16 @@ public class Parser
 			}
 		}
 		
-		result.setTitle(title);
+		result.setTitle(metaData.getTitle());
 		result.setParsedTokens(tokenList);
-		result.setAuthorName(authorName);
-		result.setAuthors(authors);
-		result.setPublishDate(date);
-		result.setByline(byline);
+		result.setAuthorName(metaData.getAuthorNames());
+		result.setAuthors(metaData.getAuthor());
+		result.setPublishDate(metaData.getDate());
+		result.setByline(metaData.getByline());
 		result.setNumWords(numWords);
 		result.setNumTokens(tokenList.size());
 		result.setNumTags(id);
+		
 		return result;
 	}
 
@@ -517,43 +450,43 @@ public class Parser
 		int ret = 0;
 		if (!this.combineWords || (this.combineWords && (lastWord == null || lastWord.getText()==null) ))
 		{
-			int no;
+			int parent;
 			if (!stack.isEmpty() && stack.peek() != null)
 			{
-				no = stack.peek().getNo();
+				parent = stack.peek().getNo();
 				int level = stack.size()-1;
 				if (stack.peek().getChildren() != null)
 				{
 					if (lastWord == null)
-						lastWord = new Word(id, word, level, no, stack.peek().getChildren().length);
+						lastWord = new Word(id, word, parent, stack.peek().getChildren().length, level);
 					else
 					{
 						lastWord.setNo(id);
 						lastWord.setName(word);
 						lastWord.setText(word);
 						lastWord.setLevel(level);
-						lastWord.setParentNo(no);
+						lastWord.setParentNo(parent);
 						lastWord.setSibNo(stack.peek().getChildren().length);
 					}
 				}
 				else
 				{
 					if (lastWord == null)
-						lastWord = new Word(id, word, level, no, 0);
+						lastWord = new Word(id, word, parent, 0, level);
 					else
 					{
 						lastWord.setNo(id);
 						lastWord.setName(word);
 						lastWord.setText(word);
 						lastWord.setLevel(level);
-						lastWord.setParentNo(no);
+						lastWord.setParentNo(parent);
 						lastWord.setSibNo(0);
 					}
 				}
 			}
 			else
 			{
-				no = 0;
+				parent = 0;
 				if (lastWord == null)
 					lastWord = new Word(id, word, 0, 0, 0);
 				else
@@ -568,8 +501,8 @@ public class Parser
 			}
 			
 			// add child to the parent
-			if (tokenList.size() > no)
-				tokenList.get(no).addChild(lastWord);
+			if (tokenList.size() > parent)
+				tokenList.get(parent).addChild(lastWord);
 			tokenList.add(lastWord);
 							
 			ret = 1;
@@ -582,34 +515,6 @@ public class Parser
 		lastWord.setName(lastWord.getText());
 		
 		return ret;
-	}
-	
-	/**
-	 * <p>Checks if a HTML node has a corresponding parent on the stack. If so
-	 * nodes are taken from the stack until the parent is reached. The parent is
-	 * now the last entry on the stack.</p>
-	 * 
-	 * @param node The String representation of the end tag node to check if a 
-	 *             corresponding parent is on the stack
-	 * @param stack The stack that includes all ancestors
-	 * @return Returns true if the element is a wild node and has no ancestor 
-	 *         on the stack, false otherwise
-	 */
-	protected boolean checkElementsOnStack(String node, Stack<Token> stack)
-	{
-		for (int i=stack.size()-1; i>=0; i--)
-		{
-			Token curNode = stack.elementAt(i);
-			if (curNode.getName().startsWith(node.replace("/", "")))
-			{
-				// match found
-				int numPopRequired = stack.size()-1 - curNode.getLevel();
-				for (int j=0; j<numPopRequired; j++)
-					stack.pop();
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	/**
@@ -630,42 +535,23 @@ public class Parser
 	 * @return Returns true if the element is a wild node and has no ancestor 
 	 *         on the stack, false otherwise
 	 */
-	protected boolean checkElementsOnStack(Tag node, Stack<Token> stack, List<Token> tokenList, boolean childEndTag)
+	protected boolean checkElementsOnStack(Tag node, Stack<Token> stack, List<Token> tokenList)
 	{
-		for (int i=stack.size()-1; i>=0; i--)
+		// first element on the stack is the root-element
+		for (int i=stack.size()-1; i>0; i--)
 		{
 			Token curNode = stack.elementAt(i);
 			if (curNode.getName().equals(node.getName().replace("/", "")))
 			{
 				// match found
-				int numPopRequired;
-				if (childEndTag)
-					numPopRequired = node.getLevel() - curNode.getLevel();
-				else
-					numPopRequired = node.getLevel()+1 - curNode.getLevel();
+				int numPopRequired = node.getLevel()+1 - curNode.getLevel();
 				for (int j=0; j<numPopRequired; j++)
 					stack.pop();
 				return false;
 			}
 		}
-		// node was not found, remove it from the tokenList and its parent
-		if (tokenList.get(tokenList.size()-1).equals(node))
-		{
-			// delete the reference in the parent tag
-			tokenList.get(node.getParentNo()).removeChild(node);
-			// remove the node from the tokenList
-			tokenList.remove(tokenList.size()-1);
-			System.err.println("WARNING: Removing "+node.getName()+" from the tokenList");
-			return true;
-		}
-		else if (!childEndTag && !node.getName().endsWith("/>"))
-		{
-			// delete the reference in the parent tag
-			tokenList.get(node.getParentNo()).removeChild(node);
-			System.err.println("WARNING: Removing "+node.getName()+" from the tokenList");
-			return true;
-		}
-		return false;
+		System.err.println("WARNING: Ignoring "+node.getNo()+" "+node.getName());
+		return true;
 	}
 		
 	/**

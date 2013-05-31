@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import at.rovo.UrlReader;
 import at.rovo.classifier.Classifier;
 import at.rovo.parser.ParseResult;
-import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Token;
 import at.rovo.parser.Word;
@@ -65,7 +64,6 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		super(trainForm);
 		
 		this.parser = new Parser();
-		this.parser.setParseTarget(ParseTarget.NONE);
 		this.parser.cleanFully(true);
 	}
 	

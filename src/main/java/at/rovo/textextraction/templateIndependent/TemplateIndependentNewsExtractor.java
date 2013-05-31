@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import at.rovo.UrlReader;
 import at.rovo.parser.ParseResult;
-import at.rovo.parser.ParseTarget;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -77,8 +76,6 @@ public class TemplateIndependentNewsExtractor
 			html = url;
 		
 		Parser parser = new Parser();
-		parser.setParseTarget(ParseTarget.NONE);
-		parser.childEndTag(true);
 		parser.cleanFully(true);
 		
 		ParseResult result = parser.tokenize(html, false);

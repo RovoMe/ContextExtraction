@@ -22,7 +22,7 @@ public class Word extends Token
 	
 	public Word(int id, String name, int parent, int numSiblings, int level)
 	{
-		super(id, name, name, parent, numSiblings, level);
+		super(id, name, name, level, parent, numSiblings);
 	}
 	
 	public Word(Token node)
