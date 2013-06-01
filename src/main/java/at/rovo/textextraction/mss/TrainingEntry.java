@@ -367,9 +367,12 @@ public class TrainingEntry
 			if (i >= 2 && logger.isDebugEnabled())
 			{
 				if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
-					logger.debug("examin: '"+token1.getText()+"' '"+token2.getText()+"' '"+token.getText()+"'");
+					logger.debug("examin: '"+(token1.getText() != null ? token1.getText() : token1.getHTML()) 
+							+"' '"+(token2.getText() != null ? token2.getText() : token2.getHTML()) 
+							+"' '"+(token.getText() != null ? token.getText() : token.getHTML()) +"'");
 				else if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
-					logger.debug("examin: '"+token2.getText()+"' '"+token.getText()+"'");
+					logger.debug("examin: '"+(token2.getText() != null ? token2.getText() : token2.getHTML()) 
+							+"' '"+(token.getText() != null ? token.getText() : token.getHTML()) +"'");
 			}
 			
 			if (this.useMostRecentUnclosedTagFeature == true)
@@ -479,13 +482,13 @@ public class TrainingEntry
 		{
 			if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
 			{
-				String t1 = tokens.get(i-2).getText();
+				String t1 = (tokens.get(i-2).getText() != null ? tokens.get(i-2).getText() : tokens.get(i-2).getHTML());
 				if (tokens.get(i-2) instanceof Word)
 					t1 = PorterStemmer.stem(t1);
-				String t2 = tokens.get(i-1).getText();
+				String t2 = (tokens.get(i-1).getText() != null ? tokens.get(i-1).getText() : tokens.get(i-1).getHTML());
 				if (tokens.get(i-1) instanceof Word)
 					t2 = PorterStemmer.stem(t2);
-				String t3 = tokens.get(i).getText();
+				String t3 = (tokens.get(i).getText() != null ? tokens.get(i).getText() : tokens.get(i).getHTML());
 				if (tokens.get(i) instanceof Word)
 					t3 = PorterStemmer.stem(t3);
 				
@@ -496,10 +499,10 @@ public class TrainingEntry
 			}
 			else if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
 			{
-				String t2 = tokens.get(i-1).getText();
+				String t2 = (tokens.get(i-1).getText() != null ? tokens.get(i-1).getText() : tokens.get(i-1).getHTML());
 				if (tokens.get(i-1) instanceof Word)
 					t2 = PorterStemmer.stem(t2);
-				String t3 = tokens.get(i).getText();
+				String t3 = (tokens.get(i).getText() != null ? tokens.get(i).getText() : tokens.get(i).getHTML());
 				if (tokens.get(i) instanceof Word)
 					t3 = PorterStemmer.stem(t3);
 				
@@ -509,7 +512,7 @@ public class TrainingEntry
 			}
 			else
 			{
-				String t3 = tokens.get(i).getText();
+				String t3 = (tokens.get(i).getText() != null ? tokens.get(i).getText() : tokens.get(i).getHTML());
 				if (tokens.get(i) instanceof Word)
 					t3 = PorterStemmer.stem(t3);
 				
@@ -546,8 +549,8 @@ public class TrainingEntry
 			if (tag.isOpeningTag())
 			{
 				if (logger.isDebugEnabled())
-					logger.debug("   New tag found - pushing on the stack: "+tag.getText());
-				mostRecentUnclosedTag.push(tag.getText());
+					logger.debug("   New tag found - pushing on the stack: "+tag.getHTML());
+				mostRecentUnclosedTag.push(tag.getHTML());
 			}
 			if (!tag.isComment())
 				this.addTagToCommonTags(this.commonTags, tag);
@@ -558,7 +561,7 @@ public class TrainingEntry
 			if (tag.isComment() || tag.isInlineCloseingTag())
 			{
 				if (logger.isDebugEnabled())
-					logger.debug("Popping "+tag.getText()+" off the stack!");
+					logger.debug("Popping "+tag.getHTML()+" off the stack!");
 				mostRecentUnclosedTag.pop();
 			}
 			// a closing tag was found
@@ -581,13 +584,13 @@ public class TrainingEntry
 					if (e.equals(tag.getShortTag()))
 					{
 						if (logger.isDebugEnabled())
-							logger.debug("   Found matching tag for "+tag.getText()+" in "+element);
+							logger.debug("   Found matching tag for "+tag.getHTML()+" in "+element);
 						done = true;
 					}
 					else
 					{
 						if (logger.isDebugEnabled())
-							logger.debug("   No match for "+tag.getText()+" and "+element+"! Pushing it on the backup stack!");
+							logger.debug("   No match for "+tag.getHTML()+" and "+element+"! Pushing it on the backup stack!");
 						backup.push(element);
 					}
 				}
@@ -627,24 +630,24 @@ public class TrainingEntry
 	 */
 	private void buildMostRecentUnclosedTagStack_FixErrors(Token token1, Token token2, Token token3, Stack<String> mostRecentUnclosedTag, List<String> trigrams)
 	{		
-		if (token3.getText().toLowerCase().equals("<br>"))
+		if (token3.getHTML() != null && token3.getHTML().toLowerCase().equals("<br>"))
 		{
 			if (logger.isDebugEnabled())
-				logger.debug("Found "+token3.getText()+": removed "+mostRecentUnclosedTag.pop()+" from the stack - mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
+				logger.debug("Found "+token3.getHTML()+": removed "+mostRecentUnclosedTag.pop()+" from the stack - mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
 			this.train(token1, token2, token3, mostRecentUnclosedTag, trigrams);
 			return;
 		}
 		// don't pop or push </br> tags on or from the stack
-		if (token3.getText().toLowerCase().startsWith("</br"))
+		if (token3.getHTML() != null && token3.getHTML().toLowerCase().startsWith("</br"))
 		{
 			if (logger.isDebugEnabled())
-				logger.debug("Found "+token3.getText()+": leave it on the stack - mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
+				logger.debug("Found "+token3.getHTML()+": leave it on the stack - mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
 			this.train(token1, token2, token3, mostRecentUnclosedTag, trigrams);
 			return;
 		}
 		
 		// seldom lonely </noscript> tags appear - remove them
-		if (token3.getText().toLowerCase().equals("</noscript>") && !mostRecentUnclosedTag.peek().toLowerCase().equals("<noscript>"))
+		if (token3.getHTML() != null && token3.getHTML().toLowerCase().equals("</noscript>") && !mostRecentUnclosedTag.peek().toLowerCase().equals("<noscript>"))
 		{
 			if (logger.isWarnEnabled())
 				logger.warn("Found lonly </noscript> tag - ignore it! mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
@@ -652,7 +655,7 @@ public class TrainingEntry
 			return;
 		}
 		// lonly </p> tag found
-		if (token3.getText().toLowerCase().equals("</p>") && !mostRecentUnclosedTag.peek().toLowerCase().startsWith("<p"))
+		if (token3.getHTML() != null && token3.getHTML().toLowerCase().equals("</p>") && !mostRecentUnclosedTag.peek().toLowerCase().startsWith("<p"))
 		{
 			if (logger.isWarnEnabled())
 				logger.warn("Found lonly </p> tag - mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek()+" leave stack as it is");
@@ -661,39 +664,39 @@ public class TrainingEntry
 		}
 		
 		// inline closing tag found - pop the open tag from the stack
-		if (token3.getText().endsWith("/>") || 
+		if (token3.getHTML() != null && (token3.getHTML().endsWith("/>") || 
 			(mostRecentUnclosedTag.peek().endsWith(">") &&
 			// catch <img ...> tags that do not end with <img ... />
 			(mostRecentUnclosedTag.peek().toLowerCase().startsWith("<img") ||
 			// catch <input ...> tags
 			mostRecentUnclosedTag.peek().toLowerCase().startsWith("<input") ||
 			// catch <meta ...> tags
-			mostRecentUnclosedTag.peek().toLowerCase().startsWith("<meta"))))
+			mostRecentUnclosedTag.peek().toLowerCase().startsWith("<meta")))))
 		{
 			// tag is now closed
 			if (logger.isDebugEnabled())
-				logger.debug("Got "+token3.getText()+" - popping "+mostRecentUnclosedTag.pop()+" from the stack! New mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
+				logger.debug("Got "+token3.getHTML()+" - popping "+mostRecentUnclosedTag.pop()+" from the stack! New mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
 			// use recent unclosed tag for training
 			this.train(token1, token2, token3, mostRecentUnclosedTag, trigrams);
 			return;
 		}
 		
 		// End of comment found - remove the comment from the stack, use the unclosed tag below for training
-		if (token3.getText().endsWith("-->") && mostRecentUnclosedTag.peek().startsWith("<!--") ||
-				(token3.getText().endsWith("]]>") && mostRecentUnclosedTag.peek().toLowerCase().startsWith("<![cdata[")))
+		if (token3.getHTML() != null && (token3.getHTML().endsWith("-->") && mostRecentUnclosedTag.peek().startsWith("<!--") ||
+				(token3.getHTML().endsWith("]]>") && mostRecentUnclosedTag.peek().toLowerCase().startsWith("<![cdata["))))
 		{
 			if (logger.isDebugEnabled())
-				logger.debug("Got "+token3.getText()+" - popping "+mostRecentUnclosedTag.pop()+" from the stack! New mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
+				logger.debug("Got "+token3.getHTML()+" - popping "+mostRecentUnclosedTag.pop()+" from the stack! New mostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
 			this.train(token1, token2, token3, mostRecentUnclosedTag, trigrams);
 			return;
 		}
 
 		// closing tag found - pop the tag from the stack and compare if both relate to
 		// the same tag - if not raise an exception as something went wrong
-		if (token3.getText().startsWith("</"))
+		if (token3.getHTML() != null && token3.getHTML().startsWith("</"))
 		{
 			String tag = mostRecentUnclosedTag.pop();
-			String closingTagName = token3.getText().replaceAll("</(.+?)>", "$1");
+			String closingTagName = token3.getHTML().replaceAll("</(.+?)>", "$1");
 			String tagName = tag.substring(1, tag.indexOf(" ") > -1 ? tag.indexOf(" ") : tag.indexOf(">"));
 			if (!closingTagName.equals(tagName))
 			{
@@ -736,7 +739,7 @@ public class TrainingEntry
 					mostRecentUnclosedTag.push(tag);
 					if (logger.isErrorEnabled())
 						logger.error("Starting and closing tag do not match! " +
-							"\n\tFound opening tag: "+tagName+" ("+tag+") and closing tag: "+closingTagName +" ("+token3.getText()+")" +
+							"\n\tFound opening tag: "+tagName+" ("+tag+") and closing tag: "+closingTagName +" ("+token3.getHTML()+")" +
 									"\n\tmostRecentUnclosedTag: "+mostRecentUnclosedTag.peek());
 				}
 			}
@@ -772,18 +775,21 @@ public class TrainingEntry
 		else if (mostRecentUnclosedTag != null && mostRecentUnclosedTag.isEmpty())
 		{
 			if (logger.isWarnEnabled())
-				logger.warn("Empty stack for trigram: '"+t1.getText()+" "+t2.getText()+" "+t3.getText()+"' source: "+this.getUrl());
+				logger.warn("Empty stack for trigram: '"+(t1.getText() != null ? t1.getText() : t1.getHTML()) 
+						+" "+(t2.getText() != null ? t2.getText() : t2.getHTML()) 
+						+" "+(t3.getText() != null ? t3.getText() : t3.getHTML()) 
+						+"' source: "+this.getUrl());
 			return;
 		}
 
 		// stem words
-		String _t1 = t1.getText();
+		String _t1 = (t1.getText() != null ? t1.getText() : t1.getHTML());
 		if (t1 instanceof Word)
 			_t1 = Parser.formatText(_t1);
-		String _t2 = t2.getText();
+		String _t2 = (t2.getText() != null ? t2.getText() : t2.getHTML());
 		if (t2 instanceof Word)
 			_t2 = Parser.formatText(_t2);
-		String _t3 = t3.getText();
+		String _t3 = (t3.getText() != null ? t3.getText() : t3.getHTML());
 		if (t3 instanceof Word)
 			_t3 = Parser.formatText(_t3);
 		

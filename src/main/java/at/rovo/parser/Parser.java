@@ -429,15 +429,15 @@ public class Parser
 		if (formatText)
 			word = formatText(word);
 		
-		if ((word.contains("/") && !word.startsWith("http://")) 
-				|| word.contains("-"))
-		{
-			for (String w : word.split("[/|-]"))
-			{
-				numWords += this.addWord(w, id++,  stack,  tokenList, lastWord);
-			}
-		}
-		else
+//		if ((word.contains("/") && !word.startsWith("http://")) 
+//				|| word.contains("-"))
+//		{
+//			for (String w : word.split("[/|-]"))
+//			{
+//				numWords += this.addWord(w, id++,  stack,  tokenList, lastWord);
+//			}
+//		}
+//		else
 		{
 			numWords += this.addWord(word, id,  stack,  tokenList, lastWord);
 		}
@@ -578,7 +578,7 @@ public class Parser
 		// remove multiplicity
 		text = text.replaceAll("'s", "");
 		// replace all non-word characters
-		text = text.replaceAll("[^a-zA-Z0-9]", "");
+		text = text.replaceAll("[^a-zA-Z0-9\\-]", "");
 		// Apply Porter's stemming algorithm
 		text = PorterStemmer.stem(text.trim());
 		return text;

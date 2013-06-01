@@ -284,12 +284,12 @@ public class Main
 		// classifier that tries to extract the main content of the specific page
 		// as the classifier is rather train on general features, results are sometimes
 		// not that accurate
-//		main.predictContent(urls);
+		main.predictContent(urls);
 		
 		// preferred method for SemiSupervised approach as each page creates its own
 		// classifier which is trained on site-specific features and therefore returns
 		// more accurate results than the more general approach
-		for (String url : urls)
-			main.predictContent(url);
+//		for (String url : urls)
+//			main.predictContent(url);
 	}
 }

@@ -184,14 +184,20 @@ public class ParsingMetaData
 		if (isAuthorName)
 		{
 			if (foundLevel+1 == word.getLevel())
-				authorName.set(authorName.size()-1, (authorName.get(authorName.size()-1)+" "+word.getText()).trim());
+				if (!combineWords)
+					authorName.set(authorName.size()-1, (authorName.get(authorName.size()-1)+" "+word.getText()).trim());
+				else
+					authors.set(authors.size()-1, word.getText());
 			else
 				this.clear();
 		}
 		if (isAuthor)
 		{
 			if (foundLevel+1 == word.getLevel())
-				authors.set(authors.size()-1, (authors.get(authors.size()-1)+" "+word.getText()).trim());
+				if (!combineWords)
+					authors.set(authors.size()-1, (authors.get(authors.size()-1)+" "+word.getText()).trim());
+				else
+					authors.set(authors.size()-1, word.getText());
 			else
 				this.clear();
 		}

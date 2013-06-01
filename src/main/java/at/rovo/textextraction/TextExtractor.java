@@ -539,7 +539,7 @@ public abstract class TextExtractor
 						!tag.getShortTag().equals("ul") && !tag.getShortTag().equals("span") && !tag.getShortTag().matches("h[1-6]") &&
 						!tag.getShortTag().equals("article") && !tag.getShortTag().equals("abbr") && !tag.getShortTag().equals("em"))
 				{
-					builder.append(t.getText());
+					builder.append(t.getHTML());
 					newLine = false;
 				}
 				// insert a new line segment for certain HTML tags

@@ -288,12 +288,12 @@
                     <arguments>        
                         <!--  TEXT EXTRACTION METHODS -->
                     	<!-- <argument>extractionMethod=simple</argument> -->
-                    	<argument>extractionMethod=supervised</argument>
-                    	<!-- <argument>extractionMethod=semiSupervised</argument> -->
+                    	<!-- <argument>extractionMethod=supervised</argument> -->
+                    	<argument>extractionMethod=semiSupervised</argument>
                                 	
                     	<!-- TRAINING STRATEGIES -->                   	
-                     	<argument>trainingStrategy=TRIGRAM</argument>
-                    	<!-- <argument>trainingStrategy=BIGRAM</argument> -->
+                     	<!-- <argument>trainingStrategy=TRIGRAM</argument> -->
+                    	<argument>trainingStrategy=BIGRAM</argument>
                     	<!-- <argument>trainingStrategy=UNIGRAM</argument> -->
                     	<!-- <argument>trainingStrategy=DOUBLE_UNIGRAM</argument> -->
                     	<!-- <argument>trainingStrategy=TRIPLE_UNIGRAM</argument> -->
@@ -304,7 +304,7 @@
                     	<!-- <argument>trainingSource=BOTH</argument> -->
                     	
                     	<!-- SAMPLE SIZE PER SOURCE -->
-                    	<argument>trainingSizePerSource=15000</argument>
+                    	<argument>trainingSizePerSource=24000</argument>
                     	
 						<!-- <argument>extract=http://www.independent.co.uk/news/uk/politics/deficit-reduction-blow-as-figures-reveal-government-borrowed-3-billion-more-than-expected-last-month-8069220.html</argument> -->
 						<!-- <argument>extract=http://www.independent.co.uk/sport/olympics/news/ioc-president-jacques-rogge-says-usain-bolt-is-not-a-legend-yet-8030630.html</argument> -->
@@ -318,11 +318,11 @@
 						<!-- <argument>extract=http://www.foxnews.com/politics/2012/08/13/in-iowa-face-off-ryan-hammers-jobs-message-as-obama-employs-drought-politics/</argument> -->
 						<!-- <argument>extract=http://latimesblogs.latimes.com/world_now/2012/08/norway-killer-could-have-been-stopped-sooner-report.html</argument> -->
 						<!-- <argument>extract=http://www.latimes.com/business/technology/la-fi-tn-curiousity-mars-panorama-20120813,0,956619.story</argument> -->
-						<!-- <argument>extract=http://www.bbc.co.uk/news/world-europe-19241327</argument> -->
-						<!-- <argument>extract=http://news.cnet.com/8301-17852_3-57492229-71/obama-to-nasa-i-want-to-know-about-martians-right-away/</argument> -->
-						<!-- <argument>extract=http://www.washingtonpost.com/business/technology/google-to-make-deep-cuts-at-motorola/2012/08/13/501f20b2-e53b-11e1-8f62-58260e3940a0_story.html?hpid=z3</argument> -->
-						<!-- <argument>extract=http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html</argument> -->
-						<!-- <argument>extract=http://www.usatoday.com/news/politics/story/2012-08-13/ryan-romney-poll/57038326/1</argument> -->
+						<argument>extract=http://www.bbc.co.uk/news/world-europe-19241327</argument>
+						<argument>extract=http://news.cnet.com/8301-17852_3-57492229-71/obama-to-nasa-i-want-to-know-about-martians-right-away/</argument>
+						<argument>extract=http://www.washingtonpost.com/business/technology/google-to-make-deep-cuts-at-motorola/2012/08/13/501f20b2-e53b-11e1-8f62-58260e3940a0_story.html?hpid=z3</argument>
+						<argument>extract=http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html</argument>
+						<argument>extract=http://www.usatoday.com/news/politics/story/2012-08-13/ryan-romney-poll/57038326/1</argument>
 						<argument>extract=http://www.nytimes.com/2012/09/13/world/middleeast/us-envoy-to-libya-is-reported-killed.html</argument>
 						<!-- non-news -->
 						<!-- <argument>extract=http://www.englisharticles.info/2012/07/07/how-effective-is-advertising/</argument> -->

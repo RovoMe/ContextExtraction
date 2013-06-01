@@ -89,6 +89,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		
 		this.parser = new Parser();
 		this.parser.cleanFully(true);
+		this.parser.cleanAnchors();
 	}
 	
 	/**
@@ -285,6 +286,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 					maxSSs.set(j, maxSS);
 					predictedText = this.getPredictedContent(L.get(j), maxSS, start);
 					predictedTexts.set(j, predictedText);
+					
+					logger.info("predicted Text: \n"+predictedText);
 					if (logger.isDebugEnabled())
 					{
 						logger.debug("predicted Text: \n"+predictedText);
@@ -358,17 +361,53 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		if (start < 0)
 			start = 0;
 		for (int i=start; i<j; i++)
-			prob1 *= (1-this.classifier.getWeightedProbability("in", html.get(i).getText()));
+		{
+			if (html.get(i).getText() != null)
+//				prob1 *= (1-this.classifier.getWeightedProbability("in", html.get(i).getText()));
+//				prob1 *= (1-this.classifier.getProbability("in", html.get(i).getText()));
+				prob1 *= (1-this.classifier.getProbability_EvenLikelihood("in", html.get(i).getText()));
+			else
+//				prob1 *= (1-this.classifier.getWeightedProbability("in", html.get(i).getHTML()));
+//				prob1 *= (1-this.classifier.getProbability("in", html.get(i).getHTML()));
+				prob1 *= (1-this.classifier.getProbability_EvenLikelihood("in", html.get(i).getHTML()));
+		}
 		for (int i=j; i<=j+this.windowRadius-1; i++)
-			prob2 *= this.classifier.getWeightedProbability("in", html.get(i).getText());
+		{
+			if (html.get(i).getText() != null)
+//				prob2 *= this.classifier.getWeightedProbability("in", html.get(i).getText());
+//				prob2 *= this.classifier.getProbability("in", html.get(i).getText());
+				prob2 *= this.classifier.getProbability_EvenLikelihood("in", html.get(i).getText());
+			else
+//				prob2 *= this.classifier.getWeightedProbability("in", html.get(i).getHTML());
+//				prob2 *= this.classifier.getProbability("in", html.get(i).getHTML());
+				prob2 *= this.classifier.getProbability_EvenLikelihood("in", html.get(i).getHTML());
+		}
 		for (int i=k-this.windowRadius+1; i<=k; i++)
-			prob3 *= this.classifier.getWeightedProbability("in", html.get(i).getText());
+		{
+			if (html.get(i).getText() != null)
+//				prob3 *= this.classifier.getWeightedProbability("in", html.get(i).getText());
+//				prob3 *= this.classifier.getProbability("in", html.get(i).getText());
+				prob3 *= this.classifier.getProbability_EvenLikelihood("in", html.get(i).getText());
+			else
+//				prob3 *= this.classifier.getWeightedProbability("in", html.get(i).getHTML());
+//				prob3 *= this.classifier.getProbability("in", html.get(i).getHTML());
+				prob3 *= this.classifier.getProbability_EvenLikelihood("in", html.get(i).getHTML());
+		}
 		// Check that we do not read more tokens than are available
 		int end = k+this.windowRadius;
 		if (end > n)
 			end = n;
 		for (int i=k+1; i<end; i++)
-			prob4 *= (1-this.classifier.getWeightedProbability("in", html.get(i).getText()));
+		{
+			if (html.get(i).getText() != null)
+//				prob4 *= (1-this.classifier.getWeightedProbability("in", html.get(i).getText()));
+//				prob4 *= (1-this.classifier.getProbability("in", html.get(i).getText()));
+				prob4 *= (1-this.classifier.getProbability_EvenLikelihood("in", html.get(i).getText()));
+			else
+//				prob4 *= (1-this.classifier.getWeightedProbability("in", html.get(i).getHTML()));
+//				prob4 *= (1-this.classifier.getProbability("in", html.get(i).getHTML()));
+				prob4 *= (1-this.classifier.getProbability_EvenLikelihood("in", html.get(i).getHTML()));
+		}
 		
 		double v = Math.pow((prob1*prob2*prob3*prob4),(1./n));
 		if (logger.isDebugEnabled())
@@ -426,50 +465,66 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token3)));
+//					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token3)));
+//					logger.debug("pi: "+classifier.getProbability("in", this.getTrigram(token1, token2, token3)));
+					logger.debug("pi: "+classifier.getProbability_EvenLikelihood("in", this.getTrigram(token1, token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getProbability("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getProbability_EvenLikelihood("in", this.getTrigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getBigram(token2, token3)));
+//					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getBigram(token2, token3)));
+//					logger.debug("pi: "+classifier.getProbability("in", this.getBigram(token2, token3)));
+					logger.debug("pi: "+classifier.getProbability_EvenLikelihood("in", this.getBigram(token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getWeightedProbability("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getWeightedProbability("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getProbability("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getProbability_EvenLikelihood("in", this.getBigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getUnigram(token3)));
+//					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getUnigram(token3)));
+//					logger.debug("pi: "+classifier.getProbability("in", this.getUnigram(token3)));
+					logger.debug("pi: "+classifier.getProbability_EvenLikelihood("in", this.getUnigram(token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getWeightedProbability("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getWeightedProbability("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getProbability("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getProbability_EvenLikelihood("in", this.getUnigram(token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
 			{
 				if (logger.isDebugEnabled())
 				{
-					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token3)));
+//					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token3)));
+					logger.debug("pi: "+classifier.getProbability("in", this.getDoubleUnigram(token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getWeightedProbability("in", this.getDoubleUnigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getProbability("in", this.getDoubleUnigram(token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
 			{
 				if (logger.isDebugEnabled())
 				{
+//					logger.debug("pi: "+classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token3)));
 					logger.debug("pi: "+classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)));
 					logger.debug("mh: "+this.calculateImportanceWeighting(featureSet, j, k));
 				}
-				score = (classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+//				score = (classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
+				score = (classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3))-0.5)*(this.calculateImportanceWeighting(featureSet, j, k)*this.c+1.);
 			}
 				
 			if (logger.isDebugEnabled())
-				logger.debug(new DecimalFormat("#0.000").format(score)+" : "+token3.getText());
+				logger.debug(new DecimalFormat("#0.000").format(score)+" : "+(token3.getText() != null ? token3.getText() : token3.getHTML()));
 			scoreList.add(score);
 		}
 		return scoreList;
@@ -488,26 +543,30 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	 */
 	protected Set<List<Token>> buildFeatureSet(List<Token> html, Token token)
 	{
-		Set<List<Token>> trigrams = new LinkedHashSet<List<Token>>();
+		Set<List<Token>> nGrams = new LinkedHashSet<List<Token>>();
 		for (int i=2; i<html.size(); i++)
 		{
 			Token token1 = html.get(i-2);
 			Token token2 = html.get(i-1);
 			Token token3 = html.get(i);
 			token3.setIndex(i);
-			if (token3.getText().equals(token.getText()))
+			if (token3.getText() != null)
 			{
-				List<Token> nGram = new ArrayList<Token>();
-				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
-					nGram.add(token1);
-				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM) || 
-						this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
-					nGram.add(token2);
-				nGram.add(token3);
-				trigrams.add(nGram);
+				if ((token3.getText() != null && token3.getText().equals(token.getText())) ||
+						token3.getHTML() != null && token3.getHTML().equals(token.getHTML()))
+				{
+					List<Token> nGram = new ArrayList<Token>();
+					if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
+						nGram.add(token1);
+					if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM) || 
+							this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
+						nGram.add(token2);
+					nGram.add(token3);
+					nGrams.add(nGram);
+				}
 			}
 		}
-		return trigrams;
+		return nGrams;
 	}
 	
 	/**

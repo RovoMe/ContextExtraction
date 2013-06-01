@@ -64,7 +64,8 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		super(trainForm);
 		
 		this.parser = new Parser();
-		this.parser.cleanFully(true);
+//		this.parser.cleanFully(true);
+//		this.parser.cleanAnchors(true);
 	}
 	
 	/**
@@ -208,12 +209,12 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 			{
 				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
 //					score = classifier.getProbability("in", this.getTrigram(token1, token2, token))-0.5;
-					score = classifier.getProbability_EvenLikelihood("in", this.getTrigram(token1, token2, token))-0.5;
-//					score = classifier.getSmoothedProbability("in", this.getTrigram(token1, token2, token), 1.)-0.5;
+//					score = classifier.getProbability_EvenLikelihood("in", this.getTrigram(token1, token2, token))-0.5;
+					score = classifier.getSmoothedProbability("in", this.getTrigram(token1, token2, token), 1.)-0.5;
 //					score = classifier.getWeightedProbability("in", this.getTrigram(token1, token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
-//					score = classifier.getProbability("in", this.getBigram(token2, token))-0.5;
-					score = classifier.getProbability_EvenLikelihood("in", this.getBigram(token2, token))-0.5;
+					score = classifier.getProbability("in", this.getBigram(token2, token))-0.5;
+//					score = classifier.getProbability_EvenLikelihood("in", this.getBigram(token2, token))-0.5;
 //					score = classifier.getSmoothedProbability("in", this.getBigram(token2, token),1.)-0.5;
 //					score = classifier.getWeightedProbability("in", this.getBigram(token2, token))-0.5;
 				else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
@@ -224,7 +225,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 					score = classifier.getWeightedProbability("in", this.getTripleUnigram(token1, token2, token))-0.5;
 				
 				if (logger.isDebugEnabled())
-					logger.debug((score < 0 ? "": " ")+new DecimalFormat("#0.000").format(score)+" : "+token.getText());
+					logger.debug((score < 0 ? "": " ")+new DecimalFormat("#0.000").format(score)+" : "+(token.getText()!=null ? token.getText() : token.getHTML()));
 				scoreList.add(score);
 			}
 			token1 = token2;
@@ -247,17 +248,17 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		if (t1 instanceof Word)
 			unigram[0] = Parser.formatText(t1.getText());
 		else
-			unigram[0] = t1.getText();
+			unigram[0] = t1.getHTML();
 		
 		if (t2 instanceof Word)
 			unigram[1] = Parser.formatText(t2.getText());
 		else
-			unigram[1] = t2.getText();
+			unigram[1] = t2.getHTML();
 		
 		if (t3 instanceof Word)
 			unigram[2] = Parser.formatText(t3.getText());
 		else
-			unigram[2] = t3.getText();
+			unigram[2] = t3.getHTML();
 		
 		if (logger.isDebugEnabled())
 			logger.debug("Triple-Unigramm: "+unigram);
@@ -277,12 +278,12 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		if (t1 instanceof Word)
 			unigram[0] = Parser.formatText(t1.getText());
 		else
-			unigram[0] = t1.getText();
+			unigram[0] = t1.getHTML();
 		
 		if (t2 instanceof Word)
 			unigram[1] = Parser.formatText(t2.getText());
 		else
-			unigram[1] = t2.getText();
+			unigram[1] = t2.getHTML();
 		
 		if (logger.isDebugEnabled())
 			logger.debug("Double-Unigramm: "+unigram);
@@ -300,7 +301,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		if (t1 instanceof Word)
 			unigram = Parser.formatText(t1.getText());
 		else
-			unigram = t1.getText();
+			unigram = t1.getHTML();
 		
 		if (logger.isDebugEnabled())
 			logger.debug("Unigramm: "+unigram);
@@ -320,12 +321,12 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		if (t1 instanceof Word)
 			bigram = Parser.formatText(t1.getText());
 		else
-			bigram = t1.getText();
+			bigram = t1.getHTML();
 		
 		if (t2 instanceof Word)
 			bigram += " " + Parser.formatText(t2.getText());
 		else
-			bigram += " " + t2.getText();
+			bigram += " " + t2.getHTML();
 		
 		if (logger.isDebugEnabled())
 			logger.debug("Bigramm: "+bigram);
@@ -346,17 +347,17 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		if (t1 instanceof Word)
 			trigram = Parser.formatText(t1.getText());
 		else
-			trigram = t1.getText();
+			trigram = t1.getHTML();
 		
 		if (t2 instanceof Word)
 			trigram += " " + Parser.formatText(t2.getText());
 		else
-			trigram += " " + t2.getText();
+			trigram += " " + t2.getHTML();
 		
 		if (t3 instanceof Word)
 			trigram += " " + Parser.formatText(t3.getText());
 		else
-			trigram += " " + t3.getText();
+			trigram += " " + t3.getHTML();
 		
 		if (logger.isDebugEnabled())
 			logger.debug("Trigramm: "+trigram);
