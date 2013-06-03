@@ -5,6 +5,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import at.rovo.UrlReader;
+import at.rovo.parser.DOMParser;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
@@ -171,6 +172,12 @@ public class TemplateExtraction
 	private List<Token> MMTB(int p)
 	{
 		// safe copy to prevent changes made to children in tm affect children in ta
+		if (this.tm.size() <= p)
+		{
+			int size = this.tm.size();
+			for (int i=0; i <= p-size; i++)
+				this.tm.add(null);
+		}
 		if (this.ta.get(p) instanceof Tag)
 			this.tm.set(p, new Tag(this.ta.get(p)));
 		else
@@ -218,10 +225,8 @@ public class TemplateExtraction
 		{
  			this.MCB(p, matchedMatrix, i-1, j-1);
 			// contains elements from 1st page
-//			Token child = new Token(this.ta.get(p).getChildren()[i-1]); // by Val
-			Token child = this.ta.get(p).getChildren()[i-1];            // by Ref
+			Token child = this.ta.get(p).getChildren()[i-1];            
 			// contains elements from 2nd page
-//			Token comparedNode = new Token(this.tb.get(child.getComparedNodes().peek().getParentNo()));
 			Token comparedNode = this.tb.get(child.getComparedNodes().peek().getParentNo());
 			
 			while (this.ta.get(p).getMatchedNode() != comparedNode)
@@ -245,7 +250,6 @@ public class TemplateExtraction
 					break;
 			}
 //			child.setMatchedNode(child.getComparedNodes().get(j-1));
-//			child.setMatchedNode(new HTMLNode(comparedNode.getChildren()[j-1]));
 			child.setMatchedNode(comparedNode.getChildren()[j-1]);
 			child.setMatchedMatrix(null);
 			if (child.getComparedMatrix().size() > 0)
@@ -370,8 +374,14 @@ public class TemplateExtraction
 	{
 		// remove invalid HTML tags including <#comment>, <style>, <script>, 
 		// <noscript>, <img>, <form>, <input> and <select>
-		UrlReader reader = new UrlReader();
-		String html = reader.readPage(url);
+		String html;
+		if (url.startsWith("http://"))
+		{
+			UrlReader reader = new UrlReader();
+			html = reader.readPage(url);
+		}
+		else
+			html = url;
 		
 		html = html.replaceAll("(?s)<![dD][oO][cC][tT][yY][pP][eE].*?>", "");
 		html = html.replaceAll("(?s)<!--.*?-->", "");
@@ -409,7 +419,7 @@ public class TemplateExtraction
 		// replace multiple whitespace characters with a blank
 		html = html.replaceAll("[\\s]+", " ");
 		
-		Parser parser = new Parser();
+		Parser parser = new DOMParser();
 		parser.cleanFully(true);
 		
 		return parser.tokenize(html, false).getParsedTokens();
@@ -419,12 +429,12 @@ public class TemplateExtraction
 	{
 //		String url1 = "<html><head><title>Testpage 1</title></head><body><p>This is an example text.</p></html>";
 //		String url2 = "<html><head><title>Testpage 2</title></head><body><p>This is a further example text.</p><p>It even contains a sentence more.</p></html>";
-//		String url1 = "<html><head><title>Testpage 1</title></head><body><p>This is an example text, that contains a <a>link</a> which points to nowhere.</p></html>";
-//		String url2 = "<html><head><title>Testpage 2</title></head><body><p>This is a further example text.</p><ul><li>with a intermediary listing</li><li>That contains a <a>link</a> too</li></ul><p>It even contains a sentence more.</p></html>";
-		String url1 = "http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html";
-		String url2 = "http://www.washingtonpost.com/business/economy/obamas-record-on-outsourcing-draws-criticism-from-the-left/2012/07/09/gJQAljJCZW_story.html";
+		String url1 = "<html><head><title>Testpage 1</title></head><body><p>This is an example text, that contains a <a>link</a> which points to nowhere.</p></html>";
+		String url2 = "<html><head><title>Testpage 2</title></head><body><p>This is a further example text.</p><ul><li>with an intermediary listing</li><li>That contains a <a>link</a> too</li></ul><p>It even contains a sentence more.</p></html>";
+//		String url1 = "http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html";
+//		String url2 = "http://www.washingtonpost.com/business/economy/obamas-record-on-outsourcing-draws-criticism-from-the-left/2012/07/09/gJQAljJCZW_story.html";
 		TemplateExtraction te = new TemplateExtraction();
 		Deque<Token> template = te.TG(url1, url2);
-		te.NCE(template, te.buildDOMTree(url2).get(0));
+		te.NCE(template, te.buildDOMTree(url1).get(0));
 	}
 }
