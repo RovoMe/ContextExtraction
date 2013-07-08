@@ -8,7 +8,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import at.rovo.UrlReader;
+import at.rovo.common.UrlReader;
 import at.rovo.parser.ParseResult;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
@@ -76,7 +76,6 @@ public class TemplateIndependentNewsExtractor
 			html = url;
 		
 		Parser parser = new Parser();
-		parser.cleanFully(true);
 		
 		ParseResult result = parser.tokenize(html, false);
 		List<Token> tokens = result.getParsedTokens();
@@ -157,11 +156,14 @@ public class TemplateIndependentNewsExtractor
 	}
 	
 	/**
-	 * <p>Generates a list of word-sequences from HTML and word-tokens by 
-	 * filtering out all tokens that are not words.</p>
+	 * <p>
+	 * Generates a list of word-sequences from HTML and word-tokens by filtering
+	 * out all tokens that are not words.
+	 * </p>
 	 * 
-	 * @param tokens The tokens as provided by the Parser after tokenizing 
-	 *               a HTML page
+	 * @param tokens
+	 *            The tokens as provided by the Parser after tokenizing a HTML
+	 *            page
 	 * @return A list of extracted word-sequences.
 	 */
 	private List<String> generateSequenceList(List<Token> tokens)
@@ -245,14 +247,18 @@ public class TemplateIndependentNewsExtractor
 	}
 	
 	/**
-	 * <p>Estimates the content score of the word sequence given the segment s.
+	 * <p>
+	 * Estimates the content score of the word sequence given the segment s.
 	 * </p>
-	 * <p>A segment that contains rich stopwords is highly possible to be the 
-	 * content text. A probability framework based on stopword language model is 
-	 * used to detect such candidates.</p>
+	 * <p>
+	 * A segment that contains rich stopwords is highly possible to be the
+	 * content text. A probability framework based on stopword language model is
+	 * used to detect such candidates.
+	 * </p>
 	 * 
-	 * @param s The segment <em>s</em> containing the words to estimate the 
-	 *          score for
+	 * @param s
+	 *            The segment <em>s</em> containing the words to estimate the
+	 *            score for
 	 * @return The content score of the segment
 	 */
 	private double WS(String s)
@@ -296,11 +302,15 @@ public class TemplateIndependentNewsExtractor
 	}
 	
 	/**
-	 * <p>Calculates the frequency of the word <em>w</em> of being in the 
-	 * sequence <em>s</em>.</p>
+	 * <p>
+	 * Calculates the frequency of the word <em>w</em> of being in the sequence
+	 * <em>s</em>.
+	 * </p>
 	 * 
-	 * @param w The word whose frequency should be calculated for
-	 * @param s The sequence containing all words
+	 * @param w
+	 *            The word whose frequency should be calculated for
+	 * @param s
+	 *            The sequence containing all words
 	 * @return The frequency of the word inside the sequence
 	 */
 	private int getWordFrequency(String w, String s, Hashtable<String, Integer> table)
@@ -322,9 +332,12 @@ public class TemplateIndependentNewsExtractor
 	}
 	
 	/**
-	 * <p>Estimates a link panelization score for the given segment s.</p>
+	 * <p>
+	 * Estimates a link panelization score for the given segment s.
+	 * </p>
 	 * 
-	 * @param s The segment <em>s</em> containing words and links
+	 * @param s
+	 *            The segment <em>s</em> containing words and links
 	 * @return The link panelization score for the given segment
 	 */
 	private double LS(String s)
@@ -341,10 +354,13 @@ public class TemplateIndependentNewsExtractor
 	}
 	
 	/**
-	 * <p>Counts the words inside link-tag-pairs (&lt;a href="..">...&lt;/a>).</p>
+	 * <p>
+	 * Counts the words inside link-tag-pairs (&lt;a href="..">...&lt;/a>).
+	 * </p>
 	 * 
-	 * @param s The segment containing text and links
-	 * @return The number of words inside a link-tag-pair 
+	 * @param s
+	 *            The segment containing text and links
+	 * @return The number of words inside a link-tag-pair
 	 */
 	private int LW(String s)
 	{
@@ -359,9 +375,12 @@ public class TemplateIndependentNewsExtractor
 	}
 	
 	/**
-	 * <p>Measures the number of links that contain at least one stopword.</p>
+	 * <p>
+	 * Measures the number of links that contain at least one stopword.
+	 * </p>
 	 * 
-	 * @param s The segment containing text and links
+	 * @param s
+	 *            The segment containing text and links
 	 * @return The proportion of links that contain at least one stopword
 	 */
 	private double SWL(String s)
@@ -393,13 +412,19 @@ public class TemplateIndependentNewsExtractor
 	}
 	
 	/**
-	 * <p>Compares the URL string between the given HTML document (docUrl) and 
-	 * the URL found in the segment s (sURL).</p>
-	 * <p>It therefore needs to find the average string similarity among all
-	 * its sub-links.</p>
+	 * <p>
+	 * Compares the URL string between the given HTML document (docUrl) and the
+	 * URL found in the segment s (sURL).
+	 * </p>
+	 * <p>
+	 * It therefore needs to find the average string similarity among all its
+	 * sub-links.
+	 * </p>
 	 * 
-	 * @param sUrl The URL found in the segment s
-	 * @param docUrl The URL of the given HTML document
+	 * @param sUrl
+	 *            The URL found in the segment s
+	 * @param docUrl
+	 *            The URL of the given HTML document
 	 * @return
 	 */
 	private double UC(String sUrl, String docUrl)

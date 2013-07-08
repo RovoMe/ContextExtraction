@@ -8,7 +8,13 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
 	%p : Level of the event
 	%t : Thread that produced the logging-event
  -->
-<configuration status="warn" name="WebCrawler" packages="at.rovo">
+<configuration status="warn" name="TextExtraction" packages="at.rovo.textextraction">
+
+  <properties>
+  	<!-- Log file for checking TextExtraction -->
+    <property name="file">log/TextExtraction.log</property>
+  </properties>
+  
   <appenders>
   	<Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
@@ -30,18 +36,12 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
       <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
       <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
     </Console>
-    <File name="ExtractorFile" fileName="log/TextExtractor.log" append="false">
+    <File name="ExtractorFile" fileName="${file}" append="false">
       <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
     </File>
   </appenders>
   
   <loggers>	
-  	<logger name="at.rovo.stemmer.PorterStemmer" level="info" additivity="true">
-  	  <appender-ref ref="ExtractorFile"/>
-  	</logger>
-	<logger name="at.rovo.classifier.NaiveBayes" level="info" additivity="true">
-  	  <appender-ref ref="ExtractorFile"/>
-  	</logger>
     <logger name="at.rovo.textextraction.mss.MaximumSubsequenceSegmentation" level="info" additivity="true">
       <appender-ref ref="ExtractorFile"/>
     </logger>
@@ -57,12 +57,10 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
     <logger name="at.rovo.textextraction.mss.TrainingEntry" level="info" additivity="true">
   	  <appender-ref ref="ExtractorFile"/>
   	</logger>
-  	<logger name="at.rovo.parser.Parser" level="info" additivity="true">
-  	  <appender-ref ref="ExtractorFile"/>
-  	</logger>
   	<logger name="at.rovo.Main" level="info" additivity="true">
 	  <appender-ref ref="ExtractorFile"/>
   	</logger>
+  	
   	<logger name="at.rovo" level="info" additivity="true">
   	  <appender-ref ref="Console"/>
   	</logger>

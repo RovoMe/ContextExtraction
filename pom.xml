@@ -6,13 +6,17 @@
 	This project requires more than 2 GB of java heap space as training 
 	the classifier stores a lot of trigrams! If you receive an 'OutOfMemoryException: 
 	java heap space' exception you have to set an environment variable MAVEN_OPTS=-Xmx4096m 
-	A list of possible JVM modifications: *) Initial stack size for Java Threads: 
-	-Xiss - default 2kb on Windows, Linux, ... *) Maximum stack size for Java 
-	Threads: -Xss - default 512kb on Windows, Linux, ... *) Stack size for OS 
-	Threads: -Xmso - default 256kb on Windows, Linux, ... *) Initial heap size: 
-	-Xms - default 4 MB on Windows, Linux, ... *) Maximum Java heap size: -Xmx 
-	- default half of memory with min of 16MB and max of 2GB on Windows, max 
-	of 512mb on Linux and OS
+	A list of possible JVM modifications: 
+	*) Initial stack size for Java Threads:
+	   -Xiss - default 2kb on Windows, Linux, ... 
+	*) Maximum stack size for Java Threads:
+	   -Xss - default 512kb on Windows, Linux, ... 
+	*) Stack size for OS Threads:
+	   -Xmso - default 256kb on Windows, Linux, ... 
+	*) Initial heap size:
+	   -Xms - default 4 MB on Windows, Linux, ... 
+	*) Maximum Java heap size:
+	   -Xmx - default half of memory with min of 16MB and max of 2GB on Windows, max of 512mb on Linux and OS
 	-->
 
 	<groupId>at.rovo.WebContentExtraction</groupId>
@@ -167,6 +171,37 @@
 			<type>${sqlite.type}</type>
 			<version>${sqlite4java.version}</version>
 		</dependency>
+		<!-- Common -->
+		<dependency>
+			<groupId>at.rovo.common</groupId>
+			<artifactId>Common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- Porter Stemmer -->
+		<dependency>
+			<groupId>at.rovo.stemmer</groupId>
+			<artifactId>PorterStemmer</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- Parser Framework -->
+		<dependency>
+			<groupId>at.rovo.parser</groupId>
+			<artifactId>Parser</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- Classifier framework -->
+		<dependency>
+			<groupId>at.rovo.classifier</groupId>
+			<artifactId>Classifier</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- Diff -->
+		<dependency>
+			<groupId>at.rovo.diff</groupId>
+			<artifactId>JDiff</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 	</dependencies>
 	
 	<repositories>
@@ -285,50 +320,6 @@
 				<version>1.2.1</version>
 				<configuration>
 					<executable>java</executable>
-                    <arguments>        
-                        <!--  TEXT EXTRACTION METHODS -->
-                    	<!-- <argument>extractionMethod=simple</argument> -->
-                    	<!-- <argument>extractionMethod=supervised</argument> -->
-                    	<argument>extractionMethod=semiSupervised</argument>
-                                	
-                    	<!-- TRAINING STRATEGIES -->                   	
-                     	<!-- <argument>trainingStrategy=TRIGRAM</argument> -->
-                    	<argument>trainingStrategy=BIGRAM</argument>
-                    	<!-- <argument>trainingStrategy=UNIGRAM</argument> -->
-                    	<!-- <argument>trainingStrategy=DOUBLE_UNIGRAM</argument> -->
-                    	<!-- <argument>trainingStrategy=TRIPLE_UNIGRAM</argument> -->
-                                        	
-                    	<!-- TRAINING SOURCE -->
-                    	<argument>trainingSource=DB</argument>
-                    	<!-- <argument>trainingSource=FILE</argument> -->
-                    	<!-- <argument>trainingSource=BOTH</argument> -->
-                    	
-                    	<!-- SAMPLE SIZE PER SOURCE -->
-                    	<argument>trainingSizePerSource=24000</argument>
-                    	
-						<!-- <argument>extract=http://www.independent.co.uk/news/uk/politics/deficit-reduction-blow-as-figures-reveal-government-borrowed-3-billion-more-than-expected-last-month-8069220.html</argument> -->
-						<!-- <argument>extract=http://www.independent.co.uk/sport/olympics/news/ioc-president-jacques-rogge-says-usain-bolt-is-not-a-legend-yet-8030630.html</argument> -->
-						<!-- <argument>extract=http://www.independent.co.uk/news/uk/crime/grandmother-of-missing-tia-sharp-pleads-for-her-return-8030809.html</argument> -->
-						<!-- <argument>extract=http://www.independent.co.uk/sport/football/premier-league/manchester-united-lower-stock-flotation-value-8030537.html</argument> -->
-						<!-- <argument>extract=http://www.independent.co.uk/life-style/food-and-drink/news/opening-soon-tesco-espresso-8027282.html</argument> -->
-						<!-- <argument>extract=http://www.independent.co.uk/travel/africa/zanzibar-adventure-on-the-high-seas-8015606.html</argument> -->
-						<!-- mentioned 12 well-known newspaper websites in the paper -->
-						<!-- <argument>extract=http://abcnews.go.com/Blotter/al-qaeda-releases-video-american-hostage/story?id=17221075#.UFDw4VHiD64</argument> -->
-						<!-- <argument>extract=http://edition.cnn.com/2012/08/13/world/europe/norway-massacre-report/index.html?hpt=hp_t3</argument> -->
-						<!-- <argument>extract=http://www.foxnews.com/politics/2012/08/13/in-iowa-face-off-ryan-hammers-jobs-message-as-obama-employs-drought-politics/</argument> -->
-						<!-- <argument>extract=http://latimesblogs.latimes.com/world_now/2012/08/norway-killer-could-have-been-stopped-sooner-report.html</argument> -->
-						<!-- <argument>extract=http://www.latimes.com/business/technology/la-fi-tn-curiousity-mars-panorama-20120813,0,956619.story</argument> -->
-						<argument>extract=http://www.bbc.co.uk/news/world-europe-19241327</argument>
-						<argument>extract=http://news.cnet.com/8301-17852_3-57492229-71/obama-to-nasa-i-want-to-know-about-martians-right-away/</argument>
-						<argument>extract=http://www.washingtonpost.com/business/technology/google-to-make-deep-cuts-at-motorola/2012/08/13/501f20b2-e53b-11e1-8f62-58260e3940a0_story.html?hpid=z3</argument>
-						<argument>extract=http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html</argument>
-						<argument>extract=http://www.usatoday.com/news/politics/story/2012-08-13/ryan-romney-poll/57038326/1</argument>
-						<argument>extract=http://www.nytimes.com/2012/09/13/world/middleeast/us-envoy-to-libya-is-reported-killed.html</argument>
-						<!-- non-news -->
-						<!-- <argument>extract=http://www.englisharticles.info/2012/07/07/how-effective-is-advertising/</argument> -->
-						<!-- <argument>extract=http://www.englisharticles.info/2012/08/09/sportswear/</argument> -->
-						<!-- <argument>extract=http://www.vogella.com/articles/JavaRegularExpressions/article.html</argument> -->
-                    </arguments>
 					<mainClass>at.rovo.Main</mainClass>
 					<systemProperties>
 						<systemProperty>
@@ -341,7 +332,11 @@
 						</systemProperty>
 						<systemProperty>
 							<key>log4j.configurationFile</key>
-							<value>${project.build.outputDirectory}/log/log4j-config.xml</value>
+							<value>${project.build.outputDirectory}/log/log4j2.xml</value>
+						</systemProperty>
+						<systemProperty>
+							<key>app.conf</key>
+							<value>ContentExtraction.conf</value>
 						</systemProperty>
 					</systemProperties>
 				</configuration>

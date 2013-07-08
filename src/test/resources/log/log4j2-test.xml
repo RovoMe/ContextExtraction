@@ -8,7 +8,14 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
 	%p : Level of the event
 	%t : Thread that produced the logging-event
  -->
-<configuration status="warn" name="WebCrawler" packages="at.rovo">
+<configuration status="warn" name="TextExtraction" packages="at.rovo.textextraction">
+ 
+  <properties>
+  	<!-- Log file for checking TextExtraction -->
+  	<property name="file">log/TextExtraction.log</property>
+    <property name="test">log/TextExtractionTest.log</property>
+  </properties>
+ 
   <appenders>
   	<Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
@@ -30,15 +37,19 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
       <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
       <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
     </Console>
-    <File name="TestFile" fileName="log/Test.log" append="false">
+    <File name="File" fileName="${file}" append="false">
+      <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
+    </File>
+    <File name="TestFile" fileName="${test}" append="false">
       <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
     </File>
   </appenders>
   
   <loggers>	
-  	<logger name="at.rovo.classifier" level="debug" additivity="false">
-	  <appender-ref ref="TestFile"/>
-	</logger>
+  	<logger name="at.rovo.textextraction" level="debug" additivity="true">
+  	  <appender-ref ref="File"/>
+  	</logger>
+  	
 	<logger name="at.rovo.test" level="debug" additivity="false">
 	  <appender-ref ref="TestFile"/>
 	</logger>

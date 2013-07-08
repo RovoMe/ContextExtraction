@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import at.rovo.UrlReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import at.rovo.common.UrlReader;
 import at.rovo.parser.DOMParser;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
@@ -12,22 +14,30 @@ import at.rovo.parser.Token;
 import at.rovo.parser.Word;
 
 /**
- * <p>Zhang and Lin have presented a novel approach on content extraction through
- * using two similar news pages as input set which are passed to the template 
- * generation algorithm <em>{@link #TG}</em>.</p>
- * <p>Based on the two similar pages the improved simple tree matching algorithm
- * <em>{@link #ISTM}</em> builds a maximum matching tree <em>tm</em>, which is 
- * done by comparing nodes in the two DOM-trees belonging to the two input 
- * parameters. The maximum matching tree is used by the template extraction 
- * algorithm <em>{@link #TE}</em> to build a template which is than used by the 
- * news content extraction algorithm <em>{@link #NCE}</em> to extract the 
- * article's main body.</p>
- * <p></p>
+ * <p>
+ * Zhang and Lin have presented a novel approach on content extraction through
+ * using two similar news pages as input set which are passed to the template
+ * generation algorithm <em>{@link #templateGeneration}</em>.
+ * </p>
+ * <p>
+ * Based on the two similar pages <em>{@link #improvedSimpleTreeMatching}</em>
+ * builds a maximum matching tree <em>tm</em>, which is done by comparing nodes
+ * in the two DOM-trees belonging to the two input parameters. The maximum
+ * matching tree is used by <em>{@link #treeExtraction}</em> to build a template
+ * which is than used by <em>{@link #newsContentextraction}</em> to extract the
+ * article's main body.
+ * </p>
+ * <p>
+ * </p>
  * 
  * @author Roman Vottner
  */
 public class TemplateExtraction
 {
+	/** The logger of this class **/
+	private static Logger logger = LogManager.getLogger(TemplateExtraction.class);
+	
+	/** The list of matchedChildern **/
 	private LinkedList<Token> matchedChildren = new LinkedList<Token>();
 	/** The DOM-tree of the first input page **/
 	private List<Token> ta = null;
@@ -39,65 +49,79 @@ public class TemplateExtraction
 	private Deque<Token> tt = new LinkedList<Token>();
 	
 	/**
-	 * <p>Template generating algorithm.</p>
-	 * <p>Takes the total content of two HTML pages as full String as input
-	 * parameter and compares these two pages on node-level of their corresponding
-	 * DOM-trees to extract a common template for the first input page.</p>
+	 * <p>
+	 * Takes the total content of two HTML pages as full String as input
+	 * parameter and compares these two pages on node-level of their
+	 * corresponding DOM-trees to extract a common template for the first input
+	 * page.
+	 * </p>
 	 * 
-	 * @param url1 The first page
-	 * @param url2 The second page which should be very similar to the first 
-	 *             page (e.g. taken from the same source)
+	 * @param url1
+	 *            The first page
+	 * @param url2
+	 *            The second page which should be very similar to the first page
+	 *            (e.g. taken from the same source)
 	 * @return The extraction template <em>tt</em>, which can be used be the
 	 *         news content extraction ({@link NCE}) algorithm
 	 */
-	public Deque<Token> TG(String url1, String url2)
+	public Deque<Token> templateGeneration(String url1, String url2)
 	{
 		this.ta = this.buildDOMTree(url1);
-		System.out.println("URL1 contains "+ta.size()+" nodes");
+		logger.info("URL1 contains "+ta.size()+" nodes");
 		this.tb = this.buildDOMTree(url2);
-		System.out.println("URL2 contains "+tb.size()+" nodes");
+		logger.info("URL2 contains "+tb.size()+" nodes");
 		this.tm = new ArrayList<Token>(this.ta.size());
 		
 		// Simple tree matching and backtracking (STMB) algorithm based on 
 		// simple tree matching (STM) and longest common subsequence (LCS)
 		
 		// improved simple tree matching algorithm
-		this.ISTM(0, 0);
-		System.out.println("comparedNodes and matrixes calculated");
+		this.improvedSimpleTreeMatching(0, 0);
+		logger.info("comparedNodes and matrixes calculated");
 		// simple tree matching and backtracking algorithm
-		this.tm = this.MMTB(0);
-		System.out.println("calculating backtracking");
+		this.tm = this.maximumMatchingTreeBacktracking(0);
+		logger.info("calculating backtracking");
 		
 		// template extraction algorithm
-		this.TE(0);
-		System.out.println("generated extraction template");
+		this.treeExtraction(0);
+		logger.info("generated extraction template");
 		return this.tt;
 	}
 	
 	/**
-	 * <p>Improved simple tree matching algorithm.</p>
-	 * <p>Initializes the <em>matchedMatrix</em>-, <em>comparedNode</em>- and 
-	 * <em>comparedMatrix</em>-fields of nodes in the DOM-tree of ta.</p>
-	 * <p>It first compares a node taken from both trees for equal names and if
-	 * there names do not match their subtree do not match either. But if they 
+	 * <p>
+	 * Initializes the <em>matchedMatrix</em>-, <em>comparedNode</em>- and
+	 * <em>comparedMatrix</em>-fields of nodes in the DOM-tree of ta.
+	 * </p>
+	 * <p>
+	 * It first compares a node taken from both trees for equal names and if
+	 * there names do not match their subtree do not match either. But if they
 	 * match the algorithm recursively finds the maximum matching between the
-	 * subtrees rooted by the children of ta[p] and tb[q].</p>
-	 * <p>Therefore it initializes two matrixes: m and f. The primer is the 
-	 * maximum matched nodes matrix while the latter is the maximum matched path 
-	 * matrix.</p>
-	 * <p>As f is not always the true <em>matchedMatrix</em> because ta[p] may 
-	 * match multiple nodes in tb, it is only treated as the initial value
-	 * of matchedMatrix.</p>
-	 * <p>ta[p]'s <em>comparedNode</em> set will store all tb's nodes which have 
-	 * been compared with ta[p], while ta[p]'s <em>comparedMatrix</em> stores the 
-	 * related matching path flag matrix <em>f</em> in order to find the true 
-	 * matched Matrix of ta[p] in the sequent algorithms.</p>
+	 * subtrees rooted by the children of ta[p] and tb[q].
+	 * </p>
+	 * <p>
+	 * Therefore it initializes two matrixes: m and f. The primer is the maximum
+	 * matched nodes matrix while the latter is the maximum matched path matrix.
+	 * </p>
+	 * <p>
+	 * As f is not always the true <em>matchedMatrix</em> because ta[p] may
+	 * match multiple nodes in tb, it is only treated as the initial value of
+	 * matchedMatrix.
+	 * </p>
+	 * <p>
+	 * ta[p]'s <em>comparedNode</em> set will store all tb's nodes which have
+	 * been compared with ta[p], while ta[p]'s <em>comparedMatrix</em> stores
+	 * the related matching path flag matrix <em>f</em> in order to find the
+	 * true matched Matrix of ta[p] in the sequent algorithms.
+	 * </p>
 	 * 
-	 * @param p The index of the p-th element of the DOM-tree ta 
-	 * @param q The index of the q-th element of the DOM-tree tb
+	 * @param p
+	 *            The index of the p-th element of the DOM-tree ta
+	 * @param q
+	 *            The index of the q-th element of the DOM-tree tb
 	 * @return
 	 */
-	private int ISTM(int p, int q)
+	private int improvedSimpleTreeMatching(int p, int q)
 	{
 		this.ta.get(p).addComparedNodes(this.tb.get(q));
 		// compare names, if they are distinct, the subtree rooted by them do 
@@ -133,7 +157,7 @@ public class TemplateExtraction
 					// the next index of the child
 					int _q = this.tb.get(q).getChildren()[j-1].getNo();
 					// recursively seek the maximum match in the child's context
-					int w = this.ISTM(_p, _q);
+					int w = this.improvedSimpleTreeMatching(_p, _q);
 					// application of the maximum matching node
 					m[i][j] = Math.max(m[i][j-1], Math.max(m[i-1][j], m[i-1][j-1]+w));
 					// set the path according to the maximum matching node
@@ -161,15 +185,17 @@ public class TemplateExtraction
 	}
 	
 	/**
-	 * <p>Maximum matching tree backtracking algorithm</p>
-	 * <p>As the improved simple matching tree ({@link #ISTM}) algorithm does not
+	 * <p>
+	 * As the improved simple matching tree ({@link #ISTM}) algorithm does not
 	 * provide any backtracking information, this algorithm uses the matched
-	 * children backtracking algorithm ({@link #MCB}) to get its matched children
-	 * furtherly.</p>
+	 * children backtracking algorithm ({@link #MCB}) to get its matched
+	 * children furtherly.
+	 * </p>
 	 * 
-	 * @param p The index of the p-th element of the DOM-tree ta
+	 * @param p
+	 *            The index of the p-th element of the DOM-tree ta
 	 */
-	private List<Token> MMTB(int p)
+	private List<Token> maximumMatchingTreeBacktracking(int p)
 	{
 		// safe copy to prevent changes made to children in tm affect children in ta
 		if (this.tm.size() <= p)
@@ -190,12 +216,12 @@ public class TemplateExtraction
 			int i = f.length-1;
 			int j = f[0].length-1;
 			// matchedChildren <-- MCB(ta[p], f, i, j) is set inside of MCB
-			this.MCB(p, f, i, j);
+			this.matchedChildrenBacktracking(p, f, i, j);
 			while (this.matchedChildren != null && !this.matchedChildren.isEmpty())
 			{
 				p = this.matchedChildren.poll().getNo();
 				// Delete matchedChildren.firstElement ... is achieved in previous poll
-				this.MMTB(p);
+				this.maximumMatchingTreeBacktracking(p);
 			}
 		}	
 		return tm;
@@ -212,7 +238,7 @@ public class TemplateExtraction
 	 * @param i The x-position in the matchedMatrix to look for the value
 	 * @param j The y-position in the matchedMatrix to look for the value
 	 */
-	private void MCB(int p, int[][] matchedMatrix, int i, int j)
+	private void matchedChildrenBacktracking(int p, int[][] matchedMatrix, int i, int j)
 	{
 		// slight modification as if the 1st page is larger than the second or a 
 		// segment of the 1st page contains more children than the 2nd page,
@@ -223,7 +249,7 @@ public class TemplateExtraction
 			return ;
 		if (matchedMatrix[i][j] == MatchedMatrixValue.UP_LEFT.getValue())
 		{
- 			this.MCB(p, matchedMatrix, i-1, j-1);
+ 			this.matchedChildrenBacktracking(p, matchedMatrix, i-1, j-1);
 			// contains elements from 1st page
 			Token child = this.ta.get(p).getChildren()[i-1];            
 			// contains elements from 2nd page
@@ -263,26 +289,32 @@ public class TemplateExtraction
 			this.tm.get(p).addChild(child);
 		}
 		else if (matchedMatrix[i][j] == MatchedMatrixValue.UP.getValue())
-			this.MCB(p, matchedMatrix, i-1, j);
+			this.matchedChildrenBacktracking(p, matchedMatrix, i-1, j);
 		else
-			this.MCB(p, matchedMatrix, i, j-1);
+			this.matchedChildrenBacktracking(p, matchedMatrix, i, j-1);
 	}
 	
 	/**
-	 * <p>Text extraction algorithm</p>
-	 * <p>Generates an extraction template <em>tt</em>, which is the set of 
+	 * <p>
+	 * Generates an extraction template <em>tt</em>, which is the set of
 	 * non-noisy nodes by depth-first traversal of the maximum matching tree
-	 * <em>tm</em> which only contains nodes that matched in both ta and tb 
-	 * trees.</p>
-	 * <p>If two pages have the same sub-trees, these fractions are considered
+	 * <em>tm</em> which only contains nodes that matched in both ta and tb
+	 * trees.
+	 * </p>
+	 * <p>
+	 * If two pages have the same sub-trees, these fractions are considered
 	 * noise. As anchor-tags are hidden noise text, the anchor-text-ratio of a
-	 * sub-segment has to exceed a given threshold to be excluded.</p>
-	 * <p>Moreover punctuation metric's are used to further separate noise from
-	 * content.</p>
+	 * sub-segment has to exceed a given threshold to be excluded.
+	 * </p>
+	 * <p>
+	 * Moreover punctuation metric's are used to further separate noise from
+	 * content.
+	 * </p>
 	 * 
-	 * @param i The index of the i-th element of the maximum matching tree tm
+	 * @param i
+	 *            The index of the i-th element of the maximum matching tree tm
 	 */
-	private Deque<Token> TE(int i)
+	private Deque<Token> treeExtraction(int i)
 	{
 		Token matchedNode = null;
 		if (this.tm.get(i).getMatchedNode() instanceof Tag)
@@ -299,7 +331,7 @@ public class TemplateExtraction
 				this.tt.add(this.tm.get(i));
 				for (int j=1; j<this.tm.get(i).getChildren().length; j++)
 				{
-					this.TE(this.tm.get(i).getChildren()[j].getNo());
+					this.treeExtraction(this.tm.get(i).getChildren()[j].getNo());
 				}
 			}
 			// expand extraction range of tt to extract content that did not 
@@ -315,16 +347,17 @@ public class TemplateExtraction
 	}
 	
 	/**
-	 * <p>News content extraction algorithm</p>
-	 * <p>Uses the extraction template generated by the template generation 
-	 * process ({@link #TG}) and utilizes some own characteristics of the target
-	 * page pt to extract the content of it which first needs to be parsed to a
-	 * DOM tree tp.</p>
+	 * <p>
+	 * Uses the extraction template generated by the {@link #templateGeneration}
+	 * process and utilizes some own characteristics of the target page pt to
+	 * extract the content of it which first needs to be parsed to a DOM tree
+	 * tp.
+	 * </p>
 	 * 
 	 * @param tt
 	 * @param tp_i
 	 */
-	public void NCE(Deque<Token> tt, Token tp_i)
+	public void newsContentExtraction(Deque<Token> tt, Token tp_i)
 	{
 		// templateNode <-- tt.firstElement
 		Token templateNode = tt.getFirst();
@@ -338,7 +371,7 @@ public class TemplateExtraction
 				Token nextTemplateNode = tt.getFirst();
 				if (tp_i.getChildren() == null || tp_i.getChildren().length == 0)
 				{
-					System.out.println(tp_i.getText());
+					logger.info(tp_i.getText());
 					while (nextTemplateNode.getParentNo() == templateNode.getNo())
 					{
 						tt.removeFirst();
@@ -354,13 +387,13 @@ public class TemplateExtraction
 					}
 					for (int j=0; j<tp_i.getChildren().length; j++)
 					{
-						this.NCE(tt, tp_i.getChildren()[j]);
+						this.newsContentExtraction(tt, tp_i.getChildren()[j]);
 					}
 				}
 			}
 			else
 			{
-				System.out.println(this.deleteEmbededNoise(tp_i.getSubtreeText()));
+				logger.info(this.deleteEmbededNoise(tp_i.getSubtreeText()));
 			}
 		}
 	}
@@ -372,8 +405,6 @@ public class TemplateExtraction
 	
 	public List<Token> buildDOMTree(String url)
 	{
-		// remove invalid HTML tags including <#comment>, <style>, <script>, 
-		// <noscript>, <img>, <form>, <input> and <select>
 		String html;
 		if (url.startsWith("http://"))
 		{
@@ -382,45 +413,18 @@ public class TemplateExtraction
 		}
 		else
 			html = url;
-		
-		html = html.replaceAll("(?s)<![dD][oO][cC][tT][yY][pP][eE].*?>", "");
-		html = html.replaceAll("(?s)<!--.*?-->", "");
-		html = html.replaceAll("(?s)<[sS][tT][yY][lL][eE][^>]*?>.*?</[sS][tT][yY][lL][eE]>", "");
-		html = html.replaceAll("(?s)<[sS][cC][rR][iI][pP][tT][^>]*?>.*?</[sS][cC][rR][iI][pP][tT]>", "");
-		html = html.replaceAll("(?s)<[nN][oO][sS][cC][rR][iI][pP][tT][^>]*?>.*?</[nN][oO][sS][cC][rR][iI][pP][tT]>", "");
-		html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>[^<]*?</[lL][iI][nN][kK]>", "");		
-		html = html.replaceAll("(?s)<[lL][iI][nN][kK][^>]*?>", "");		
-		html = html.replaceAll("(?s)<[iI][mM][gG][^>]*?>", "");
-		html = html.replaceAll("(?s)<[fF][oO][rR][mM]([^>]*?)>.*?</[fF][oO][rR][mM]>", "");
-		html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>.*?</[iI][nN][pP][uU][tT]>", "");
-		html = html.replaceAll("(?s)<[iI][nN][pP][uU][tT][^>]*?>", "");
-		html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>.*?</[sS][eE][lL][eE][cC][tT]>","");
-		html = html.replaceAll("(?s)<[sS][eE][lL][eE][cC][tT][^>]*?>","");
-		
-		// HTML error-tag cleaning
-		
-		// <a href="..." />test</a> - removes the inline closer /
-		html = html.replaceAll("(?s)<([a-zA-Z0-9_]+?)([^>]*?)/>(.*?)</\\1>", "<$1$2>$3</$1>");
-		// adds a closing </li> tag if one is missing between two opening <li..> tags
-		// f.e: <ul><li>...</li><li>...<li>...</li><li>...</ul> - 2nd and last <li> 
-		// are missing a closing tag
-		html = html.replaceAll("(?s)<li([^>]*?)>([^</li>]*?)(<li([^>]*?)>|</ul>)", "<li$1>$2</li>$3");
-		
-		html = html.replaceAll(">>", "> >");
-		html = html.replaceAll("><", "> <");
-		// split the content from following tags
-		html = html.replaceAll("(?s)>([^>]*?)<", ">$1\n<");
-		// split the content from preceding tags
-		html = html.replace(">([^ ]*?)", ">\n$1");
-		// replace multiple whitespace characters after a tag-end symbol
-		html = html.replaceAll(">([^\\s]+)", ">\n$1");
-		// replace multiple whitespace characters between a tag-end symbol and a word-beginning
-		html = html.replaceAll(">[^\\w|\\S]*(\\w+)", ">\n$1");
-		// replace multiple whitespace characters with a blank
-		html = html.replaceAll("[\\s]+", " ");
-		
+				
+		// remove invalid HTML tags including <#comment>, <style>, <script>, 
+		// <noscript>, <img>, <form>, <input> and <select>
 		Parser parser = new DOMParser();
-		parser.cleanFully(true);
+		parser.cleanDoctypes(true);
+		parser.cleanComments(true);
+		parser.cleanStyles(true);
+		parser.cleanScripts(true);
+		parser.cleanNoScripts(true);
+		parser.cleanLinks(true);
+		parser.cleanImages(true);
+		parser.cleanFormElements(true);
 		
 		return parser.tokenize(html, false).getParsedTokens();
 	}
@@ -429,12 +433,17 @@ public class TemplateExtraction
 	{
 //		String url1 = "<html><head><title>Testpage 1</title></head><body><p>This is an example text.</p></html>";
 //		String url2 = "<html><head><title>Testpage 2</title></head><body><p>This is a further example text.</p><p>It even contains a sentence more.</p></html>";
-		String url1 = "<html><head><title>Testpage 1</title></head><body><p>This is an example text, that contains a <a>link</a> which points to nowhere.</p></html>";
-		String url2 = "<html><head><title>Testpage 2</title></head><body><p>This is a further example text.</p><ul><li>with an intermediary listing</li><li>That contains a <a>link</a> too</li></ul><p>It even contains a sentence more.</p></html>";
-//		String url1 = "http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html";
-//		String url2 = "http://www.washingtonpost.com/business/economy/obamas-record-on-outsourcing-draws-criticism-from-the-left/2012/07/09/gJQAljJCZW_story.html";
+//		String url1 = "<html><head><title>Testpage 1</title></head><body><p>This is an example text, that contains a <a>link</a> which points to nowhere.</p></html>";
+//		String url2 = "<html><head><title>Testpage 2</title></head><body><p>This is a further example text.</p><ul><li>with an intermediary listing</li><li>That contains a <a>link</a> too</li></ul><p>It even contains a sentence more.</p></html>";
+		String url1 = "http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html";
+		String url2 = "http://www.washingtonpost.com/business/economy/obamas-record-on-outsourcing-draws-criticism-from-the-left/2012/07/09/gJQAljJCZW_story.html";
 		TemplateExtraction te = new TemplateExtraction();
-		Deque<Token> template = te.TG(url1, url2);
-		te.NCE(template, te.buildDOMTree(url1).get(0));
+		logger.info("Content page 1:");
+		Deque<Token> template = te.templateGeneration(url1, url2);
+		te.newsContentExtraction(template, te.buildDOMTree(url1).get(0));
+		logger.info("");
+		logger.info("Content page 2:");
+		template = te.templateGeneration(url2, url1);
+		te.newsContentExtraction(template, te.buildDOMTree(url2).get(0));
 	}
 }

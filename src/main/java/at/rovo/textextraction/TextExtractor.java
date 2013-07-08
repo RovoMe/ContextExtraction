@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -22,8 +21,9 @@ import org.apache.logging.log4j.Logger;
 import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;
 import com.almworks.sqlite4java.SQLiteStatement;
-import at.rovo.classifier.Classifier;
-import at.rovo.classifier.NaiveBayes;
+import at.rovo.classifier.naiveBayes.NaiveBayes;
+import at.rovo.classifier.naiveBayes.ProbabilityCalculation;
+import at.rovo.classifier.naiveBayes.TrainingDataStorageMethod;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
 import at.rovo.parser.Word;
@@ -31,24 +31,37 @@ import at.rovo.textextraction.mss.TrainingEntry;
 import at.rovo.textextraction.mss.TrainingStrategy;
 
 /**
- * <p>Is the base class for every text extraction algorithm.</p>
- * <p>Text extraction algorithm should have the possibility to predict
- * the text from training examples.</p>
- * <p>Of course there is also the wish to extract the text of an article
- * or web page.</p>
+ * <p>
+ * Is the base class for every text extraction algorithm.
+ * </p>
+ * <p>
+ * Text extraction algorithm should have the possibility to predict the text
+ * from training examples.
+ * </p>
+ * <p>
+ * Of course there is also the wish to extract the text of an article or web
+ * page.
+ * </p>
  * 
  * @see MaximumSubsequenceSegmentation
  * @author Roman Vottner
  */
 public abstract class TextExtractor 
 {
+	/** The logger of this class **/
 	private static Logger logger = LogManager.getLogger(TextExtractor.class.getName());
+	/** Defines the source where to train the classifier from **/
 	protected TrainData trainFrom = TrainData.FILE;
-	protected Classifier<String, String> classifier = null;
+	/** The classifier which needs to be trained **/
+	protected NaiveBayes<String, String> classifier = null;
+	/** The map-structure containing common tags shared by multiple sources **/
 	protected Dictionary<String, List<String>> commonTags = new Hashtable<String, List<String>>();
+	/** Indicates if the instance is trained or is in need of training **/
 	protected boolean isTrained = false;
-	protected String sourceURL = null;
+	/** Specifies how many tokens should be combined or how many features built
+	 * from training data examples **/
 	protected TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
+	/** Specifies how many samples per sources should be trained **/
 	protected int trainingSampleSize = 0;
 	
 	/**
@@ -109,8 +122,7 @@ public abstract class TextExtractor
 		this.trainingSampleSize = trainingSizePerSource;
 		
 		long startTime = 0;
-		if (logger.isInfoEnabled())
-			logger.info("Start training");
+		logger.info("Start training");
 		startTime = System.currentTimeMillis();
 		
 		if (this.trainFrom.equals(TrainData.FILE))
@@ -129,8 +141,7 @@ public abstract class TextExtractor
 		long min = neededTime/1000/60;
 		long lsec = neededTime - min*1000*60;
 		long sec = lsec/1000;
-		if (logger.isInfoEnabled())
-			logger.info("Training done. Time needed: "+min+" min "+sec+" sec ("+neededTime+" ms)");
+		logger.info("Training done. Time needed: {} min {} sec ({} ms)", min, sec, neededTime);
 		this.isTrained = true;
 	}
 	
@@ -153,8 +164,7 @@ public abstract class TextExtractor
 
 		if (!trainingDir.isDirectory())
 		{
-			if (logger.isErrorEnabled())
-				logger.error("Could not find training Directory!");
+			logger.error("Could not find training Directory!");
 			return;
 		}
 		
@@ -166,12 +176,11 @@ public abstract class TextExtractor
 			if (!file.isDirectory() && file.getName().endsWith(".txt"))
 			{
 				long startTime = 0L;
-				if (logger.isInfoEnabled())
-					logger.info("Using File "+file.getAbsolutePath()+" for training");
+				logger.info("Using File {} for training", file.getAbsolutePath());
 				startTime = System.currentTimeMillis();
 				
 				TrainingEntry entry = new TrainingEntry();
-				Classifier<String, String> classifier = null;
+				NaiveBayes<String, String> classifier = null;
 				
 				try
 				{
@@ -196,7 +205,9 @@ public abstract class TextExtractor
 									url = url.substring(0, url.indexOf("/"));
 
 								if (this.classifier == null)
-									this.classifier = new NaiveBayes<String, String>();
+									this.classifier = NaiveBayes.create(
+											ProbabilityCalculation.EVEN_LIKELIHOOD, 
+											TrainingDataStorageMethod.MAP);
 								classifier = this.classifier;
 								
 								entry.setClassifier(classifier);
@@ -216,8 +227,7 @@ public abstract class TextExtractor
 					}
 					catch (Exception ex)
 					{
-						if (logger.isErrorEnabled())
-							logger.error(ex);
+						logger.catching(ex);
 					}
 					finally
 					{
@@ -232,12 +242,10 @@ public abstract class TextExtractor
 				}
 				catch (IOException ioEx)
 				{
-					if (logger.isErrorEnabled())
-					logger.error(ioEx);
+					logger.catching(ioEx);
 				}
 				
-				if (logger.isInfoEnabled())
-					logger.info("\tTraining took "+(System.currentTimeMillis()-startTime)+" ms");
+				logger.info("\tTraining took {} ms", (System.currentTimeMillis()-startTime));
 			}
 		}
 	}
@@ -258,8 +266,7 @@ public abstract class TextExtractor
 
 		if (!trainingDir.isDirectory())
 		{
-			if (logger.isErrorEnabled())
-				logger.error("Could not find training Directory!");
+			logger.error("Could not find training Directory!");
 			return;
 		}
 		
@@ -293,8 +300,7 @@ public abstract class TextExtractor
 		File[] serObjects = trainingDir.listFiles(filter);
 		if (serObjects.length > 0)
 		{
-			if (logger.isInfoEnabled())
-				logger.info("Trying to reuse previously trained classifier");
+			logger.info("Trying to reuse previously trained classifier");
 			for (File serObject : serObjects)
 			{
 				if (serObject.getName().equals("commonTags.ser"))
@@ -303,9 +309,11 @@ public abstract class TextExtractor
 					continue;
 				}
 				
-				Classifier<String, String> cls = new NaiveBayes<String, String>();
-				if (!cls.loadData(serObject) && logger.isErrorEnabled())
-					logger.error("Failure loading data file for "+cls);
+				NaiveBayes<String, String> cls = NaiveBayes.create(
+						ProbabilityCalculation.EVEN_LIKELIHOOD, 
+						TrainingDataStorageMethod.MAP);
+				if (!cls.loadData(serObject))
+					logger.error("Failure loading data file for {}", cls);
 				this.classifier = cls;
 			}
 		}
@@ -313,8 +321,8 @@ public abstract class TextExtractor
 		{
 			// either no or not all serialized objects have been found - train them from the db
 			String dbFile = trainingDir.getAbsoluteFile()+"\\ate.db";
-			if (logger.isInfoEnabled())
-				logger.info("Train classifiers from scratch! Using "+dbFile+", Strategy used: "+this.trainingStrategy.name());
+			logger.info("Train classifiers from scratch! Using {}, Strategy used: {}", 
+					dbFile, this.trainingStrategy.name());
 			// create a new db-object
 			SQLiteConnection db = new SQLiteConnection(new File(dbFile));
 		    try 
@@ -325,10 +333,11 @@ public abstract class TextExtractor
 				{
 					SQLiteStatement st = db.prepare("SELECT p.Source, p.URL, p.HTML, e.Start, e.Length " +
 							"FROM Extractions AS e, Pages AS p " +
-							"WHERE e.DocumentID=p.DocumentID AND p.Source='"+sources.get(i)+"' Limit "+trainingSizePerSource);
+							"WHERE e.DocumentID=p.DocumentID AND p.Source='"+sources.get(i)
+							+"' Limit "+trainingSizePerSource);
 					// this.printTableHeader(st);
 		
-					Classifier<String, String> classifier = null;
+					NaiveBayes<String, String> classifier = null;
 					// run through every found entry and store required data in
 					// a TrainingEntry object which will later on used to train
 					// the local classifier
@@ -339,7 +348,10 @@ public abstract class TextExtractor
 						// else create a new one
 						String source = st.columnString(0);
 						if (this.classifier == null)
-							this.classifier = new NaiveBayes<String, String>("allInOne");
+							this.classifier = NaiveBayes.create(
+									ProbabilityCalculation.EVEN_LIKELIHOOD, 
+									TrainingDataStorageMethod.MAP);
+						this.classifier.setName("AllInOne");
 						classifier = this.classifier;
 						
 						entry.setTrainingStrategy(this.trainingStrategy);
@@ -355,16 +367,14 @@ public abstract class TextExtractor
 						// as the DB only contains the start position and the length of the 
 						// text we have to extract it from the full-HTML code retrieved in the
 						// previous step
-						if (logger.isDebugEnabled())
-						{
-							logger.debug("start: "+st.columnInt(3));
-							logger.debug("length: "+st.columnInt(4));
-							logger.debug("source: "+st.columnString(0));
-						}
+						logger.debug("start: {}", st.columnInt(3));
+						logger.debug("length: {}", st.columnInt(4));
+						logger.debug("source: {}", st.columnString(0));
+						logger.debug("html: {}", html);
+						
 						String text = html.substring(st.columnInt(3), st.columnInt(3)+st.columnInt(4));
 						entry.setFormatedText(text);
-						if (logger.isDebugEnabled())
-							logger.debug(entry.getText());
+						logger.debug("text: {}", entry.getText());
 						entry.train(false);
 						// clear the memory obtained by the entry
 						entry = null;
@@ -377,8 +387,7 @@ public abstract class TextExtractor
 			} 
 		    catch (SQLiteException e) 
 			{
-		    	if (logger.isErrorEnabled())
-		    		logger.error(e);
+		    	logger.catching(e);
 			}
 		    finally
 		    {
@@ -410,20 +419,17 @@ public abstract class TextExtractor
 				if (obj instanceof Hashtable<?, ?>)
 				{
 					dict = (Hashtable<String, List<String>>)obj;
-					if (logger.isInfoEnabled())
-						logger.info("Found a list of common tags: "+serializedObject.getName()+" - "+dict);
+					logger.info("Found a list of common tags: {} - {}", serializedObject.getName(), dict);
 				}
 				else if (obj instanceof Dictionary<?, ?>)
 				{
 					dict = (Dictionary<String, List<String>>)obj;
-					if (logger.isInfoEnabled())
-						logger.info("Found a list of common tags: "+serializedObject.getName()+" - "+dict);
+					logger.info("Found a list of common tags: {} - {}", serializedObject.getName(), dict);
 				}
 			}
 			catch (IOException | ClassNotFoundException e) 
 			{
-				if (logger.isErrorEnabled())
-					logger.error(e);
+				logger.catching(e);
 			}
 			finally
 			{
@@ -435,15 +441,9 @@ public abstract class TextExtractor
 					fis.close();
 			}
 		}
-		catch (FileNotFoundException fnfEx)
-		{
-			if (logger.isErrorEnabled())
-				logger.error(fnfEx);
-		}
 		catch (IOException e) 
 		{
-			if (logger.isErrorEnabled())
-				logger.error(e);
+			logger.catching(e);
 		}
 		return dict;
 	}
@@ -472,8 +472,7 @@ public abstract class TextExtractor
 			} 
 			catch (IOException e) 
 			{
-				if (logger.isErrorEnabled())
-					logger.error(e);
+				logger.catching(e);
 			}
 			finally
 			{
@@ -487,8 +486,7 @@ public abstract class TextExtractor
 		} 
 		catch (IOException e)
 		{
-			if (logger.isErrorEnabled())
-				logger.error(e);
+			logger.catching(e);
 		}
 	}
 
