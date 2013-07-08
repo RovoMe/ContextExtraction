@@ -54,9 +54,6 @@ invoked again.
 
 ToDo:
 =====
-*) Improve Naive Bayes storage (current approach is using to Hashtables inside 
-   one Object that gets persisted - with large training data however this 
-   requires like 8-9 gigabyte of RAM for training and runtime!)
 *) Currently Bigram achieve best results, though the paper states that with less
    Trigram training more accurate results should be achievable
 *) Fix Template-based algorithm. ISTM seems to work properly, MMTB should be 
@@ -65,3 +62,9 @@ ToDo:
    point in time. Moreover, not sure if an external stopword list should be used
    or the maximum likelihood estimator (MLE) directly take the words of the 
    segments. 
+*) Using map & reduce pattern for learning. Multi-Threaded would be nice to
+
+ToDo for external projects:
+===========================
+*) Improve runtime performance of Parser framework
+*) Improve storage behavior of Naive Bayes data
