@@ -12,8 +12,6 @@ import org.apache.logging.log4j.Logger;
 import at.rovo.common.UrlReader;
 import at.rovo.classifier.Classifier;
 import at.rovo.classifier.naiveBayes.NaiveBayes;
-import at.rovo.classifier.naiveBayes.ProbabilityCalculation;
-import at.rovo.classifier.naiveBayes.TrainingDataStorageMethod;
 import at.rovo.parser.ParseResult;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Token;
@@ -212,8 +210,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			// c. Train a new Naive Bayes local classifier over the documents in
 			//    L with trigram features.
 			NaiveBayes<String, String> localClassifier = NaiveBayes.create(
-					ProbabilityCalculation.EVEN_LIKELIHOOD,
-					TrainingDataStorageMethod.MAP);
+					this.probCalc,	this.storageMethod);
 			this.train(L, predictedText, url, localClassifier);
 
 			// d. Predict new extractions for the documents in U.
@@ -275,8 +272,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 //			logger.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
 		}
 
-		// Classifier<String, String> localClassifier = new NaiveBayes<String,
-		// String>();
+		// Classifier<String, String> localClassifier = NaiveBayes.create(
+		// this.probCalc, this.storageMethod);
 		// 3. Iterate
 		for (int i = 0; i < MAX_ITERATIONS; i++)
 		{
@@ -297,13 +294,15 @@ public class SemiSupervisedMSS extends SupervisedMSS
 				{
 					L.put(j, htmlTokens.get(j));
 					vs.add(v);
-					// localClassifier = new NaiveBayes<String, String>();
+					// localClassifier = NaiveBayes.create(this.probCalc, 
+					//		this.storageMethod);
 				}
 				else if (v > 0.95)// vs.get(j))
 				{
 					L.put(j, htmlTokens.get(j));
 					vs.set(j, v);
-					// localClassifier =new NaiveBayes<String, String>();
+					// localClassifier = NaiveBayes.create(this.probCalc, 
+					//		this.storageMethod);
 				}
 				else
 					L.put(j, null);
@@ -315,8 +314,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			// c. Train a new Naive Bayes local classifier over the documents in
 			//    L with trigram features.
 			NaiveBayes<String, String> localClassifier = NaiveBayes.create(
-					ProbabilityCalculation.EVEN_LIKELIHOOD,
-					TrainingDataStorageMethod.MAP);
+					this.probCalc, this.storageMethod);
 			for (int j = 0; j < L.size(); j++)
 			{
 				if (L.get(j) != null)

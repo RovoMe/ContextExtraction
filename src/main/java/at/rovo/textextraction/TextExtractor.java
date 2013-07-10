@@ -63,6 +63,11 @@ public abstract class TextExtractor
 	protected TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
 	/** Specifies how many samples per sources should be trained **/
 	protected int trainingSampleSize = 0;
+	/** Specifies in which form data inside the classifier should be stored **/
+	protected TrainingDataStorageMethod storageMethod = TrainingDataStorageMethod.MAP;
+	/** Specifies the probability calculation of the naive Bayes classifier to 
+	 * be used**/
+	protected ProbabilityCalculation probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
 	
 	/**
 	 * <p>Returns the currently set strategy for training new samples.
@@ -70,7 +75,10 @@ public abstract class TextExtractor
 	 * 
 	 * @return The currently set strategy for training new samples
 	 */
-	public TrainingStrategy getTrainingStrategy() { return this.trainingStrategy; }
+	public TrainingStrategy getTrainingStrategy() 
+	{ 
+		return this.trainingStrategy; 
+	}
 	
 	/**
 	 * <p>Sets the new strategy for training new samples to the classifier. 
@@ -81,7 +89,56 @@ public abstract class TextExtractor
 	 * 
 	 * @param trainingStrategy The training strategy to be used
 	 */
-	public void setTrainingStrategy(TrainingStrategy trainingStrategy) { this.trainingStrategy = trainingStrategy; }
+	public void setTrainingStrategy(TrainingStrategy trainingStrategy) 
+	{ 
+		this.trainingStrategy = trainingStrategy; 
+	}
+	
+	/**
+	 * <p>Returns the storage format of the training data inside the naive Bayes
+	 * classifier.</p>
+	 * 
+	 * @return The storage method used by the classifier to store training data
+	 */
+	public TrainingDataStorageMethod getTrainingDataStorageMethod()
+	{
+		return this.storageMethod;
+	}
+	
+	/**
+	 * <p>Defines the format which should be used by the naive Bayes classifier
+	 * to store the training data.</p>
+	 * 
+	 * @param storageMethod The storage method which should be used by the 
+	 *                      classifier to store the training data
+	 */
+	public void setTrainingDataStorageMethod(TrainingDataStorageMethod storageMethod)
+	{
+		this.storageMethod = storageMethod;
+	}
+	
+	/**
+	 * <p>Returns the probability calculation method of the naive Bayes 
+	 * classifier.</p>
+	 * 
+	 * @return The probability calculation method of the classifier
+	 */
+	public ProbabilityCalculation getProbabilityCalculationOfClassifier()
+	{
+		return this.probCalc;
+	}
+	
+	/**
+	 * <p>Specifies the probability calculation method of the naive Bayes 
+	 * classifier to be used.</p>
+	 * 
+	 * @param probCalc The probability calculation method of the classifier to 
+	 *                 be used
+	 */
+	public void setProbabilityCalculationOfClassifier(ProbabilityCalculation probCalc)
+	{
+		this.probCalc = probCalc;
+	}
 	
 	/**
 	 * <p>Tries to predict the text based on either a certain heuristic or
@@ -206,8 +263,8 @@ public abstract class TextExtractor
 
 								if (this.classifier == null)
 									this.classifier = NaiveBayes.create(
-											ProbabilityCalculation.EVEN_LIKELIHOOD, 
-											TrainingDataStorageMethod.MAP);
+											this.probCalc, 
+											this.storageMethod);
 								classifier = this.classifier;
 								
 								entry.setClassifier(classifier);
@@ -309,9 +366,8 @@ public abstract class TextExtractor
 					continue;
 				}
 				
-				NaiveBayes<String, String> cls = NaiveBayes.create(
-						ProbabilityCalculation.EVEN_LIKELIHOOD, 
-						TrainingDataStorageMethod.MAP);
+				NaiveBayes<String, String> cls = NaiveBayes.create(this.probCalc, 
+						this.storageMethod);
 				if (!cls.loadData(serObject))
 					logger.error("Failure loading data file for {}", cls);
 				this.classifier = cls;
@@ -348,9 +404,8 @@ public abstract class TextExtractor
 						// else create a new one
 						String source = st.columnString(0);
 						if (this.classifier == null)
-							this.classifier = NaiveBayes.create(
-									ProbabilityCalculation.EVEN_LIKELIHOOD, 
-									TrainingDataStorageMethod.MAP);
+							this.classifier = NaiveBayes.create(this.probCalc, 
+									this.storageMethod);
 						this.classifier.setName("AllInOne");
 						classifier = this.classifier;
 						

@@ -6,8 +6,6 @@ import java.util.Stack;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import at.rovo.classifier.naiveBayes.NaiveBayes;
-import at.rovo.classifier.naiveBayes.ProbabilityCalculation;
-import at.rovo.classifier.naiveBayes.TrainingDataStorageMethod;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
 import at.rovo.textextraction.ExtractionException;
@@ -45,9 +43,7 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 	public MaximumSubsequenceSegmentation()
 	{
 		super();
-		this.classifier = NaiveBayes.create(
-				ProbabilityCalculation.EVEN_LIKELIHOOD,
-				TrainingDataStorageMethod.MAP);
+		this.classifier = NaiveBayes.create(this.probCalc, this.storageMethod);
 	}
 
 	/**
@@ -62,9 +58,7 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 	public MaximumSubsequenceSegmentation(final TrainData trainFrom)
 	{
 		super();
-		this.classifier = NaiveBayes.create(
-				ProbabilityCalculation.EVEN_LIKELIHOOD,
-				TrainingDataStorageMethod.MAP);
+		this.classifier = NaiveBayes.create(this.probCalc, this.storageMethod);
 		this.trainFrom = trainFrom;
 	}
 

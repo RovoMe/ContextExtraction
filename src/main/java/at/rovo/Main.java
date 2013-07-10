@@ -8,6 +8,8 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import at.rovo.classifier.naiveBayes.ProbabilityCalculation;
+import at.rovo.classifier.naiveBayes.TrainingDataStorageMethod;
 import at.rovo.textextraction.ExtractionException;
 import at.rovo.textextraction.TextExtractor;
 import at.rovo.textextraction.TrainData;
@@ -91,6 +93,7 @@ import at.rovo.textextraction.mss.*;
  */
 public class Main 
 {
+	/** The logger of this class **/
 	private static Logger logger = LogManager.getLogger(Main.class);
 	
 	/** The text extraction implementation to use for main content prediction **/
@@ -131,7 +134,9 @@ public class Main
 	 *            The number of samples per news provider stored in the SQLite
 	 *            DBthat should be used to train the classifier.
 	 */
-	public Main(String extractionMethod, TrainingStrategy trainingStrategy, TrainData trainSource, int trainingSizePerSource)
+	public Main(String extractionMethod, TrainingStrategy trainingStrategy, 
+			TrainData trainSource, int trainingSizePerSource, 
+			TrainingDataStorageMethod storageMethod, ProbabilityCalculation probCalc)
 	{
 		// Check if SQLite4java path is set
 		if (System.getProperty("sqlite4java.library.path") == null)
@@ -148,11 +153,15 @@ public class Main
 			case "supervised":
 				te = new SupervisedMSS(trainSource);
 				te.setTrainingStrategy(trainingStrategy);
+				te.setTrainingDataStorageMethod(storageMethod);
+				te.setProbabilityCalculationOfClassifier(probCalc);
 				te.initTrainingSamples(trainingSizePerSource);
 				break;
 			case "semiSupervised":
 				te = new SemiSupervisedMSS(trainSource);
 				te.setTrainingStrategy(trainingStrategy);
+				te.setTrainingDataStorageMethod(storageMethod);
+				te.setProbabilityCalculationOfClassifier(probCalc);
 				te.initTrainingSamples(trainingSizePerSource);
 				break;
 			default:
@@ -278,6 +287,8 @@ public class Main
 		TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
 		String extractionMethod = null;
 		TrainData trainingSource = TrainData.DB;
+		TrainingDataStorageMethod storageMethod = TrainingDataStorageMethod.MAP;
+		ProbabilityCalculation probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
 		// will hold all URLs to extract content from
 		List<String> urls = new ArrayList<String>();
 		
@@ -328,6 +339,37 @@ public class Main
 				urls.add(url);
 				logger.info("Added {} for extraction", url);
 			}
+			
+			value = properties.getProperty("trainingDataStorageMethod");
+			if (value != null)
+			{
+				storageMethod = TrainingDataStorageMethod.valueOf(value);
+				logger.info("trainindDataStorageMethod set to {}", storageMethod);
+			}
+			
+			value = properties.getProperty("classifier");
+			if (value != null)
+			{
+				switch (value)
+				{
+					case "normalNB":
+						probCalc = ProbabilityCalculation.NORMAL;
+						break;
+					case "weightedNB":
+						probCalc = ProbabilityCalculation.WEIGHTED;
+						break;
+					case "smoothedNB":
+						probCalc = ProbabilityCalculation.SMOOTHED;
+						break;
+					case "evenLikelihoodNB":
+						probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
+						break;
+					default:
+						probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
+				}
+				logger.info("classifier set to {}", probCalc);
+			}
+			
 			properties = null;
 		}
 		catch (IOException e)
@@ -389,6 +431,33 @@ public class Main
 					String url = arg.substring("extract=".length());
 					urls.add(url);
 				}
+				else if (arg.startsWith("trainingDataStorageMethod"))
+				{
+					String method = arg.substring("trainingDataStorageMethod".length());
+					storageMethod = TrainingDataStorageMethod.valueOf(method.trim());
+				}
+				else if (arg.startsWith("classifier"))
+				{
+					String classifier = arg.substring("classifier".length());
+					switch (classifier.trim())
+					{
+						case "normalNB":
+							probCalc = ProbabilityCalculation.NORMAL;
+							break;
+						case "weightedNB":
+							probCalc = ProbabilityCalculation.WEIGHTED;
+							break;
+						case "smoothedNB":
+							probCalc = ProbabilityCalculation.SMOOTHED;
+							break;
+						case "evenLikelihoodNB":
+							probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
+							break;
+						default:
+							probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
+					}
+					logger.info("classifier set to {}", probCalc);
+				}
 			}
 		}
 		
@@ -403,7 +472,8 @@ public class Main
 		
 		// create a new instance - training or loading of a previously trained 
 		// classifier will start automatically after initialization
-		Main main = new Main(extractionMethod, trainingStrategy, trainingSource, trainingSizePerSource);
+		Main main = new Main(extractionMethod, trainingStrategy, trainingSource, 
+				trainingSizePerSource, storageMethod, probCalc);
 				
 		// with SemiSupervised approach all different pages train a single local
 		// classifier that tries to extract the main content of the specific
