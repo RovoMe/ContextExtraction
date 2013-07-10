@@ -219,10 +219,10 @@ public abstract class MaximumSubsequenceSegmentation extends TextExtractor
 			cumulativeTotal += S.get(i);
 		}
 		
-		logger.debug("I: {}", I);
-		logger.debug("L: {}", L);
-		logger.debug("R: {}", R);
-		logger.debug("startPos: {}", startPos);
+		logger.trace("I: {}", I);
+		logger.trace("L: {}", L);
+		logger.trace("R: {}", R);
+		logger.trace("startPos: {}", startPos);
 
 		return cumulativeTotal;
 	}

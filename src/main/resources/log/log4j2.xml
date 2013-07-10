@@ -8,11 +8,12 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
 	%p : Level of the event
 	%t : Thread that produced the logging-event
  -->
-<configuration status="warn" name="TextExtraction" packages="at.rovo.textextraction">
+<configuration status="warn" name="TextExtraction">
 
   <properties>
   	<!-- Log file for checking TextExtraction -->
     <property name="file">log/TextExtraction.log</property>
+    <property name="parserFile">log/Parser.log</property>
   </properties>
   
   <appenders>
@@ -39,16 +40,19 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
     <File name="ExtractorFile" fileName="${file}" append="false">
       <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
     </File>
+    <File name="ParserFile" fileName="${parserFile}" append="false">
+      <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
+    </File>
   </appenders>
   
   <loggers>	
     <logger name="at.rovo.textextraction.mss.MaximumSubsequenceSegmentation" level="info" additivity="true">
       <appender-ref ref="ExtractorFile"/>
     </logger>
-  	<logger name="at.rovo.textextraction.mss.SemiSupervisedMSS" level="info" additivity="true">
+  	<logger name="at.rovo.textextraction.mss.SemiSupervisedMSS" level="debug" additivity="true">
       <appender-ref ref="ExtractorFile"/>
     </logger>
-    <logger name="at.rovo.textextraction.mss.SupervisedMSS" level="info" additivity="true">
+    <logger name="at.rovo.textextraction.mss.SupervisedMSS" level="debug" additivity="true">
       <appender-ref ref="ExtractorFile"/>
     </logger>
     <logger name="at.rovo.textextraction.TextExtractor" level="info" additivity="true">
@@ -59,6 +63,10 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
   	</logger>
   	<logger name="at.rovo.Main" level="info" additivity="true">
 	  <appender-ref ref="ExtractorFile"/>
+  	</logger>
+  	
+  	<logger name="at.rovo.parser" level="error" additivitiy="true">
+  		<appender-ref ref="ParserFile"/>
   	</logger>
   	
   	<logger name="at.rovo" level="info" additivity="true">

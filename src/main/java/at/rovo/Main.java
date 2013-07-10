@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import at.rovo.textextraction.ExtractionException;
 import at.rovo.textextraction.TextExtractor;
 import at.rovo.textextraction.TrainData;
@@ -388,6 +390,15 @@ public class Main
 					urls.add(url);
 				}
 			}
+		}
+		
+		try
+		{
+			Thread.sleep(5000);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
 		}
 		
 		// create a new instance - training or loading of a previously trained 

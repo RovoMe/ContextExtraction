@@ -98,6 +98,9 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	 * the article text.
 	 * </p>
 	 * 
+	 * @return The predicted main content of a news article
+	 * @throws ExtractionException
+	 *         if the URL to predict content from is either null or empty
 	 * @throws NotTrainedException
 	 *             if the instance was not yet trained
 	 * @throws NoSubsequenceFoundException
@@ -111,7 +114,8 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		if (html == null || html.equals(""))
 		{
 			logger.error("No html content available!");
-			return null;
+			throw new ExtractionException(
+					"Page to predict content from is either null or empty");
 		}
 
 		if (!this.isTrained)
@@ -131,7 +135,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 			throw new NoSubsequenceFoundException("No maximum sequence found!");
 		maxVal = this.value(maxSS);
 		classifierName = this.classifier.getName();
-		logger.debug("Calculating MSS of {}: {}", classifierName, maxVal);
+		logger.trace("Calculating MSS of {}: {}", classifierName, maxVal);
 
 		// We actually found a subsequence with highest value in one of
 		// our classifiers
@@ -140,12 +144,12 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 
 		List<Token> predictedContent = this.getPredictedContent(htmlToken, maxSS, start);
 
-		logger.info("title: {}", parse.getTitle());
-		logger.info("author: {}", parse.getAuthors());
-		logger.info("date: {}", parse.getPublishDate());
+		logger.trace("title: {}", parse.getTitle());
+		logger.trace("author: {}", parse.getAuthors());
+		logger.trace("date: {}", parse.getPublishDate());
 
-		logger.info("MSS: {}", maxSS);
-		logger.info("Predicted Content: {}", predictedContent);
+		logger.trace("MSS: {}", maxSS);
+		logger.debug("Predicted Content: {}", predictedContent);
 		
 		// clean and format the text
 		return this.formatText(this.cleanText(predictedContent));
@@ -224,15 +228,13 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 	protected List<Double> buildScoreList(List<Token> html,	NaiveBayes<String, String> classifier)
 	{
 		List<Double> scoreList = new ArrayList<Double>();
-		logger.debug("Score-List:");
+		logger.trace("Score-List:");
 		int start = 0;
 		if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy)
-				|| TrainingStrategy.DOUBLE_UNIGRAM
-						.equals(this.trainingStrategy))
+				|| TrainingStrategy.DOUBLE_UNIGRAM.equals(this.trainingStrategy))
 			start = 1;
 		else if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy)
-				|| TrainingStrategy.TRIPLE_UNIGRAM
-						.equals(this.trainingStrategy))
+				|| TrainingStrategy.TRIPLE_UNIGRAM.equals(this.trainingStrategy))
 			start = 2;
 
 		Token token1 = null;
@@ -256,7 +258,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 				else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
 					score = classifier.getProbability("in", this.getTripleUnigram(token1, token2, token)) - 0.5;
 
-				logger.debug("{}{} : {}", (score < 0 ? "" : " "), new DecimalFormat("#0.000").format(score), 
+				logger.trace("{}{} : {}", (score < 0 ? "" : " "), new DecimalFormat("#0.000").format(score), 
 						(token.getText() != null ? token.getText() : token.getHTML()));
 				scoreList.add(score);
 			}
@@ -297,7 +299,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		else
 			unigram[2] = t3.getHTML();
 
-		logger.debug("Triple-Unigramm: {}", unigram.toString());
+		logger.trace("Triple-Unigramm: {}", unigram.toString());
 		return unigram;
 	}
 
@@ -325,7 +327,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		else
 			unigram[1] = t2.getHTML();
 
-		logger.debug("Double-Unigramm: {}", unigram.toString());
+		logger.trace("Double-Unigramm: {}", unigram.toString());
 		return unigram;
 	}
 
@@ -345,7 +347,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		else
 			unigram = t1.getHTML();
 
-		logger.debug("Unigramm: {}", unigram);
+		logger.trace("Unigramm: {}", unigram);
 		return unigram;
 	}
 
@@ -373,7 +375,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		else
 			bigram += " " + t2.getHTML();
 		
-		logger.debug("Bigramm: {}", bigram);
+		logger.trace("Bigramm: {}", bigram);
 		return bigram;
 	}
 
@@ -408,7 +410,7 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		else
 			trigram += " " + t3.getHTML();
 
-		logger.debug("Trigramm: {}", trigram);
+		logger.trace("Trigramm: {}", trigram);
 		return trigram;
 	}
 }

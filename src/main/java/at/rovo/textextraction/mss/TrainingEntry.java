@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Stack;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import at.rovo.classifier.Classifier;
 import at.rovo.parser.ParseResult;
 import at.rovo.parser.Parser;
@@ -563,15 +565,11 @@ public class TrainingEntry
 	 *             if the provided text does not contain enough tokens to build
 	 *             a n-gram
 	 */
-	private List<String> buildNgrams(final String text)
+	private List<String> buildNgrams(String text)
 	{
 		// The text might have to be formated as <p>Text does not
 		// get split up correctly
-		if (this.url.equals("http://abcnews.go.com/Entertainment/JoelSiegel/story?id=2532049"))
-			logger.info("*** TEXT *** {}", text);
-		ParseResult result = parser.tokenize(text, true);
-		if (this.url.equals("http://abcnews.go.com/Entertainment/JoelSiegel/story?id=2532049"))
-			logger.info("*** PARSED TOKENS *** {}", result.getParsedTokens());
+		ParseResult result = parser.tokenize(text.trim(), true);
 		return this.buildNgrams(result.getParsedTokens());
 	}
 

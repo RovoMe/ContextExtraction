@@ -157,10 +157,13 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	 * the article text.
 	 * </p>
 	 * 
+	 * @return The predicted main content of a news article
+	 * @throws ExtractionException
+	 *         if the URL to predict content from is either null or empty
 	 * @throws NotTrainedException
-	 *             if the instance was not yet trained
+	 *         if the instance was not yet trained
 	 * @throws NoSubsequenceFoundException
-	 *             if no subsequence could be found
+	 *         if no subsequence could be found
 	 */
 	@Override
 	public String predictText(final String url) throws ExtractionException
@@ -170,7 +173,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		if (html == null || html.equals(""))
 		{
 			logger.error("No html content available!");
-			return null;
+			throw new ExtractionException(
+					"Page to predict content from is either null or empty");
 		}
 
 		if (!this.isTrained)
@@ -189,16 +193,15 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		List<Double> maxSS = new ArrayList<Double>();
 		int start = this.topMaximumSubsequence(score, maxSS);
 		List<Token> L = htmlToken;
-		List<Token> predictedText = this.getPredictedContent(htmlToken, maxSS,
-				start);
-		// logger.debug("predicted Text: \n"+this.formatText(predictedText));
+		List<Token> predictedText = this.getPredictedContent(htmlToken, maxSS, start);
+		logger.trace("Predicting content of {}", url);
+		logger.trace("predicted Text: \n{}", this.formatText(predictedText));
 		// 3. Iterate:
 		for (int i = 0; i < MAX_ITERATIONS; i++)
 		{
 			// a. Choose a portion of the documents in U with the seemingly most
 			//    likely correct predicted extractions, and call these L.
-			double v = this.estimatePredictionCorrectness(htmlToken, start,
-					start + maxSS.size());
+			double v = this.estimatePredictionCorrectness(htmlToken, start, start + maxSS.size());
 			if (v > 0.95)
 				L = htmlToken;
 
@@ -217,7 +220,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			score = this.buildScoreList(L, localClassifier);
 			start = this.topMaximumSubsequence(score, maxSS);
 			predictedText = this.getPredictedContent(L, maxSS, start);
-			logger.debug("predicted Text: \n{}",this.formatText(predictedText));
+			logger.debug("predicted Text: \n{}",predictedText);
+//			logger.debug("predicted Text: \n{}",this.formatText(predictedText));
 		}
 		return this.formatText(this.cleanText(predictedText));
 	}
@@ -263,13 +267,12 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			maxSSs.add(maxSS);
 			startPos.add(start);
 
-			logger.debug("Predicting content of {}", url);
+			logger.trace("Predicting content of {}", url);
 			predictedText = this.getPredictedContent(htmlToken, maxSS, start);
 			predictedTexts.add(predictedText);
 
-			logger.info("predicted Text: \n{}", predictedText);
 			logger.debug("predicted Text: \n{}", predictedText);
-			logger.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
+//			logger.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
 		}
 
 		// Classifier<String, String> localClassifier = new NaiveBayes<String,
@@ -286,7 +289,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 				double v = this.estimatePredictionCorrectness(
 						htmlTokens.get(j), startPos.get(j), startPos.get(j)
 								+ maxSSs.get(j).size());
-				logger.info("start: {}; length: {}; end: {}; v: {}", 
+				logger.trace("start: {}; length: {}; end: {}; v: {}", 
 						startPos.get(j), maxSSs.get(j).size(), 
 						(startPos.get(j) + maxSSs.get(j).size()), v);
 
@@ -320,7 +323,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 					this.train(L.get(j), predictedTexts.get(j), urls.get(j),
 							localClassifier);
 			}
-			logger.debug("");
+			logger.trace("");
 
 			// d. Predict new extractions for the documents in U
 			for (int j = 0; j < L.size(); j++)
@@ -331,8 +334,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 							startPos.get(j), startPos.get(j)
 									+ maxSSs.get(j).size() - 1);
 
-					logger.debug("Predicting content of {}", urls.get(j));
-					logger.debug("predicted score: {}", score);
+					logger.trace("Predicting content of {}", urls.get(j));
+					logger.trace("predicted score: {}", score);
 					
 					int start = this.topMaximumSubsequence(score, maxSS);
 					startPos.set(j, start);
@@ -342,7 +345,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 					predictedTexts.set(j, predictedText);
 					
 					logger.debug("predicted Text: \n{}", predictedText);
-					logger.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
+//					logger.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
 				}
 			}
 		}
@@ -468,7 +471,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		}
 
 		double v = Math.pow((prob1 * prob2 * prob3 * prob4), (1. / n));
-		logger.debug("Estimated corectness: {}", v);
+		logger.trace("Estimated corectness: {}", v);
 		return v;
 	}
 
@@ -524,7 +527,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			NaiveBayes<String, String> classifier, int j, int k)
 	{
 		List<Double> scoreList = new ArrayList<Double>();
-		logger.debug("Score-List:");
+		logger.trace("Score-List:");
 		for (int i = 2; i < html.size(); i++)
 		{
 			// prepare and build the trigrams
@@ -537,41 +540,41 @@ public class SemiSupervisedMSS extends SupervisedMSS
 
 			if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
 			{
-				logger.debug("pi: {}", classifier.getProbability("in", this.getTrigram(token1, token2, token3)));
-				logger.debug("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				logger.trace("pi: {}", classifier.getProbability("in", this.getTrigram(token1, token2, token3)));
+				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
 				score = (classifier.getProbability("in", this.getTrigram(token1, token2, token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
 			{
-				logger.debug("pi: {}", classifier.getProbability("in", this.getBigram(token2, token3)));
-				logger.debug("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				logger.trace("pi: {}", classifier.getProbability("in", this.getBigram(token2, token3)));
+				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
 				score = (classifier.getProbability("in", this.getBigram(token2,	token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
 			{
-				logger.debug("pi: {}", classifier.getProbability("in", this.getUnigram(token3)));
-				logger.debug("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				logger.trace("pi: {}", classifier.getProbability("in", this.getUnigram(token3)));
+				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
 				score = (classifier.getProbability("in", this.getUnigram(token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
 			{
-				logger.debug("pi: {}", classifier.getProbability("in", this.getDoubleUnigram(token2, token3)));
-				logger.debug("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				logger.trace("pi: {}", classifier.getProbability("in", this.getDoubleUnigram(token2, token3)));
+				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
 				score = (classifier.getProbability("in", this.getDoubleUnigram(token2, token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
 			else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
 			{
-				logger.debug("pi: {}", classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)));
-				logger.debug("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				logger.trace("pi: {}", classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)));
+				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
 				score = (classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
 
-			logger.debug("{} : {}", new DecimalFormat("#0.000").format(score),
+			logger.trace("{} : {}", new DecimalFormat("#0.000").format(score),
 					(token3.getText() != null ? token3.getText() : token3.getHTML()));
 			scoreList.add(score);
 		}
@@ -615,8 +618,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 					if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
 						nGram.add(token1);
 					if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM)
-							|| this.trainingStrategy
-									.equals(TrainingStrategy.BIGRAM))
+							|| this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
 						nGram.add(token2);
 					nGram.add(token3);
 					nGrams.add(nGram);
