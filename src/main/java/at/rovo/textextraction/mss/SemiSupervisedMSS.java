@@ -71,22 +71,24 @@ import at.rovo.textextraction.TrainData;
  * 
  * @author Roman Vottner
  */
+@SuppressWarnings("unused")
 public class SemiSupervisedMSS extends SupervisedMSS
 {
 	/** The logger of this instance **/
-	private static Logger logger = LogManager.getLogger(SemiSupervisedMSS.class);
+	private static Logger LOG = LogManager.getLogger(SemiSupervisedMSS.class);
 	/** The maximum number of semi supervised training and prediction iterations **/
 	private static int MAX_ITERATIONS = 10;
 	/**
-	 * The window radius will boost the likelihood of n tokens to the left and
-	 * right of the prediction border
+	 * The window radius will boost the likelihood of tokens close to the
+	 * boundary of the article text while it will decrease th probability of
+	 * tokens far away from the border. The window radius is used while
+	 * calculating the correctness of a prediction.
 	 **/
 	private int windowRadius = 10;
-
-	/** distance cutoff **/
-	private final double d = 64.;
+	/** distance cutoff factor used for calculating the importance weight **/
+	private double d = 64.;
 	/** multiplier for the importance weighting **/
-	private final double c = 24.;
+	private double c = 24.;
 	/** The parser used to download the content from pages on the Internet **/
 	private Parser parser = null;
 
@@ -143,6 +145,60 @@ public class SemiSupervisedMSS extends SupervisedMSS
 
 	/**
 	 * <p>
+	 * Specifies the new distance cutoff factor used for the importance
+	 * weighting. By default a value of 64 is specified.
+	 * </p>
+	 *
+	 * @param d
+	 *            The new distance cutoff factor to be used
+	 */
+	public void setDistanceCutoffFactor(double d)
+	{
+		this.d = d;
+	}
+
+	/**
+	 * <p>
+	 * Returns the currently specified distance cutoff factor used by the
+	 * {@link #calculateImportanceWeighting(Set, int, int)} method. By default
+	 * the distance cutoff factor is set to 64 tokens.
+	 * </p>
+	 *
+	 * @return The currently specified distance cutoff factor
+	 */
+	public double getDistanceCutoffFactor()
+	{
+		return this.d;
+	}
+
+	/**
+	 * <p>
+	 * Specifies the constant multiplier for the importance weighting. By
+	 * default this constant multiplier is set to 24.
+	 * </p>
+	 *
+	 * @param c The constant multiplier to set
+	 */
+	public void setMultiplierForImportanceWeighting(double c)
+	{
+		this.c = c;
+	}
+
+	/**
+	 * <p>
+	 * Returns the currently specified constant multiplier for the importance
+	 * weighting.
+	 * </p>
+	 *
+	 * @return The currently specified constant multiplier
+	 */
+	public double getMultiplierForImportanceWeighting()
+	{
+		return c;
+	}
+
+	/**
+	 * <p>
 	 * Predicts article text based on local classifiers.
 	 * </p>
 	 * <p>
@@ -170,7 +226,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		String html = reader.readPage(url);
 		if (html == null || html.equals(""))
 		{
-			logger.error("No html content available!");
+			LOG.error("No html content available!");
 			throw new ExtractionException(
 					"Page to predict content from is either null or empty");
 		}
@@ -188,12 +244,12 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		ParseResult parse = this.parser.tokenize(html, false);
 		List<Token> htmlToken = parse.getParsedTokens();
 		List<Double> score = this.buildScoreList(htmlToken, this.classifier);
-		List<Double> maxSS = new ArrayList<Double>();
+		List<Double> maxSS = new ArrayList<>();
 		int start = this.topMaximumSubsequence(score, maxSS);
 		List<Token> L = htmlToken;
 		List<Token> predictedText = this.getPredictedContent(htmlToken, maxSS, start);
-		logger.trace("Predicting content of {}", url);
-		logger.trace("predicted Text: \n{}", this.formatText(predictedText));
+		LOG.trace("Predicting content of {}", url);
+		LOG.trace("predicted Text: \n{}", this.formatText(predictedText));
 		// 3. Iterate:
 		for (int i = 0; i < MAX_ITERATIONS; i++)
 		{
@@ -217,8 +273,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			score = this.buildScoreList(L, localClassifier);
 			start = this.topMaximumSubsequence(score, maxSS);
 			predictedText = this.getPredictedContent(L, maxSS, start);
-			logger.debug("predicted Text: \n{}",predictedText);
-//			logger.debug("predicted Text: \n{}",this.formatText(predictedText));
+			LOG.debug("predicted Text: \n{}",predictedText);
+//			LOG.debug("predicted Text: \n{}",this.formatText(predictedText));
 		}
 		return this.formatText(this.cleanText(predictedText));
 	}
@@ -231,15 +287,15 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			throw new NotTrainedException("The instance has not yet trained. "
 					+ "Please make sure to invoke initTrainingData() beforehand!");
 
-		List<List<Token>> htmlTokens = new ArrayList<List<Token>>();
-		List<Integer> startPos = new ArrayList<Integer>();
-		List<List<Double>> maxSSs = new ArrayList<List<Double>>();
-		List<List<Token>> predictedTexts = new ArrayList<List<Token>>();
-		List<Double> vs = new ArrayList<Double>();
+		List<List<Token>> htmlTokens = new ArrayList<>();
+		List<Integer> startPos = new ArrayList<>();
+		List<List<Double>> maxSSs = new ArrayList<>();
+		List<List<Token>> predictedTexts = new ArrayList<>();
+		List<Double> vs = new ArrayList<>();
 
-		List<Double> score = null;
+		List<Double> score;
 		List<Double> maxSS = null;
-		List<Token> predictedText = null;
+		List<Token> predictedText;
 
 		for (String url : urls)
 		{
@@ -247,7 +303,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			String html = reader.readPage(url);
 			if (html == null || html.equals(""))
 			{
-				logger.error("No html content available for {}!", url);
+				LOG.error("No html content available for {}!", url);
 				continue;
 			}
 
@@ -258,18 +314,18 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			List<Token> htmlToken = parse.getParsedTokens();
 			htmlTokens.add(htmlToken);
 			score = this.buildScoreList(htmlToken, this.classifier);
-			maxSS = new ArrayList<Double>();
+			maxSS = new ArrayList<>();
 
 			int start = this.topMaximumSubsequence(score, maxSS);
 			maxSSs.add(maxSS);
 			startPos.add(start);
 
-			logger.trace("Predicting content of {}", url);
+			LOG.trace("Predicting content of {}", url);
 			predictedText = this.getPredictedContent(htmlToken, maxSS, start);
 			predictedTexts.add(predictedText);
 
-			logger.debug("predicted Text: \n{}", predictedText);
-//			logger.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
+			LOG.debug("predicted Text: \n{}", predictedText);
+//			LOG.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
 		}
 
 		// Classifier<String, String> localClassifier = NaiveBayes.create(
@@ -280,32 +336,40 @@ public class SemiSupervisedMSS extends SupervisedMSS
 
 			// a. Choose a portion of the documents in U with the seemingly most
 			//    likely correct predicted extractions, and call these L.
-			Map<Integer, List<Token>> L = new HashMap<Integer, List<Token>>();
+			Map<Integer, List<Token>> L = new HashMap<>();
 			for (int j = 0; j < htmlTokens.size(); j++)
 			{
-				double v = this.estimatePredictionCorrectness(
-						htmlTokens.get(j), startPos.get(j), startPos.get(j)
-								+ maxSSs.get(j).size());
-				logger.trace("start: {}; length: {}; end: {}; v: {}", 
-						startPos.get(j), maxSSs.get(j).size(), 
-						(startPos.get(j) + maxSSs.get(j).size()), v);
+				try
+				{
+					double v = this.estimatePredictionCorrectness(
+							htmlTokens.get(j), startPos.get(j), startPos.get(j)
+									+ maxSSs.get(j).size());
+					LOG.debug("start: {}; length: {}; end: {}; v: {}",
+							startPos.get(j), maxSSs.get(j).size(),
+							(startPos.get(j) + maxSSs.get(j).size()), v);
 
-				if (vs.size() < htmlTokens.size())
-				{
-					L.put(j, htmlTokens.get(j));
-					vs.add(v);
-					// localClassifier = NaiveBayes.create(this.probCalc, 
-					//		this.storageMethod);
+					if (vs.size() < htmlTokens.size())
+					{
+						L.put(j, htmlTokens.get(j));
+						vs.add(v);
+						// localClassifier = NaiveBayes.create(this.probCalc,
+						//		this.storageMethod);
+					}
+					else if (v > 0.95)// vs.get(j))
+					{
+						L.put(j, htmlTokens.get(j));
+						vs.set(j, v);
+						// localClassifier = NaiveBayes.create(this.probCalc,
+						//		this.storageMethod);
+					}
+					else
+						L.put(j, null);
 				}
-				else if (v > 0.95)// vs.get(j))
+				catch (Exception e)
 				{
-					L.put(j, htmlTokens.get(j));
-					vs.set(j, v);
-					// localClassifier = NaiveBayes.create(this.probCalc, 
-					//		this.storageMethod);
-				}
-				else
+					LOG.error("Could not calculate prediction correctness", e);
 					L.put(j, null);
+				}
 			}
 			// b. Find "importance weights" for the trigrams of the documents in
 			//    L.
@@ -321,7 +385,6 @@ public class SemiSupervisedMSS extends SupervisedMSS
 					this.train(L.get(j), predictedTexts.get(j), urls.get(j),
 							localClassifier);
 			}
-			logger.trace("");
 
 			// d. Predict new extractions for the documents in U
 			for (int j = 0; j < L.size(); j++)
@@ -332,8 +395,11 @@ public class SemiSupervisedMSS extends SupervisedMSS
 							startPos.get(j), startPos.get(j)
 									+ maxSSs.get(j).size() - 1);
 
-					logger.trace("Predicting content of {}", urls.get(j));
-					logger.trace("predicted score: {}", score);
+					if (LOG.isTraceEnabled())
+					{
+						LOG.trace("Predicting content of {}", urls.get(j));
+						LOG.trace("predicted score: {}", score);
+					}
 					
 					int start = this.topMaximumSubsequence(score, maxSS);
 					startPos.set(j, start);
@@ -341,13 +407,13 @@ public class SemiSupervisedMSS extends SupervisedMSS
 					predictedText = this.getPredictedContent(L.get(j), maxSS,
 							start);
 					predictedTexts.set(j, predictedText);
-					
-					logger.debug("predicted Text: \n{}", predictedText);
+
+					//LOG.debug("predicted Text: \n{}", predictedText);
 //					logger.debug("predicted Text: \n{}", this.formatText(this.cleanText(predictedText)));
 				}
 			}
 		}
-		List<String> contentOfPages = new ArrayList<String>();
+		List<String> contentOfPages = new ArrayList<>();
 		for (List<Token> tokens : predictedTexts)
 			contentOfPages.add(this.formatText(this.cleanText(tokens)));
 		return contentOfPages;
@@ -374,7 +440,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	{
 		TrainingEntry entry = new TrainingEntry(html, predictedText,
 				classifier, false);
-		entry.setTrainingStrategy(this.trainingStrategy);
+		entry.setTrainFeatureStrategy(this.trainFeatureStrategy);
 		entry.setSourceUrl(this.extractSourceUrlFromUrl(url));
 		entry.setUrl(url);
 		entry.setCommonTags(this.commonTags);
@@ -393,14 +459,10 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	 * @param k
 	 *            The index of the last token of the predicted text
 	 * @return The likelihood of the correctness of the text prediction
+	 *
 	 * @throws IllegalArgumentException
-	 *             If html is null or empty
-	 * @throws IllegalArgumentException
-	 *             If j < 0 or j >= html.size()
-	 * @throws IllegalArgumentException
-	 *             If k < 0 or k >= html.size()
-	 * @throws IllegalArgumentException
-	 *             If j >= k
+	 *             If If html is null or empty, j < 0 or j >= html.size(),
+	 *             k < 0 or k >= html.size() or if j >= k
 	 */
 	protected double estimatePredictionCorrectness(List<Token> html, int j,
 			int k)
@@ -435,7 +497,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		int start = j - this.windowRadius;
 		if (start < 0)
 			start = 0;
-		for (int i = start; i < j; i++)
+		for (int i = start; i <= j - 1; i++)
 		{
 			if (html.get(i).getText() != null)
 				prob1 *= (1 - this.classifier.getProbability("in", html.get(i).getText()));
@@ -460,7 +522,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		int end = k + this.windowRadius;
 		if (end > n)
 			end = n;
-		for (int i = k + 1; i < end; i++)
+		for (int i = k + 1; i <= end; i++)
 		{
 			if (html.get(i).getText() != null)
 				prob4 *= (1 - this.classifier.getProbability("in", html.get(i).getText()));
@@ -469,13 +531,13 @@ public class SemiSupervisedMSS extends SupervisedMSS
 		}
 
 		double v = Math.pow((prob1 * prob2 * prob3 * prob4), (1. / n));
-		logger.trace("Estimated corectness: {}", v);
+		LOG.trace("Estimated correctness: {}", v);
 		return v;
 	}
 
 	/**
 	 * <p>
-	 * Calculates the importance weights for a trigram
+	 * Calculates the importance weights for a trigram.
 	 * </p>
 	 * 
 	 * @param Th
@@ -511,7 +573,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	 * @param html
 	 *            {@link List} of {@link Token}s which represent the HTML page
 	 *            whose main article text should be predicted
-	 * @param bayes
+	 * @param classifier
 	 *            The local classifier used
 	 * @param j
 	 *            The index of the first token in the article text from previous
@@ -524,8 +586,8 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	protected List<Double> buildScoreList(List<Token> html,
 			NaiveBayes<String, String> classifier, int j, int k)
 	{
-		List<Double> scoreList = new ArrayList<Double>();
-		logger.trace("Score-List:");
+		List<Double> scoreList = new ArrayList<>();
+		LOG.trace("Score-List:");
 		for (int i = 2; i < html.size(); i++)
 		{
 			// prepare and build the trigrams
@@ -536,44 +598,62 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			double score = 0.;
 			Set<List<Token>> featureSet = this.buildFeatureSet(html, token3);
 
-			if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
+			if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIGRAM))
 			{
-				logger.trace("pi: {}", classifier.getProbability("in", this.getTrigram(token1, token2, token3)));
-				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				if (LOG.isTraceEnabled())
+				{
+					LOG.trace("pi: {}", classifier.getProbability("in", this.getTrigram(token1, token2, token3)));
+					LOG.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				}
 				score = (classifier.getProbability("in", this.getTrigram(token1, token2, token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
-			else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
+			else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.BIGRAM))
 			{
-				logger.trace("pi: {}", classifier.getProbability("in", this.getBigram(token2, token3)));
-				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				if (LOG.isTraceEnabled())
+				{
+					LOG.trace("pi: {}", classifier.getProbability("in", this.getBigram(token2, token3)));
+					LOG.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				}
 				score = (classifier.getProbability("in", this.getBigram(token2,	token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
-			else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
+			else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.UNIGRAM))
 			{
-				logger.trace("pi: {}", classifier.getProbability("in", this.getUnigram(token3)));
-				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				if (LOG.isTraceEnabled())
+				{
+					LOG.trace("pi: {}", classifier.getProbability("in", this.getUnigram(token3)));
+					LOG.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				}
 				score = (classifier.getProbability("in", this.getUnigram(token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
-			else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
+			else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.DOUBLE_UNIGRAM))
 			{
-				logger.trace("pi: {}", classifier.getProbability("in", this.getDoubleUnigram(token2, token3)));
-				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				if (LOG.isTraceEnabled())
+				{
+					LOG.trace("pi: {}", classifier.getProbability("in", this.getDoubleUnigram(token2, token3)));
+					LOG.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				}
 				score = (classifier.getProbability("in", this.getDoubleUnigram(token2, token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
-			else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
+			else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIPLE_UNIGRAM))
 			{
-				logger.trace("pi: {}", classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)));
-				logger.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				if (LOG.isTraceEnabled())
+				{
+					LOG.trace("pi: {}", classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)));
+					LOG.trace("mh: {}", this.calculateImportanceWeighting(featureSet, j, k));
+				}
 				score = (classifier.getProbability("in", this.getTripleUnigram(token1, token2, token3)) - 0.5)
 						* (this.calculateImportanceWeighting(featureSet, j, k) * this.c + 1.);
 			}
 
-			logger.trace("{} : {}", new DecimalFormat("#0.000").format(score),
-					(token3.getText() != null ? token3.getText() : token3.getHTML()));
+			if (LOG.isTraceEnabled())
+			{
+				LOG.trace("{} : {}", new DecimalFormat("#0.000").format(score),
+						(token3.getText() != null ? token3.getText() : token3.getHTML()));
+			}
 			scoreList.add(score);
 		}
 		return scoreList;
@@ -598,7 +678,7 @@ public class SemiSupervisedMSS extends SupervisedMSS
 	 */
 	protected Set<List<Token>> buildFeatureSet(List<Token> html, Token token)
 	{
-		Set<List<Token>> nGrams = new LinkedHashSet<List<Token>>();
+		Set<List<Token>> nGrams = new LinkedHashSet<>();
 		for (int i = 2; i < html.size(); i++)
 		{
 			Token token1 = html.get(i - 2);
@@ -607,16 +687,15 @@ public class SemiSupervisedMSS extends SupervisedMSS
 			token3.setIndex(i);
 			if (token3.getText() != null)
 			{
-				if ((token3.getText() != null && token3.getText().equals(
-						token.getText()))
+				if (token3.getText().equals(token.getText())
 						|| token3.getHTML() != null
 						&& token3.getHTML().equals(token.getHTML()))
 				{
-					List<Token> nGram = new ArrayList<Token>();
-					if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
+					List<Token> nGram = new ArrayList<>();
+					if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIGRAM))
 						nGram.add(token1);
-					if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM)
-							|| this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
+					if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIGRAM)
+							|| this.trainFeatureStrategy.equals(TrainFeatureStrategy.BIGRAM))
 						nGram.add(token2);
 					nGram.add(token3);
 					nGrams.add(nGram);

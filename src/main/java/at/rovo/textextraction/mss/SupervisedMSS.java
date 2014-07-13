@@ -230,11 +230,11 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 		List<Double> scoreList = new ArrayList<Double>();
 		logger.trace("Score-List:");
 		int start = 0;
-		if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy)
-				|| TrainingStrategy.DOUBLE_UNIGRAM.equals(this.trainingStrategy))
+		if (TrainFeatureStrategy.BIGRAM.equals(this.trainFeatureStrategy)
+				|| TrainFeatureStrategy.DOUBLE_UNIGRAM.equals(this.trainFeatureStrategy))
 			start = 1;
-		else if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy)
-				|| TrainingStrategy.TRIPLE_UNIGRAM.equals(this.trainingStrategy))
+		else if (TrainFeatureStrategy.TRIGRAM.equals(this.trainFeatureStrategy)
+				|| TrainFeatureStrategy.TRIPLE_UNIGRAM.equals(this.trainFeatureStrategy))
 			start = 2;
 
 		Token token1 = null;
@@ -247,15 +247,15 @@ public class SupervisedMSS extends MaximumSubsequenceSegmentation
 			// this n-gram
 			if (i >= start)
 			{
-				if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
+				if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIGRAM))
 					score = classifier.getProbability("in", this.getTrigram(token1, token2, token)) - 0.5;
-				else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
+				else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.BIGRAM))
 					score = classifier.getProbability("in", this.getBigram(token2, token)) - 0.5;
-				else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
+				else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.UNIGRAM))
 					score = classifier.getProbability("in", this.getUnigram(token)) - 0.5;
-				else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
+				else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.DOUBLE_UNIGRAM))
 					score = classifier.getProbability("in", this.getDoubleUnigram(token2, token)) - 0.5;
-				else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
+				else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIPLE_UNIGRAM))
 					score = classifier.getProbability("in", this.getTripleUnigram(token1, token2, token)) - 0.5;
 
 				logger.trace("{}{} : {}", (score < 0 ? "" : " "), new DecimalFormat("#0.000").format(score), 

@@ -1,34 +1,19 @@
 package at.rovo.textextraction;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.almworks.sqlite4java.SQLiteConnection;
-import com.almworks.sqlite4java.SQLiteException;
-import com.almworks.sqlite4java.SQLiteStatement;
 import at.rovo.classifier.naiveBayes.NaiveBayes;
 import at.rovo.classifier.naiveBayes.ProbabilityCalculation;
 import at.rovo.classifier.naiveBayes.TrainingDataStorageMethod;
 import at.rovo.parser.Tag;
 import at.rovo.parser.Token;
 import at.rovo.parser.Word;
-import at.rovo.textextraction.mss.TrainingEntry;
-import at.rovo.textextraction.mss.TrainingStrategy;
+import at.rovo.textextraction.mss.TrainFeatureStrategy;
 
 /**
  * <p>
@@ -43,24 +28,25 @@ import at.rovo.textextraction.mss.TrainingStrategy;
  * page.
  * </p>
  * 
- * @see MaximumSubsequenceSegmentation
+ * @see at.rovo.textextraction.mss.MaximumSubsequenceSegmentation
  * @author Roman Vottner
  */
+@SuppressWarnings("unused")
 public abstract class TextExtractor 
 {
 	/** The logger of this class **/
-	private static Logger logger = LogManager.getLogger(TextExtractor.class.getName());
+	private static Logger LOG = LogManager.getLogger(TextExtractor.class.getName());
 	/** Defines the source where to train the classifier from **/
 	protected TrainData trainFrom = TrainData.FILE;
 	/** The classifier which needs to be trained **/
 	protected NaiveBayes<String, String> classifier = null;
 	/** The map-structure containing common tags shared by multiple sources **/
-	protected Dictionary<String, List<String>> commonTags = new Hashtable<String, List<String>>();
+	protected Dictionary<String, List<String>> commonTags = new Hashtable<>();
 	/** Indicates if the instance is trained or is in need of training **/
 	protected boolean isTrained = false;
 	/** Specifies how many tokens should be combined or how many features built
 	 * from training data examples **/
-	protected TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
+	protected TrainFeatureStrategy trainFeatureStrategy = TrainFeatureStrategy.TRIPLE_UNIGRAM;
 	/** Specifies how many samples per sources should be trained **/
 	protected int trainingSampleSize = 0;
 	/** Specifies in which form data inside the classifier should be stored **/
@@ -71,27 +57,27 @@ public abstract class TextExtractor
 	
 	/**
 	 * <p>Returns the currently set strategy for training new samples.
-	 * By default {@link TrainingStrategy#TRIPLE_UNIGRAM} is set</p>
+	 * By default {@link at.rovo.textextraction.mss.TrainFeatureStrategy#TRIPLE_UNIGRAM} is set</p>
 	 * 
 	 * @return The currently set strategy for training new samples
 	 */
-	public TrainingStrategy getTrainingStrategy() 
+	public TrainFeatureStrategy getTrainFeatureStrategy()
 	{ 
-		return this.trainingStrategy; 
+		return this.trainFeatureStrategy;
 	}
 	
 	/**
 	 * <p>Sets the new strategy for training new samples to the classifier. 
-	 * {@link TrainingStrategy#TRIGRAM} will train f.e. 'token1 token2 token3' 
-	 * to the classifier while {@link TrainingStrategy#TRIPLE_UNIGRAM} will
+	 * {@link at.rovo.textextraction.mss.TrainFeatureStrategy#TRIGRAM} will train f.e. 'token1 token2 token3'
+	 * to the classifier while {@link at.rovo.textextraction.mss.TrainFeatureStrategy#TRIPLE_UNIGRAM} will
 	 * train 'token1', 'token2', 'token3' as either 'in' or 'out' to the
 	 * classifier.</p>
 	 * 
-	 * @param trainingStrategy The training strategy to be used
+	 * @param trainFeatureStrategy The training strategy to be used
 	 */
-	public void setTrainingStrategy(TrainingStrategy trainingStrategy) 
+	public void setTrainFeatureStrategy(TrainFeatureStrategy trainFeatureStrategy)
 	{ 
-		this.trainingStrategy = trainingStrategy; 
+		this.trainFeatureStrategy = trainFeatureStrategy;
 	}
 	
 	/**
@@ -165,8 +151,6 @@ public abstract class TextExtractor
 	 * <p>Removes unwanted parts of the extracted text</p>
 	 * 
 	 * @param text Text to remove unwanted parts from
-	 * @param renameUnknownTags Specifies if tags which aren't included in
-	 *                          the common tags should be renamed to "unknown"
 	 * @return The cleaned text
 	 */
 	public abstract List<Token> cleanText(List<Token> text);
@@ -177,158 +161,21 @@ public abstract class TextExtractor
 	public final void initTrainingSamples(int trainingSizePerSource)
 	{
 		this.trainingSampleSize = trainingSizePerSource;
-		
-		long startTime = 0;
-		logger.info("Start training");
-		startTime = System.currentTimeMillis();
-		
-		if (this.trainFrom.equals(TrainData.FILE))
-			this.initTrainingSamplesFromFiles();
-		else if (this.trainFrom.equals(TrainData.DB))
-			this.initTrainingSamplesFromDB(trainingSizePerSource);
-		else
-		{
-			this.initTrainingSamplesFromDB(trainingSizePerSource);
-			this.initTrainingSamplesFromFiles();
-		}
-		// give children the possibility to extend training
-		this.extendTraining();
-		
-		long neededTime = System.currentTimeMillis()-startTime;
-		long min = neededTime/1000/60;
-		long lsec = neededTime - min*1000*60;
-		long sec = lsec/1000;
-		logger.info("Training done. Time needed: {} min {} sec ({} ms)", min, sec, neededTime);
-		this.isTrained = true;
-	}
-	
-	/**
-	 * <p>This method provides a possibility to train either from additional sources 
-	 * and/or to refine training by train new classifiers based on the base classifier</p>
-	 */
-	protected void extendTraining()
-	{
-		
-	}
-	
-	/**
-	 * <p>Loads the training data from a
-	 */
-	protected final void initTrainingSamplesFromFiles()
-	{
-		String userDir = System.getProperty("user.dir");
-		File trainingDir = new File(userDir+"/trainingData");
 
-		if (!trainingDir.isDirectory())
-		{
-			logger.error("Could not find training Directory!");
-			return;
-		}
-		
-		// list all files in the trainingData directory
-		for (String fileName : trainingDir.list())
-		{
-			File file = new File(trainingDir.getAbsoluteFile()+"/"+fileName);
-			// check if the file is a text file
-			if (!file.isDirectory() && file.getName().endsWith(".txt"))
-			{
-				long startTime = 0L;
-				logger.info("Using File {} for training", file.getAbsolutePath());
-				startTime = System.currentTimeMillis();
-				
-				TrainingEntry entry = new TrainingEntry();
-				NaiveBayes<String, String> classifier = null;
-				
-				try
-				{
-					FileInputStream fis = new FileInputStream(file.getAbsolutePath());
-					InputStreamReader in = new InputStreamReader(fis, "UTF-8");
-					BufferedReader br = new BufferedReader(in);
-					try
-					{				
-						String line = null;
-						StringBuilder text = new StringBuilder();
-						int lineNr = 0;
-						while ((line = br.readLine()) != null)
-						{
-							if (lineNr == 0)
-							{
-								entry.setUrl(line);
-								// extract the domain-name to use it as key for a map
-								String url = line;
-								if (url.startsWith("http://"))
-									url = line.substring("http://".length());
-								if (url.contains("/"))
-									url = url.substring(0, url.indexOf("/"));
-
-								if (this.classifier == null)
-									this.classifier = NaiveBayes.create(
-											this.probCalc, 
-											this.storageMethod);
-								classifier = this.classifier;
-								
-								entry.setClassifier(classifier);
-							}
-							else if (lineNr == 1)
-								entry.setCategory(line);
-							else
-								text.append(" "+line);
-							
-							lineNr++;
-						}
-						entry.setCommonTags(this.commonTags);
-						entry.setText(text.toString());
-						
-						// start training
-						entry.train(false);
-					}
-					catch (Exception ex)
-					{
-						logger.catching(ex);
-					}
-					finally
-					{
-						br.close();
-						in.close();
-						fis.close();
-						
-						br = null;
-						in = null;
-						fis = null;
-					}
-				}
-				catch (IOException ioEx)
-				{
-					logger.catching(ioEx);
-				}
-				
-				logger.info("\tTraining took {} ms", (System.currentTimeMillis()-startTime));
-			}
-		}
-	}
-	
-	/**
-	 * <p>Loads the training data from a SQLite database named ate.db which
-	 * was used by Jeff Pasternack and Dan Roth to train their algorithm.</p>
-	 * <p>The DB-file has to be inside the trainingData sub-directory of the 
-	 * project root</p>
-	 * <p></p>
-	 */
-	protected final void initTrainingSamplesFromDB(int trainingSizePerSource)
-	{
 		// find the directory where the db containing the training-data
 		// is located in
 		String userDir = System.getProperty("user.dir");
 		File trainingDir = new File(userDir+"/trainingData");
-
+		LOG.info("TrainingData Directory: {}", trainingDir);
 		if (!trainingDir.isDirectory())
 		{
-			logger.error("Could not find training Directory!");
+			LOG.error("Could not find training directory located in {}",
+					trainingDir);
 			return;
 		}
-		
+
+		List<String> sources = new ArrayList<>();
 		// well known training sources
-		List<String> sources = new ArrayList<String>();
 		sources.add("abcnews.go.com");
 		sources.add("cnn.com");
 		sources.add("foxnews.com");
@@ -341,208 +188,30 @@ public abstract class TextExtractor
 		sources.add("usatoday.com");
 		sources.add("washingtonpost.com");
 		sources.add("wired.com");
-		
-		// directory found
-		// first check if there are already serialized objects present
-		FilenameFilter filter = new FilenameFilter()
-		{
-			public boolean accept(File dir, String name)
-			{
-				if (name.endsWith("_"+trainingSampleSize+"_"+trainingStrategy.name()+".ser"))
-					return true;
-				return false;
-			}
-		};
-		
-		File[] serObjects = trainingDir.listFiles(filter);
-		if (serObjects.length > 0)
-		{
-			logger.info("Trying to reuse previously trained classifier");
-			for (File serObject : serObjects)
-			{
-				if (serObject.getName().equals("commonTags.ser"))
-				{
-					this.commonTags = loadCommonTags(serObject);
-					continue;
-				}
-				
-				NaiveBayes<String, String> cls = NaiveBayes.create(this.probCalc, 
-						this.storageMethod);
-				if (!cls.loadData(serObject))
-					logger.error("Failure loading data file for {}", cls);
-				this.classifier = cls;
-			}
-		}
-		else
-		{
-			// either no or not all serialized objects have been found - train them from the db
-			String dbFile = trainingDir.getAbsoluteFile()+"\\ate.db";
-			logger.info("Train classifiers from scratch! Using {}, Strategy used: {}", 
-					dbFile, this.trainingStrategy.name());
-			// create a new db-object
-			SQLiteConnection db = new SQLiteConnection(new File(dbFile));
-		    try 
-		    {
-		    	// open a new db connection
-				db.open(true);
-				for (int i=0; i<sources.size(); i++)
-				{
-					SQLiteStatement st = db.prepare("SELECT p.Source, p.URL, p.HTML, e.Start, e.Length " +
-							"FROM Extractions AS e, Pages AS p " +
-							"WHERE e.DocumentID=p.DocumentID AND p.Source='"+sources.get(i)
-							+"' Limit "+trainingSizePerSource);
-					// this.printTableHeader(st);
-		
-					NaiveBayes<String, String> classifier = null;
-					// run through every found entry and store required data in
-					// a TrainingEntry object which will later on used to train
-					// the local classifier
-					while (st.step())
-					{
-						TrainingEntry entry = new TrainingEntry();
-						// if there is already a classifier for this source, use it
-						// else create a new one
-						String source = st.columnString(0);
-						if (this.classifier == null)
-							this.classifier = NaiveBayes.create(this.probCalc, 
-									this.storageMethod);
-						this.classifier.setName("AllInOne");
-						classifier = this.classifier;
-						
-						entry.setTrainingStrategy(this.trainingStrategy);
-						entry.setClassifier(classifier);
-						entry.setUrl(st.columnString(1));
-						entry.setSourceUrl(source);
-						entry.setCommonTags(this.commonTags);
-						String html = st.columnString(2);
-						html = html.replaceAll("\\s", " ");
-						entry.setHTML(html);
-						
-						// labeled article text extraction
-						// as the DB only contains the start position and the length of the 
-						// text we have to extract it from the full-HTML code retrieved in the
-						// previous step
-						logger.debug("start: {}", st.columnInt(3));
-						logger.debug("length: {}", st.columnInt(4));
-						logger.debug("source: {}", st.columnString(0));
-						logger.debug("html: {}", html);
-						
-						String text = html.substring(st.columnInt(3), st.columnInt(3)+st.columnInt(4));
-						entry.setFormatedText(text);
-						logger.debug("text: {}", entry.getText());
-						entry.train(false);
-						// clear the memory obtained by the entry
-						entry = null;
-					}
-					st.dispose();
-				}
-				// serialize the classifier so we do not have to train it on every new call
-				this.classifier.saveData(trainingDir, "mssClassificationData"+"_"+this.trainingSampleSize+"_"+this.trainingStrategy.name()+".ser");
-				this.saveCommonTags(this.commonTags, trainingDir, "commonTags");
-			} 
-		    catch (SQLiteException e) 
-			{
-		    	logger.catching(e);
-			}
-		    finally
-		    {
-		    	db.dispose();
-		    }
-		}
-	}
-	
-	/**
-	 * <p>Loads a list of common tags from a file called 'commonTags.ser' via java
-	 * object serialization into memory.</p>
-	 * 
-	 * @param serializedObject A reference to the {@link File} representing
-	 *                         the serialized object
-	 * @return The object containing the common tags; null otherwise
-	 */
-	@SuppressWarnings("unchecked")
-	private final Dictionary<String, List<String>> loadCommonTags(File serializedObject)
-	{
-		Dictionary<String, List<String>> dict = null;
-		try
-		{
-			FileInputStream fis = new FileInputStream(serializedObject);
-			BufferedInputStream bis = new BufferedInputStream(fis);
-			ObjectInputStream ois = new ObjectInputStream(bis);
-			try
-			{
-				Object obj = ois.readObject();
-				if (obj instanceof Hashtable<?, ?>)
-				{
-					dict = (Hashtable<String, List<String>>)obj;
-					logger.info("Found a list of common tags: {} - {}", serializedObject.getName(), dict);
-				}
-				else if (obj instanceof Dictionary<?, ?>)
-				{
-					dict = (Dictionary<String, List<String>>)obj;
-					logger.info("Found a list of common tags: {} - {}", serializedObject.getName(), dict);
-				}
-			}
-			catch (IOException | ClassNotFoundException e) 
-			{
-				logger.catching(e);
-			}
-			finally
-			{
-				if (ois != null)
-					ois.close();
-				if (bis != null)
-					bis.close();
-				if (fis != null)
-					fis.close();
-			}
-		}
-		catch (IOException e) 
-		{
-			logger.catching(e);
-		}
-		return dict;
-	}
 
-	
-	/**
-	 * <p>Persists the List of common tags via java object serialization to a file in
-	 * a defined directory.</p>
-	 * 
-	 * @param dict The {@link Dictionary} of common tags with their sources they occurred
-	 * @param directory The directory the {@link Dictionary} should be saved in
-	 * @param name The name of the {@link File} which will hold the bytes of the 
-	 *             persisted object
-	 */
-	private final void saveCommonTags(Dictionary<String, List<String>> dict, File directory, String name)
-	{
-		try 
+		List<TrainingDataStrategy> trainers = TrainerFactory.createTrainer(
+				this.trainFrom, trainingDir, sources,
+				this.trainingSampleSize, this.trainFeatureStrategy);
+
+		if (null == this.classifier)
 		{
-			FileOutputStream fos = new FileOutputStream(directory.getAbsoluteFile()+"\\"+name+".ser");
-			BufferedOutputStream bos = new BufferedOutputStream(fos);
-			ObjectOutput object = null;
-			try 
-			{
-				object = new ObjectOutputStream(bos);
-				object.writeObject(dict);
-			} 
-			catch (IOException e) 
-			{
-				logger.catching(e);
-			}
-			finally
-			{
-				if (object != null)
-					object.close();
-				if (bos != null)
-					bos.close();
-				if (fos != null)
-					fos.close();
-			}
-		} 
-		catch (IOException e)
-		{
-			logger.catching(e);
+			this.classifier =
+					NaiveBayes.create(this.probCalc, this.storageMethod);
 		}
+
+		LOG.info("Start training");
+		long startTime = System.currentTimeMillis();
+
+		for (TrainingDataStrategy trainer : trainers)
+		{
+			this.classifier = (NaiveBayes<String,String>)trainer.trainModel(this.classifier);
+		}
+		
+		long neededTime = System.currentTimeMillis()-startTime;
+		long min = neededTime/1000/60;
+		long sec = (neededTime - min*1000*60)/1000;
+		LOG.info("Training done. Time needed: {} min {} sec ({} ms)", min, sec, neededTime);
+		this.isTrained = true;
 	}
 
 	/**
@@ -562,16 +231,16 @@ public abstract class TextExtractor
 		for (Token t : text)
 		{
 			// if the last token was a word and this token is a word add a blank before the new token: 'word1 word2'
-			if (blank && append && t instanceof Word && newLine == false)
+			if (blank && append && t instanceof Word && !newLine)
 				builder.append(" ");
 			// if the last token was a tag and it was a closing tag and the new token is a word add a blank: '</a> text'
 			// only if the new word is neither a . or :
 			if ((append && lastToken instanceof Tag && !((Tag)lastToken).isOpeningTag()) && t instanceof Word && 
-					!t.getText().equals(":") && !t.getText().equals(".") && newLine == false)
+					!t.getText().equals(":") && !t.getText().equals(".") && !newLine)
 				builder.append(" ");
 			// create a blank before a link if the last token was a word: 'word <a href...>'
 			if (append && t instanceof Tag && lastToken instanceof Word && ((Tag)t).isOpeningTag() && 
-					((Tag)t).getShortTag().equals("a") && newLine == false)
+					((Tag)t).getShortTag().equals("a") && !newLine)
 				builder.append(" ");
 			
 			if (t instanceof Tag)
@@ -581,10 +250,7 @@ public abstract class TextExtractor
 				// if the text contains <article>...</article> segments only use the part between those tags as content
 				if (tag.getShortTag().equals("article") || tag.getShortTag().equals("more"))
 				{ 
-					if(tag.isOpeningTag())
-						append = true;
-					else 
-						append = false;
+					append = tag.isOpeningTag();
 				}
 				// don't show special HTML tags
 				if (append && !tag.getShortTag().equals("p") && !tag.getShortTag().equals("cite") && !tag.getShortTag().equals("li") && 
@@ -607,7 +273,7 @@ public abstract class TextExtractor
 					newLine = true;
 				}
 				// insert a blank after a span-tag
-				if (!tag.isOpeningTag() && append && (tag.getShortTag().equals("span")) && builder.capacity()>0 && newLine==false)
+				if (!tag.isOpeningTag() && append && (tag.getShortTag().equals("span")) && builder.capacity()>0 && !newLine)
 					builder.append(" ");
 			}
 			else

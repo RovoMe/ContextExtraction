@@ -91,10 +91,11 @@ import at.rovo.textextraction.mss.*;
  * 
  * @author Roman Vottner
  */
+@SuppressWarnings("unused")
 public class Main 
 {
 	/** The logger of this class **/
-	private static Logger logger = LogManager.getLogger(Main.class);
+	private static Logger LOG = LogManager.getLogger(Main.class);
 	
 	/** The text extraction implementation to use for main content prediction **/
 	private TextExtractor te = null;
@@ -115,7 +116,7 @@ public class Main
 	 * @param extractionMethod
 	 *            The method used for extracting the content. This can either be
 	 *            'simple', 'supervised' or 'semiSupervised'
-	 * @param trainingStrategy
+	 * @param trainFeatureStrategy
 	 *            The training strategy used. This may be one of the following
 	 *            settings: 'TRIGRAM', 'BIGRAM', 'UNIGRAM', 'DOUBLE_UNIGRAM' or
 	 *            'TRIPPLE_UNIGRAM'
@@ -134,16 +135,17 @@ public class Main
 	 *            The number of samples per news provider stored in the SQLite
 	 *            DBthat should be used to train the classifier.
 	 */
-	public Main(String extractionMethod, TrainingStrategy trainingStrategy, 
+	public Main(String extractionMethod, TrainFeatureStrategy trainFeatureStrategy,
 			TrainData trainSource, int trainingSizePerSource, 
 			TrainingDataStorageMethod storageMethod, ProbabilityCalculation probCalc)
 	{
+		//System.err.println(System.getProperty("sqlite4java.library.path"));
 		// Check if SQLite4java path is set
-		if (System.getProperty("sqlite4java.library.path") == null)
-		{
-			logger.error("SQLite4java Path is not set!");
-			throw new IllegalArgumentException("SQLite4java Path is not set!");
-		}
+		//if (System.getProperty("sqlite4java.library.path") == null)
+		//{
+		//	LOG.error("SQLite4java Path is not set!");
+		//	throw new IllegalArgumentException("SQLite4java Path is not set!");
+		//}
 		
 		switch (extractionMethod)
 		{
@@ -152,14 +154,14 @@ public class Main
 				break;
 			case "supervised":
 				te = new SupervisedMSS(trainSource);
-				te.setTrainingStrategy(trainingStrategy);
+				te.setTrainFeatureStrategy(trainFeatureStrategy);
 				te.setTrainingDataStorageMethod(storageMethod);
 				te.setProbabilityCalculationOfClassifier(probCalc);
 				te.initTrainingSamples(trainingSizePerSource);
 				break;
 			case "semiSupervised":
 				te = new SemiSupervisedMSS(trainSource);
-				te.setTrainingStrategy(trainingStrategy);
+				te.setTrainFeatureStrategy(trainFeatureStrategy);
 				te.setTrainingDataStorageMethod(storageMethod);
 				te.setProbabilityCalculationOfClassifier(probCalc);
 				te.initTrainingSamples(trainingSizePerSource);
@@ -187,14 +189,14 @@ public class Main
 		try 
 		{
 			String content = this.te.predictText(url);
-			logger.info("*** {} ***", url);
-			logger.info(content);
-			logger.info("");
+			LOG.info("*** {} ***", url);
+			LOG.info(content);
+			LOG.info("");
 			return content;
 		} 
-		catch (ExtractionException e) 
+		catch (ExtractionException e)
 		{
-			logger.catching(e);
+			LOG.error("Error while predicting the main article's content", e);
 		}
 		return null;
 	}
@@ -213,7 +215,8 @@ public class Main
 	 * </p>
 	 * 
 	 * @param urls
-	 * @return
+	 *            The URLs the content should be predicted for
+	 * @return The predicted content for each URL as {@link List}
 	 */
 	public List<String> predictContent(List<String> urls)
 	{
@@ -225,15 +228,15 @@ public class Main
 			List<String> contents = this.te.predictText(urls);
 			for (int i=0; i<urls.size(); i++)
 			{
-				logger.info("*** {} ***", urls.get(i));
-				logger.info(contents.get(i));
-				logger.info("");
+				LOG.info("*** {} ***", urls.get(i));
+				LOG.info(contents.get(i));
+				LOG.info("");
 			}
 			return contents;
 		} 
-		catch (ExtractionException e) 
+		catch (ExtractionException e)
 		{
-			logger.catching(e);
+			LOG.error("Error while predicting the main article's content", e);
 		}
 		return null;
 	}
@@ -284,13 +287,13 @@ public class Main
 	public static void main(String ... args)
 	{
 		int trainingSizePerSource = 1500;
-		TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
+		TrainFeatureStrategy trainFeatureStrategy = TrainFeatureStrategy.TRIPLE_UNIGRAM;
 		String extractionMethod = null;
 		TrainData trainingSource = TrainData.DB;
 		TrainingDataStorageMethod storageMethod = TrainingDataStorageMethod.MAP;
 		ProbabilityCalculation probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
 		// will hold all URLs to extract content from
-		List<String> urls = new ArrayList<String>();
+		List<String> urls = new ArrayList<>();
 		
 		// Load settings from config file
 		Properties properties = new Properties();
@@ -303,48 +306,48 @@ public class Main
 			try
 			{
 				trainingSizePerSource = Integer.parseInt(properties.getProperty("trainingSizePerSource"));
-				logger.info("trainingSizePerSource set to {}", trainingSizePerSource);
+				LOG.info("trainingSizePerSource set to {}", trainingSizePerSource);
 			}
 			catch(NumberFormatException nfE)
 			{
-				logger.catching(nfE);
+				LOG.catching(nfE);
 			}
 			
 			String value = properties.getProperty("trainingStrategy");
-			trainingStrategy = TrainingStrategy.valueOf(value);
-			if (trainingStrategy == null)
+			trainFeatureStrategy = TrainFeatureStrategy.valueOf(value);
+			if (trainFeatureStrategy == null)
 			{
-				logger.error("Unknown training strategy provided! Falling back to strategy: TRIPLE_UNIGRAM");
-				trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
+				LOG.error("Unknown training strategy provided! Falling back to strategy: TRIPLE_UNIGRAM");
+				trainFeatureStrategy = TrainFeatureStrategy.TRIPLE_UNIGRAM;
 			}
 			else
-				logger.info("trainingStrategy set to {}", trainingStrategy);
+				LOG.info("trainingStrategy set to {}", trainFeatureStrategy);
 			
 			extractionMethod = properties.getProperty("extractionMethod");
-			logger.info("extractionMethod set to {}", extractionMethod);
+			LOG.info("extractionMethod set to {}", extractionMethod);
 			
 			value = properties.getProperty("trainingSource");
 			trainingSource = TrainData.valueOf(value);
 			if (trainingSource == null)
 			{
-				logger.error("Unknown training source provided! Falling back to method: DB");
+				LOG.error("Unknown training source provided! Falling back to method: DB");
 				trainingSource = TrainData.DB;
 			}
 			else
-				logger.info("trainingSource set to {}", trainingSource);
+				LOG.info("trainingSource set to {}", trainingSource);
 			
 			String _urls = properties.getProperty("extract");
 			for (String url : _urls.split("\\s"))
 			{
 				urls.add(url);
-				logger.info("Added {} for extraction", url);
+				LOG.info("Added {} for extraction", url);
 			}
 			
 			value = properties.getProperty("trainingDataStorageMethod");
 			if (value != null)
 			{
 				storageMethod = TrainingDataStorageMethod.valueOf(value);
-				logger.info("trainindDataStorageMethod set to {}", storageMethod);
+				LOG.info("trainindDataStorageMethod set to {}", storageMethod);
 			}
 			
 			value = properties.getProperty("classifier");
@@ -367,15 +370,12 @@ public class Main
 					default:
 						probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
 				}
-				logger.info("classifier set to {}", probCalc);
+				LOG.info("classifier set to {}", probCalc);
 			}
-			
-			properties = null;
 		}
 		catch (IOException e)
 		{
-			logger.error("Could not load application config file: "+confFile);
-			logger.throwing(e);
+			LOG.error("Could not load application config file: "+confFile, e);
 		}
 		
 		// if application arguments have been provided overwrite values in conf
@@ -390,29 +390,29 @@ public class Main
 					try
 					{
 						trainingSizePerSource = Integer.parseInt(value);
-						logger.info("trainingSizePerSource set to {}", trainingSizePerSource);
+						LOG.info("trainingSizePerSource set to {}", trainingSizePerSource);
 					}
 					catch(NumberFormatException nfE)
 					{
-						logger.catching(nfE);
+						LOG.catching(nfE);
 					}
 				}
 				else if(arg.startsWith("trainingStrategy"))
 				{
 					String value = arg.substring("trainingStrategy=".length());
-					trainingStrategy = TrainingStrategy.valueOf(value);
-					if (trainingStrategy == null)
+					trainFeatureStrategy = TrainFeatureStrategy.valueOf(value);
+					if (trainFeatureStrategy == null)
 					{
-						logger.error("Unknown training strategy provided! Falling back to strategy: TRIPLE_UNIGRAM");
-						trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
+						LOG.error("Unknown training strategy provided! Falling back to strategy: TRIPLE_UNIGRAM");
+						trainFeatureStrategy = TrainFeatureStrategy.TRIPLE_UNIGRAM;
 					}
 					else
-						logger.info("trainingStrategy set to {}", trainingStrategy);
+						LOG.info("trainingStrategy set to {}", trainFeatureStrategy);
 				}
 				else if(arg.startsWith("extractionMethod"))
 				{
 					extractionMethod = arg.substring("extractionMethod=".length());
-					logger.info("extractionMethod set to {}", extractionMethod);
+					LOG.info("extractionMethod set to {}", extractionMethod);
 				}
 				else if(arg.startsWith("trainingSource"))
 				{
@@ -420,11 +420,11 @@ public class Main
 					trainingSource = TrainData.valueOf(value);
 					if (trainingSource == null)
 					{
-						logger.error("Unknown training source provided! Falling back to method: DB");
+						LOG.error("Unknown training source provided! Falling back to method: DB");
 						trainingSource = TrainData.DB;
 					}
 					else
-						logger.info("trainingSource set to {}", trainingSource);
+						LOG.info("trainingSource set to {}", trainingSource);
 				}
 				else if (arg.startsWith("extract"))
 				{
@@ -456,7 +456,7 @@ public class Main
 						default:
 							probCalc = ProbabilityCalculation.EVEN_LIKELIHOOD;
 					}
-					logger.info("classifier set to {}", probCalc);
+					LOG.info("classifier set to {}", probCalc);
 				}
 			}
 		}
@@ -472,7 +472,7 @@ public class Main
 		
 		// create a new instance - training or loading of a previously trained 
 		// classifier will start automatically after initialization
-		Main main = new Main(extractionMethod, trainingStrategy, trainingSource, 
+		Main main = new Main(extractionMethod, trainFeatureStrategy, trainingSource,
 				trainingSizePerSource, storageMethod, probCalc);
 				
 		// with SemiSupervised approach all different pages train a single local

@@ -8,72 +8,88 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
 	%p : Level of the event
 	%t : Thread that produced the logging-event
  -->
-<configuration status="warn" name="TextExtraction">
+<configuration status="info" name="TextExtraction">
 
-  <properties>
-  	<!-- Log file for checking TextExtraction -->
-    <property name="file">log/TextExtraction.log</property>
-    <property name="parserFile">log/Parser.log</property>
-  </properties>
-  
-  <appenders>
-  	<Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
-      <!-- ThresholdFilter returns the onMatch result if the level in the LogEvent 
-      is the same or more specific than the configured level and the onMismatch 
-      value otherwise. For example, if the ThresholdFilter is configured with 
-      Level ERROR and the LogEvent contains Level DEBUG then the onMismatch 
-      value will be returned since ERROR events are more specific than DEBUG. 
-      The default Level is ERROR.  -->
-      <!-- accept INFO and WARN messages but don't show ERRORs on the system-output ... -->
-      <filters>
-	    <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
-	    <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
-	    <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-      </filters>
-    </Console>
-    <!-- ... show them on the error-console! -->
-    <Console name="Error" target="SYSTEM_ERR">
-      <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
-      <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-    </Console>
-    <File name="ExtractorFile" fileName="${file}" append="false">
-      <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
-    </File>
-    <File name="ParserFile" fileName="${parserFile}" append="false">
-      <PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
-    </File>
-  </appenders>
-  
-  <loggers>	
-    <logger name="at.rovo.textextraction.mss.MaximumSubsequenceSegmentation" level="info" additivity="true">
-      <appender-ref ref="ExtractorFile"/>
-    </logger>
-  	<logger name="at.rovo.textextraction.mss.SemiSupervisedMSS" level="debug" additivity="true">
-      <appender-ref ref="ExtractorFile"/>
-    </logger>
-    <logger name="at.rovo.textextraction.mss.SupervisedMSS" level="debug" additivity="true">
-      <appender-ref ref="ExtractorFile"/>
-    </logger>
-    <logger name="at.rovo.textextraction.TextExtractor" level="info" additivity="true">
-      <appender-ref ref="ExtractorFile"/>
-    </logger>
-    <logger name="at.rovo.textextraction.mss.TrainingEntry" level="info" additivity="true">
-  	  <appender-ref ref="ExtractorFile"/>
-  	</logger>
-  	<logger name="at.rovo.Main" level="info" additivity="true">
-	  <appender-ref ref="ExtractorFile"/>
-  	</logger>
-  	
-  	<logger name="at.rovo.parser" level="error" additivitiy="true">
-  		<appender-ref ref="ParserFile"/>
-  	</logger>
-  	
-  	<logger name="at.rovo" level="info" additivity="true">
-  	  <appender-ref ref="Console"/>
-  	</logger>
-    <root level="error">
-      <appender-ref ref="Error"/>
-    </root>
-  </loggers>
+	<properties>
+		<!-- Log file for checking TextExtraction -->
+		<property name="file">log/TextExtraction.log</property>
+		<property name="parserFile">log/Parser.log</property>
+	</properties>
+
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
+			<!-- ThresholdFilter returns the onMatch result if the level in the LogEvent
+			  is the same or more specific than the configured level and the onMismatch
+			  value otherwise. For example, if the ThresholdFilter is configured with
+			  Level ERROR and the LogEvent contains Level DEBUG then the onMismatch
+			  value will be returned since ERROR events are more specific than DEBUG.
+			  The default Level is ERROR.  -->
+			<!-- accept INFO and WARN messages but don't show ERRORs on the system-output ... -->
+			<filters>
+				<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+				<ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+				<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+			</filters>
+		</Console>
+		<!-- ... show them on the error-console! -->
+		<Console name="Error" target="SYSTEM_ERR">
+			<PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
+			<filters>
+				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+				<ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+			</filters>
+		</Console>
+		<File name="ExtractorFile" fileName="${file}" append="false">
+			<PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
+		</File>
+		<File name="ParserFile" fileName="${parserFile}" append="false">
+			<PatternLayout pattern="%d{HH:mm:ss} %p %C{1}.%M() - %m%n"/>
+		</File>
+	</appenders>
+
+	<loggers>
+		<logger name="at.rovo.textextraction.mss.MaximumSubsequenceSegmentation" level="info" additivity="false">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.textextraction.mss.SemiSupervisedMSS" level="debug" additivity="false">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.textextraction.mss.SupervisedMSS" level="debug" additivity="false">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.textextraction.AbstractTrainer" level="info" additivity="false">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.textextraction.TextExtractor" level="info" additivity="false">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.textextraction.mss.TrainingEntry" level="info" additivity="false">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.Main" level="info" additivity="true">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.textextraction.template.TemplateExtraction" level="debug" additivity="true">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+        <logger name="at.rovo.textextraction.templateIndependent.TemplateIndependentNewsExtractor" level="debug" additivity="true">
+            <appender-ref ref="ExtractorFile"/>
+        </logger>
+
+		<logger name="at.rovo.classifier" level="info" additivity="false">
+			<appender-ref ref="ExtractorFile"/>
+		</logger>
+		<logger name="at.rovo.parser" level="info" additivity="false">
+			<appender-ref ref="ParserFile"/>
+		</logger>
+
+		<logger name="at.rovo" level="info" additivity="false">
+			<appender-ref ref="Console"/>
+		</logger>
+		<root level="error">
+			<appender-ref ref="ExtractorFile" level="error"/>
+			<appender-ref ref="Error" level="error"/>
+		</root>
+	</loggers>
 </configuration>

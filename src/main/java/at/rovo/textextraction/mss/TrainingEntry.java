@@ -59,7 +59,7 @@ public class TrainingEntry
 	 */
 	private boolean useMostRecentUnclosedTagFeature = true;
 	/** The used training strategy **/
-	private TrainingStrategy trainingStrategy = TrainingStrategy.TRIPLE_UNIGRAM;
+	private TrainFeatureStrategy trainFeatureStrategy = TrainFeatureStrategy.TRIPLE_UNIGRAM;
 
 	/** The parser used to download the content from pages on the Internet **/
 	private Parser parser = null;
@@ -249,33 +249,33 @@ public class TrainingEntry
 	/**
 	 * <p>
 	 * Sets the strategy for training tokens to the local classifier.
-	 * {@link TrainingStrategy#TRIGRAM} will train a trigram, f.e. 'token1
-	 * token2 token3' while {@link TrainingStrategy#TRIPPLE_UNIGRAM} will train
+	 * {@link TrainFeatureStrategy#TRIGRAM} will train a trigram, f.e. 'token1
+	 * token2 token3' while {@link TrainFeatureStrategy#TRIPPLE_UNIGRAM} will train
 	 * 'token1', 'token2', 'token3' with the classifier.
 	 * </p>
 	 * <p>
-	 * By default the system will use {@link TrainingStrategy#TRIPPLE_UNIGRAM}
+	 * By default the system will use {@link TrainFeatureStrategy#TRIPPLE_UNIGRAM}
 	 * </p>
 	 * 
 	 * @param strategy
 	 *            The strategy to be used for training
 	 */
-	public void setTrainingStrategy(TrainingStrategy strategy)
+	public void setTrainFeatureStrategy(TrainFeatureStrategy strategy)
 	{
-		this.trainingStrategy = strategy;
+		this.trainFeatureStrategy = strategy;
 	}
 
 	/**
 	 * <p>
 	 * Returns the currently set training strategy. By default
-	 * {@link TrainingStrategy#TRIPPLE_UNIGRAM} will be taken
+	 * {@link TrainFeatureStrategy#TRIPPLE_UNIGRAM} will be taken
 	 * </p>
 	 * 
 	 * @return The currently used strategy for training new samples
 	 */
-	public TrainingStrategy getTrainingStrategy()
+	public TrainFeatureStrategy getTrainFeatureStrategy()
 	{
-		return this.trainingStrategy;
+		return this.trainFeatureStrategy;
 	}
 
 	/**
@@ -459,9 +459,9 @@ public class TrainingEntry
 		logger.debug("Trigrams: {}", nGrams);
 
 		int end = 0;
-		if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
+		if (TrainFeatureStrategy.BIGRAM.equals(this.trainFeatureStrategy))
 			end = 1;
-		else if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
+		else if (TrainFeatureStrategy.TRIGRAM.equals(this.trainFeatureStrategy))
 			end = 2;
 
 		Stack<String> mostRecentUnclosedTag = null;
@@ -476,12 +476,12 @@ public class TrainingEntry
 
 			if (i >= 2)
 			{
-				if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
+				if (TrainFeatureStrategy.TRIGRAM.equals(this.trainFeatureStrategy))
 					logger.debug("examin: '{}' '{}' '{}'", 
 							(token1.getText() != null ? token1.getText() : token1.getHTML()), 
 							(token2.getText() != null ? token2.getText() : token2.getHTML()),
 							(token.getText() != null ? token.getText() : token.getHTML()));
-				else if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
+				else if (TrainFeatureStrategy.BIGRAM.equals(this.trainFeatureStrategy))
 					logger.debug("examin: '{}' '{}'", 
 							(token2.getText() != null ? token2.getText() : token2.getHTML()),
 							(token.getText() != null ? token.getText() : token.getHTML()));
@@ -592,23 +592,23 @@ public class TrainingEntry
 		List<String> nGrams = new ArrayList<String>();
 
 		int start = 0;
-		if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
+		if (TrainFeatureStrategy.BIGRAM.equals(this.trainFeatureStrategy))
 			start = 1;
-		else if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
+		else if (TrainFeatureStrategy.TRIGRAM.equals(this.trainFeatureStrategy))
 			start = 2;
 
 		if (tokens.size() < start + 1)
 		{
 			logger.error("The provided text does not contain enough tokens to build a {}! {}",
-					this.trainingStrategy.name(), tokens);
+					this.trainFeatureStrategy.name(), tokens);
 			throw new IllegalArgumentException(
 					"The provided text does not contain enough tokens to build a "
-							+ this.trainingStrategy.name() + "! "+tokens);
+							+ this.trainFeatureStrategy.name() + "! "+tokens);
 		}
 
 		for (int i = start; i < tokens.size(); i++)
 		{
-			if (TrainingStrategy.TRIGRAM.equals(this.trainingStrategy))
+			if (TrainFeatureStrategy.TRIGRAM.equals(this.trainFeatureStrategy))
 			{
 				String t1 = (tokens.get(i - 2).getText() != null ? tokens.get(
 						i - 2).getText() : tokens.get(i - 2).getHTML());
@@ -627,7 +627,7 @@ public class TrainingEntry
 
 				nGrams.add(t1 + " " + t2 + " " + t3);
 			}
-			else if (TrainingStrategy.BIGRAM.equals(this.trainingStrategy))
+			else if (TrainFeatureStrategy.BIGRAM.equals(this.trainFeatureStrategy))
 			{
 				String t2 = (tokens.get(i - 1).getText() != null ? tokens.get(
 						i - 1).getText() : tokens.get(i - 1).getHTML());
@@ -913,8 +913,8 @@ public class TrainingEntry
 	 * <p>
 	 * Trains a provided {@link Classifier} with n-gram and
 	 * mostRecentUnclosedTag feature. Which kind of n-gram is used for training
-	 * is defined by the {@link TrainingStrategy} which may be set via
-	 * {@link #setTrainingStrategy(TrainingStrategy)}.
+	 * is defined by the {@link TrainFeatureStrategy} which may be set via
+	 * {@link #setTrainFeatureStrategy(TrainFeatureStrategy)}.
 	 * </p>
 	 * <p>
 	 * A m-gram is a token-sequence like <ti, ti+1> or <ti, ti+1, ti+2> whereas
@@ -970,7 +970,7 @@ public class TrainingEntry
 
 		String categorie = "out";
 		String[] feature = null;
-		if (this.trainingStrategy.equals(TrainingStrategy.TRIGRAM))
+		if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIGRAM))
 		{
 			feature = new String[2 - includeMRUT];
 			feature[0] = _t1 + " " + _t2 + " " + _t3;
@@ -980,7 +980,7 @@ public class TrainingEntry
 			if (nGrams.contains(feature[0]))
 				categorie = "in";
 		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.BIGRAM))
+		else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.BIGRAM))
 		{
 			feature = new String[2 - includeMRUT];
 			feature[0] = _t2 + " " + _t3;
@@ -990,7 +990,7 @@ public class TrainingEntry
 			if (nGrams.contains(feature[0]))
 				categorie = "in";
 		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.UNIGRAM))
+		else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.UNIGRAM))
 		{
 			feature = new String[2 - includeMRUT];
 			feature[0] = _t3;
@@ -1000,7 +1000,7 @@ public class TrainingEntry
 			if (nGrams.contains(feature[0]))
 				categorie = "in";
 		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.DOUBLE_UNIGRAM))
+		else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.DOUBLE_UNIGRAM))
 		{
 			feature = new String[3 - includeMRUT];
 			feature[0] = _t2;
@@ -1011,7 +1011,7 @@ public class TrainingEntry
 			if (nGrams.contains(feature[0] + " " + feature[1]))
 				categorie = "in";
 		}
-		else if (this.trainingStrategy.equals(TrainingStrategy.TRIPLE_UNIGRAM))
+		else if (this.trainFeatureStrategy.equals(TrainFeatureStrategy.TRIPLE_UNIGRAM))
 		{
 			feature = new String[4 - includeMRUT];
 			feature[0] = _t1;
@@ -1031,8 +1031,8 @@ public class TrainingEntry
 	/**
 	 * <p>
 	 * Trains a provided {@link Classifier} with a n-gram feature. Which kind of
-	 * n-gram is used for training is defined by the {@link TrainingStrategy}
-	 * which may be set via {@link #setTrainingStrategy(TrainingStrategy)}.
+	 * n-gram is used for training is defined by the {@link TrainFeatureStrategy}
+	 * which may be set via {@link #setTrainFeatureStrategy(TrainFeatureStrategy)}.
 	 * </p>
 	 * <p>
 	 * A n-gram is a token-sequence like <ti, ti+1> or <ti, ti+1, ti+2>.

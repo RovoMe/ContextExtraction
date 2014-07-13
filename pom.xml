@@ -33,6 +33,12 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+		<sqlite4java.version>0.282</sqlite4java.version>
+		<plugin.assembly.version>2.4</plugin.assembly.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<profiles>
 		<!-- Linux and Mac dependency entries may be fount at: http://code.google.com/p/sqlite4java/wiki/UsingWithMaven -->
 		<!-- list of arch and familiy names: http://lopica.sourceforge.net/os.html http://www.java-gaming.org/index.php/topic,14110 -->
@@ -97,22 +103,24 @@
 			<id>osx-10.4</id>
 			<activation>
 				<os>
-					<family>mac os x</family>
-					<arch>i386</arch>
-					<version>[10.4)</version>
+					<family>mac</family>
+					<name>mac os x</name>
+					<!--<arch>i386</arch>-->
+					<!--<arch>x86_64</arch>-->
+					<version>10.9.3</version>
 				</os>
 			</activation>
 			<properties>
-				<sqlite.artifact>libsqlite4java-osx-10.4</sqlite.artifact>
+				<sqlite.artifact>libsqlite4java-osx</sqlite.artifact>
 				<sqlite.type>jnilib</sqlite.type>
 			</properties>
 		</profile>
 		<!--  OS-X -->
-		<profile>
+		<!--<profile>
 			<id>osx</id>
 			<activation>
 				<os>
-					<family>mac os x</family>
+					<family>mac</family>
 					<arch>i386</arch>
 					<version>[10.0,10.4]</version>
 				</os>
@@ -121,13 +129,13 @@
 				<sqlite.artifact>libsqlite4java-osx</sqlite.artifact>
 				<sqlite.type>jnilib</sqlite.type>
 			</properties>
-		</profile>
+		</profile> -->
 		<!--  OS-X PPC -->
 		<profile>
 			<id>osx-ppc</id>
 			<activation>
 				<os>
-					<family>mac os x</family>
+					<family>mac</family>
 					<arch>ppc</arch>
 				</os>
 			</activation>
@@ -166,6 +174,8 @@
 			<groupId>com.almworks.sqlite4java</groupId>
 			<artifactId>${sqlite.artifact}</artifactId>
 			<type>${sqlite.type}</type>
+			<!--<artifactId>libsqlite4java-osx</artifactId>
+			<type>jnilib</type>-->
 			<version>${sqlite4java.version}</version>
 		</dependency>
 		<!-- Common -->
@@ -234,6 +244,8 @@
 									<groupId>com.almworks.sqlite4java</groupId>
 									<artifactId>${sqlite.artifact}</artifactId>
 									<type>${sqlite.type}</type>
+									<!--<artifactId>libsqlite4java-osx-10.4</artifactId>
+									<type>jnilib</type>-->
 									<version>${sqlite4java.version}</version>
 									<overWrite>false</overWrite>
 									<outputDirectory>${project.build.directory}/lib</outputDirectory>
@@ -290,12 +302,12 @@
 					<systemProperties>
 						<systemProperty>
 							<key>java.library.path</key>
-							<value>${project.build.directory}\lib;${java.library.path}</value>
+							<value>${project.build.directory}/lib;${java.library.path}</value>
 						</systemProperty>
-						<systemProperty>
+						<!--<systemProperty>
 							<key>sqlite4java.library.path</key>
-							<value>${project.build.directory}\lib</value>
-						</systemProperty>
+							<value>${project.build.directory}/lib</value>
+						</systemProperty>-->
 						<systemProperty>
 							<key>log4j.configurationFile</key>
 							<value>${project.build.outputDirectory}/log/log4j2.xml</value>

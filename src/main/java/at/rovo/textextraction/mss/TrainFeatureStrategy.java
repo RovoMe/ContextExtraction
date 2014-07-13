@@ -19,7 +19,7 @@ package at.rovo.textextraction.mss;
  * 
  * @author Roman Vottner
  */
-public enum TrainingStrategy 
+public enum TrainFeatureStrategy
 {
 	/** A single token **/
 	UNIGRAM,
