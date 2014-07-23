@@ -80,7 +80,7 @@ http://logging.apache.org/log4j/2.x/manual/layouts.html
 		<logger name="at.rovo.classifier" level="info" additivity="false">
 			<appender-ref ref="ExtractorFile"/>
 		</logger>
-		<logger name="at.rovo.parser" level="info" additivity="false">
+		<logger name="at.rovo.parser" level="debug" additivity="false">
 			<appender-ref ref="ParserFile"/>
 		</logger>
 

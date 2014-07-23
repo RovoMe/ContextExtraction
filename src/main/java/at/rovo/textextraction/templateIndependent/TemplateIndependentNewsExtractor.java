@@ -1,6 +1,7 @@
 package at.rovo.textextraction.templateIndependent;
 
 import at.rovo.common.UrlReader;
+import at.rovo.parser.LineBreak;
 import at.rovo.parser.ParseResult;
 import at.rovo.parser.Parser;
 import at.rovo.parser.Tag;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,21 +80,19 @@ public class TemplateIndependentNewsExtractor
 	{
 		String url =
 				"http://www.washingtonpost.com/business/economy/romney-chose-paul-ryan-to-shift-the-campaign-debate-will-the-gamble-pay-off/2012/08/13/f9ae54e2-e557-11e1-9739-eef99c5fb285_story.html";
-		TemplateIndependentNewsExtractor extractor = new TemplateIndependentNewsExtractor(0.03f, 0.2, 4, 9);
 
 //		String url = "http://www.nytimes.com/2014/07/14/world/middleeast/israel-gaza.html?_r=0";
-//		TemplateIndependentNewsExtractor extractor = new TemplateIndependentNewsExtractor(0.03f, 0.00012, 4, 10);
 
 		// 0.9995 ...
 //		String url = "http://www.bbc.com/news/business-28282621";
-//		TemplateIndependentNewsExtractor extractor = new TemplateIndependentNewsExtractor();
+		TemplateIndependentNewsExtractor extractor = new TemplateIndependentNewsExtractor();
 
 		LOG.info("Predicted content of URL: {}: \n{}", url, extractor.predictText(url));
 	}
 
 	/**
 	 * Initializes a new instance of the template independent content extraction algorithm presented by Wu and Yang.
-	 * During initialization also the stop words are loaded into the stopwords list <em>SW</em>.
+	 * During initialization also the stop words are loaded into the stop-words list <em>SW</em>.
 	 */
 	public TemplateIndependentNewsExtractor()
 	{
@@ -182,18 +183,25 @@ public class TemplateIndependentNewsExtractor
 		{
 			this.docUrl = url;
 
-			UrlReader reader = new UrlReader();
+			UrlReader reader = new UrlReader(true);
 			html = reader.readPage(url);
 		}
 		else
 		{
 			html = url;
 		}
+		// LOG.debug("Parsing {}", html);
 
 		Parser parser = new Parser();
+		parser.setIncludeLineBreaks(true);
 
 		ParseResult result = parser.tokenize(html, false);
 		List<Token> tokens = result.getParsedTokens();
+		if (LOG.isTraceEnabled())
+		{
+			LOG.trace("Parsed tokens: {}", tokens);
+			LOG.trace("");
+		}
 
 		// get the start time the actual extraction (without downloading and
 		// parsing the page) took place
@@ -201,91 +209,62 @@ public class TemplateIndependentNewsExtractor
 
 		// At the beginning, we define a segment s consists of a sequence of
 		// consecutive tokens (might list in multiple lines).
-		List<String> sequences = this.generateSequenceList(tokens);
-
-		// Candidate Detection Method to list a set of content areas.
-		int gap = 0;
-		List<String> candidates = new ArrayList<>();
-		StringBuilder builder = new StringBuilder();
-		for (String s : sequences)
-		{
-			if (s.equals(""))
-			{
-				continue;
-			}
-
-			// The algorithm scans the following parts of the document until the
-			// number of gap exceeds thetaGap.
-			// A gap is a line that has less number of words compared with WC
-			//			String segment = this.removeUnclosedAnchorTags(s);
-			if (s.replaceAll("(?s)<a[^>]*?>(.*?)</a>", "$1").split(" ").length > this.WC)
-			{
-				builder.append(s);
-				builder.append("\n");
-				gap = 0;
-			}
-			else
-			{
-				gap++;
-			}
-
-			if (gap > this.thetaGap)
-			{
-				if (builder.length() > 0)
-				{
-					candidates.add(builder.toString());
-				}
-				builder.delete(0, builder.length());
-			}
-		}
+		List<String> candidates = this.generateSequenceListBasedOnLineGaps(tokens);
 		if (LOG.isDebugEnabled())
 		{
 			LOG.debug("Candidate set: {}", candidates);
+			LOG.debug("");
 		}
-
-		// TODO: the paper uses no explicit theta value and only considers the top 5 scoring segments. However, the paper is missing a proper definition of what a segment should actually be - a div-block or a <p> element?
 
 		// Initially, the algorithm scans the whole document and roughly
 		// localizes a candidate set by estimating the maximum score for each
 		// sequence. The scoring function is to estimate the possibility of s to
 		// be the content area
 		double maxScore = 0.;
-		String maxS = null;
-		List<Double> scores = new ArrayList<>();
+		SortedSet<Sequence> sortedSet = new TreeSet<>(new ScoreComparator());
+		int pos = 0;
 		for (String s : candidates)
 		{
-			// The algorithm design a stopword language model to select the k
-			// candidates with highest generative probability.
-			// It also considers the negative effect of the unimportant links
-			// through calculating the penalty score of the hyperlinks.
-			double score = this.SScore(s);
-			if (score > maxScore)
-			{
-				maxScore = score;
-				maxS = s;
-			}
-
-			scores.add(score);
+			// The algorithm selects only the top5 segments based on the
+			// proposed stop-word language model. This iteration sorts the
+			// sequences according to their stop-words language model
+			double score = this.WS(s);
+			Sequence seq = new Sequence(s, score, pos++);
+			sortedSet.add(seq);
 		}
 		if (LOG.isDebugEnabled())
 		{
-			LOG.debug("maxScore: {} - {}", maxScore, maxS);
+			LOG.debug("Candidate set after applying stop-word language model: {}", sortedSet);
+			LOG.debug("");
+		}
+
+		// now filter only the top5 candidates according to their previously
+		// calculated stop-word language model and update the score with the
+		// link penalty score
+		SortedSet<Sequence> top5 = new TreeSet<>(new PositionComparator());
+		for (int i=0; i<5; i++)
+		{
+			Sequence seq = sortedSet.first();
+			sortedSet.remove(seq);
+			seq.updateScore(this.lambda, this.LS(seq.getSequence()));
+			top5.add(seq);
+		}
+		if (LOG.isDebugEnabled())
+		{
+			LOG.debug("Top 5 candidate set: {}", top5);
+			LOG.debug("");
 		}
 
 		// In the final step, the algorithm finds the news content area by
-		// combining both scores from stopword language model and link penalty.
-		int pos = 0;
+		// combining both scores from stop-word language model and link penalty.
 		StringBuilder sb = new StringBuilder();
-		for (String candidate : candidates)
+		for (Sequence sequence : top5)
 		{
-			if ((maxScore - this.theta) - scores.get(pos) > 0)
-			{
-				String s = candidate.replaceAll("(?s)<a[^>]*?>(.*?)</a>", "$1");
-				sb.append(this.removeUnclosedAnchorTags(s));
-				sb.append("\n");
-				LOG.debug("S: {} = {}", scores.get(pos), s);
-			}
-			pos++;
+			String s = sequence.getSequence();
+			s = s.replaceAll("(?s)<a[^>]*?>(.*?)</a>", "$1");
+			sb.append(this.removeUnclosedAnchorTags(s));
+			sb.append("\n");
+			LOG.debug("S: {} = {}", sequence.getScore(), s);
 		}
 
 		long endTime = System.currentTimeMillis();
@@ -295,30 +274,59 @@ public class TemplateIndependentNewsExtractor
 		return sb.toString();
 	}
 
-	/**
-	 * Generates a list of word-sequences from HTML and word-tokens by filtering out all tokens that are not words.
-	 *
-	 * @param tokens
-	 * 		The tokens as provided by the Parser after tokenizing a HTML page
-	 *
-	 * @return A list of extracted word-sequences.
-	 */
-	private List<String> generateSequenceList(List<Token> tokens)
+	private List<String> generateSequenceListBasedOnLineGaps(List<Token> tokens)
 	{
 		List<String> sequences = new ArrayList<>();
-		StringBuilder builder = new StringBuilder();
+		StringBuilder lineCandiate = new StringBuilder();
+		StringBuilder sequenceCandidate = new StringBuilder();
+		StringBuilder candiadate = new StringBuilder();
+		int wordsInLine = 0;
+		int gap = 0;
 		for (Token token : tokens)
 		{
 			if (token instanceof Word)
 			{
-				builder.append(token.getText());
+				wordsInLine++;
+				lineCandiate.append(token.getText());
 				// don't add a blank if the token starts with one of the below
 				// listed characters
 				if (!token.getText().startsWith(".") && !token.getText().startsWith(",") &&
 					!token.getText().startsWith(";"))
 				{
-					builder.append(" ");
+					lineCandiate.append(" ");
 				}
+			}
+			else if (token instanceof LineBreak)
+			{
+				boolean resetGap = false;
+				// It starts from the line that contains the number of words
+				// which is more than the predefined threshold WC
+				if (wordsInLine > this.WC)
+				{
+					resetGap = true;
+					sequenceCandidate.append(lineCandiate);
+				}
+				// A gap means a line that has less number of words compared
+				// with WC
+				else if (gap >= 0)
+				{
+					gap++;
+					lineCandiate.delete(0, lineCandiate.length());
+				}
+
+				// Second, it scans the following parts of the document until
+				// the number of gap reaches gap>thetaGap
+				if (gap > this.thetaGap && sequenceCandidate.length() > 0)
+				{
+					sequences.add(sequenceCandidate.toString());
+					sequenceCandidate.delete(0, sequenceCandidate.length());
+					gap = 0;
+				}
+				if (resetGap)
+				{
+					gap = 0;
+				}
+				wordsInLine = 0;
 			}
 			else
 			{
@@ -341,36 +349,20 @@ public class TemplateIndependentNewsExtractor
 							}
 						}
 
-						builder.append("<a ");
-						builder.append(urlRef);
-						builder.append(">");
+						sequenceCandidate.append("<a ");
+						sequenceCandidate.append(urlRef);
+						sequenceCandidate.append(">");
 
 					}
-					else if (!tag.isOpeningTag() && builder.length() > 0)
+					else if (!tag.isOpeningTag() && sequenceCandidate.length() > 0)
 					{
-						if (builder.toString().endsWith(" "))
+						if (sequenceCandidate.toString().endsWith(" "))
 						{
-							builder.delete(builder.length() - 1, builder.length());
+							sequenceCandidate.delete(sequenceCandidate.length() - 1, sequenceCandidate.length());
 						}
-						builder.append("</a>");
-						builder.append(" ");
+						sequenceCandidate.append("</a>");
+						sequenceCandidate.append(" ");
 					}
-				}
-				else if (tag.getShortTag().equals("p"))
-				{
-					if (!tag.isOpeningTag())
-					{
-						sequences.add(builder.toString());
-						builder.delete(0, builder.length());
-					}
-				}
-				else
-				{
-					if (builder.length() > 0)
-					{
-						sequences.add(builder.toString());
-					}
-					builder.delete(0, builder.length());
 				}
 			}
 		}
