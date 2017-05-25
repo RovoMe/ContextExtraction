@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script>storageManage=function (e){try{var payload=JSON.parse(e.data); switch (payload.method){case 'set': if (payload.data){localStorage.setItem(payload.key, payload.data);}break; case 'setsession': if (payload.data){sessionStorage.setItem(payload.key, payload.data);}break; case 'get': var parent=window.parent; var data=localStorage.getItem(payload.key); var result={source: 'universal', value: data}; parent.postMessage(JSON.stringify(result), "*"); break; case 'getsession': var parent=window.parent; var data=sessionStorage.getItem(payload.key); var result={source: 'universalgetsession', value: data}; parent.postMessage(JSON.stringify(result), "*"); break;case 'getfeedbacksession': var parent=window.parent; var data=sessionStorage.getItem(payload.key); var result={source: 'feedback', value: data}; parent.postMessage(JSON.stringify(result), "*"); break; case 'getharvestflag': var parent=window.parent; var data=sessionStorage.getItem(payload.key);var result={source: 'feedbackgetharvestflag', value: data};parent.postMessage(JSON.stringify(result), "*"); break; case 'remove': localStorage.removeItem(payload.key); break;}}catch (e){}}; if (window.addEventListener){window.addEventListener('message', storageManage);}else{document.attachEvent('onmessage', storageManage);}</script>
+</head>
+<body>
+
+</body></html>

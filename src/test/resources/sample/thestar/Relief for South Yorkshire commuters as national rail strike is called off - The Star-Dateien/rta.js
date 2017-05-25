@@ -1,0 +1,1 @@
+crtg_content = ''; (function(){document.cookie = 'crtg_jpressuk=' + escape(crtg_content) + '; path=/; expires=Tue, 26 Jan 2016 02:13:17 GMT; domain=thestar.co.uk';})();

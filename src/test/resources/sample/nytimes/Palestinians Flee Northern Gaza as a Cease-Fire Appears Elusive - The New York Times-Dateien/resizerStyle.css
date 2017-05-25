@@ -1,0 +1,22 @@
+/*
+  SHOW LIBRARY
+  ===================== */
+
+.g-show-xsmall,
+.g-show-small,
+.g-show-smallplus,
+.g-show-submedium,
+.g-show-sub-medium,
+.g-show-medium,
+.g-show-large,
+.g-show-xlarge {
+  display: none;
+}
+
+.g-show {
+  display: block;
+}
+
+.lt-ie10 .g-aiImg {
+  width: 100%;
+}

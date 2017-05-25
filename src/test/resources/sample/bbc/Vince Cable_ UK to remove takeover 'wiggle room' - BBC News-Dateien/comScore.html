@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+  <script src="Vince%20Cable_%20UK%20to%20remove%20takeover%20%27wiggle%20room%27%20-%20BBC%20News-Dateien/beacon.js" async=""></script><script type="text/javascript">
+
+    var getQueryParam = function(key, defaultVal) {
+      key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regexS, regex, results;
+      try {
+        regexS = "[\\?#&]" + key + "=([^&#]*)";
+        regex = new RegExp(regexS, "i");
+        results = regex.exec(window.location.href);
+        if(results === null) {
+          return defaultVal;
+        }
+        return results[1];
+      } catch(ex) {
+        return defaultVal;
+      }
+    };
+
+    var pid = getQueryParam("pid","");
+
+
+    var init = function(){
+      window._comscore = window._comscore||[];
+      _comscore.push({ c1: "7", c2:"14320224", c3:((pid.length > 0)? pid : "000") });
+      (function(){
+
+        var s = document.createElement("script"),
+          el = document.getElementsByTagName("script")[0];
+        s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el); })();
+    };
+  </script>
+</head>
+<body onload="init();">
+
+<noscript><img src="http://b.scorecardresearch.com/p?c1=7&c2=14320224&c3=000&c4=&c5=&c6=&c15=&cv=2.0&cj=1" /></noscript>
+
+</body></html>

@@ -1,0 +1,301 @@
+body {
+	background-color: #fff !important;
+	background-image: none !important;
+}
+
+#container {
+	width: auto;
+	margin: 0 !important;
+	background-color: #fff !important;
+	background-image: none;
+	float: none;
+}
+
+#header {
+	height: 100px !important;
+	min-height: 0 !important;
+	float: none;
+}
+
+#publicationLogo {
+	margin-bottom: 20px;
+}
+
+#header p.dayDate {
+	top: 117px;
+}
+
+#mainContent {
+	background-image: none !important;
+	background-color: #fff;
+}
+
+.mainHeadline {
+	margin-top: 30px !important;
+	border-top: 1px solid #ddd;
+	padding-top: 10px;
+	float: none;
+}
+
+.editorialSection p {
+	font-size: 1.182em;
+	float: none;
+}
+
+.editorialSectionLeft {
+	width: auto !important;
+	float: none;
+}
+
+.contentImage {
+	clear: left !important;
+	float: none;
+}
+
+#footer {
+	background-image: none !important;
+	background-color: #fff !important;
+	float: none;
+}
+
+#topBannerLeft,#editorialPuff,#headerLocalisationPanel,#headerQuicklinks,#tickerFeed,#navSearchBar,#loginWelcome,#rightContent,.editorialSectionRight,.editorialInlineList,.socialBookmarkPanel,#commentsSection,#footerNav,#footerBody,#footerLinks div ul,#footerBottom
+	{
+	display: none;
+}
+
+#container,#leftContent,#mainContent {
+	overflow: visible /*auto*/;
+	height: 100%;
+	display: /*inline*/ block;
+	float: none;
+	width: 600pt;
+}
+
+#rightContent {
+	display: none;
+}
+
+#footer {
+	display: none;
+}
+
+#leftContent {
+	float: none;
+	width: 100%;
+	padding: 0;
+}
+
+.clearer,#secondaryArticlesNav,.resizeIcon,#relatedArticles {
+	display: none;
+}
+
+#header {
+	position: static;
+	margin: 0;
+}
+
+#header p.dayDate,ul.breadcrumb,.image-caption p {
+	float: none;
+	clear: left;
+}
+
+#header p.dayDate {
+	margin: 15pt 0 5pt;
+	position: static;
+}
+
+.editorialSection {
+	float: none;
+	width: 100%;
+}
+
+.editorialSection p {
+	font-size: 13pt !important;
+	float: none;
+	line-height: 16pt;
+	margin: 2pt 0;
+}
+
+.editorialSectionLeft p {
+	float: none;
+	clear: left;
+	width: 100%;
+}
+
+.byline p span {
+	font-size: 15pt !important;
+}
+
+.editorialSection h1.mainHeadline {
+	float: none;
+	font-size: 20pt !important;
+}
+
+#footerLinks p {
+	float: none;
+	clear: right;
+	margin: 10px 0 0;
+}
+
+.image-caption p {
+	font-size: 10pt;
+	font-style: italic;
+}
+
+.image-caption img {
+	width: auto !important;
+}
+
+.generalSection p,.editorialSection p,.mainEditorialBodyTxt,.mainNewsArticleBobyTxt,.editorialSectionLeft,.editorialSection,#leftContent,.editorialSectionLeft p
+	{
+	float: none !important;
+	position: static !important;
+	width: 100%;
+}
+
+.editorialSectionLeft p,#leftContent .image {
+	width: 100%;
+}
+
+a:link {
+	text-decoration: underline !important;
+}
+
+#publicationLogo {
+	height: auto !important;
+	margin: 0 !important;
+}
+
+#headerBottom,#headerBottom p {
+	height: auto !important;
+}
+
+#headerBottom p {
+	line-height: auto !important;
+}
+
+ul.breadcrumb {
+	margin: 0 !important;
+}
+
+#header p.dayDate {
+	height: auto !important;
+	line-height: 16pt !important;
+}
+
+#leftContent .image {
+	display: /*inline-*/ block;
+	clear: left;
+}
+
+#header a#publicationLogo {
+	float: none !important;
+}
+
+/* PROPERTY PRINT CSS */
+#prop_wrapR #prop_rightSearch,#prop_wrapR .prop_paeR,#prop_wrapR .prop_listHist,#prop_wrapR .prop_similarNear,#prop_wrapR .prop_localLinks,#prop_wrapR .prop_privateRentR,#prop_wrapR .prop_AdsRight,#prop_wrap #prop_AccountDetail #prop_rightSearch,#topBannerLeft,#editorialPuff,#headerLocalisationPanel,#headerBottom,#headerQuicklinks,#prop_wrap .prop_pager,#prop_wrap .prop_secondaryTabs,#prop_wrap ul.prop_popups,#prop_wrap .prop_pagerS,#loginWelcome,#prop_wrapR .prop_marketedBy p.viewMore,#prop_wrapR .prop_marketedBy p.agentsTitle,#prop_wrapR .prop_marketedBy a input.prop_btnL,.prop_gallery .prop_controls,#prop_wrapR .prop_rightColBanner,#prop_wrap .prop_content p.logotext,#footer,#footerLinks,#footerBody,#footerBottom,#footerLinks div,#prop_wrapR .prop_agents
+	{
+	display: none !important;
+}
+
+#prop_wrap,#prop_wrap .prop_content,#prop_wrap .prop_content p,#prop_wrap .prop_gallery,#prop_wrapR .prop_mapR,#prop_wrap .prop_content img.prop_infoImg,#prop_wrap .prop_content .tblWrap,#prop_wrap .prop_content h3,#prop_wrap .prop_content h4,#prop_wrap .prop_content p.terms,#mainContent
+	{
+	border: none !important;
+	float: none !important;
+	display: block !important;
+}
+
+#prop_wrapR {
+	float: left !important;
+	clear: left !important;
+	border: none !important;
+}
+
+#prop_wrap .prop_content img.prop_infoImg,#prop_wrap .prop_content h3,#prop_wrap .prop_content h4
+	{
+	clear: left !important;
+	border: none !important;
+}
+
+#prop_wrap .prop_content h3,#prop_wrap .prop_content h4,#prop_wrap .prop_content p,#prop_wrap .prop_gallery
+	{
+	width: 700pt !important;
+	clear: left !important;
+	border: none !important;
+}
+
+#prop_wrap,#prop_wrap .prop_content {
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+*+html #prop_wrap .prop_gallery .p {
+	display: none;
+}
+
+#prop_wrap .prop_gallery .p {
+	display: none\0/;
+}
+
+#prop_wrapR .prop_marketedBy,#prop_wrapR #miniMapContainer,#prop_wrap .prop_content .prop_infoImg,#prop_wrapR #miniMap
+	{
+	page-break-inside: avoid !important;
+}
+
+#prop_wrap .prop_content {
+	font-size: 130% !important;
+}
+
+#prop_wrapR #miniMap {
+	height: 326px !important;
+}
+
+.noPrintable {
+	display: none;
+}
+
+body {
+	background-color: #fff !important;
+	background-image: none !important;
+	color: #000 !important;
+}
+
+body .header {
+	margin: 0;
+}
+
+body .banner,
+body .header .nav,
+body .header .dividers,
+body .header .content .user-links,
+body .header .content .dc-half-banner,
+body .header .content .info,
+body .footer,
+.essentials  .g972,
+.essentials  .g324,
+.article .article-img-gallery,
+.article .sidebar,
+.article .share-section,
+.article .img-caption  .overlay,
+.euCookiesQuestion,
+#comments {
+	display: none;	
+}
+
+body .header .content {
+	height: 70px;
+}
+
+.main-content .article ,
+.main-content .article .author {
+	width: 900px;
+}
+
+.main-content .article  img {
+	width: auto !important;
+}
+
+#brightcoveVideoCarousel li a[href]:after { 
+	content: ""; /* hide visible URL after links. */ 
+}

@@ -1,0 +1,240 @@
+.pmobile-comments-introtext {
+	color: #505050 !important;
+	border-top-color: #ccc;
+}
+a.pmobile-primary-button,
+.pmobile-comments-comment-reply .pmobile-secondary-button {
+	padding:0 15px 0;
+	color:#fff; font-size:0.9em; text-shadow:none;
+	border:none;
+	background-color: #0077b3;
+	background-image: none!important;
+	box-shadow:none!important;
+	font-size: 14px!important; font-family: "OpenSans-Regular", Arial, sans-serif; text-align: center;
+}
+.pmobile-secondary-button{
+	height:27px!important;
+}
+span.pmobile-primary-button-text{
+	height:23px;
+}
+	
+.pmobile-auth-wrap, 
+.pmobile-comments-filter-bar,
+.pmobile-comments-submit-wrap {
+	border:none;
+	background: #ffffff;
+}
+span.pmobile-comments-filter-txt {
+	color: #505050;
+}
+span.pmobile-comments-timestamp {
+	color: #444444;
+}
+a.pmobile-comments-username {
+	color: #0066cc;
+}
+.pmobile-comments-up-score,
+.pmobile-comments-down-score {
+	border-bottom-color:#ebebeb;
+	color: #444;
+	background-color: #ebebeb;
+	background-image: url("/assets/images/comments/comment-rate-icon.gif");
+}
+a.pmobile-comments-replies-closed,
+a.pmobile-comments-replies-open {
+	color: #0066cc;
+	background-image:url("/assets/images/mobile-comments/comment-reply-hide32.gif");
+}
+a.pmobile-comments-replies-closed {
+	background-image:url("/assets/images/mobile-comments/comment-reply-show32.png");
+}
+.pmobile-comments-reply {
+	background-image:url(/assets/images/comments/comment-reply-arrow.png);
+	background-position:2px 30px;
+}
+a.pmobile-cancel-button {
+	color: #0077b3;
+}
+span.pmobile-comments-filter-sortBy, .pmobile-comments-submit-wrap h4{
+    color: #505050;
+}
+.pmobile-comments-thread-wrap {
+	border-bottom-color: #a1d6ef;
+}
+.pmobile-comments-report a.pmobile-secondary-button {
+	margin-top:5px;
+	color: #0066cc;
+}
+.pmobile-actions-wrap .pmobile-comments-vote-up .pmobile-secondary-button-text,
+.pmobile-actions-wrap .pmobile-comments-vote-down .pmobile-secondary-button-text {
+	background-image:url("/assets/images/mobile-comments/comment-rate-icon32.gif");
+}
+.pmobile-comments-replies {
+	border-top-color:#ccc;
+}
+
+/* jp pluck upgrade */
+html #comments{
+	font-family: "OpenSans-Regular", Arial, sans-serif;
+}
+#comments #pluckContainer{
+	position: relative;
+}
+#comments, #comments .pmobile-auth-wrap p, #comments .pmobile-auth-wrap span, span.pmobile-comments-filter-txt, div.pmobile-comments .pmobile-comments-username, .pmobile-comments-meta .pmobile-comments-timestamp, div.pmobile-comments .pmobile-comments-content p, a.pmobile-comments-replies-closed, a.pmobile-comments-replies-open, .pmobile-pag-wrap.pmobile-comments-next a{
+	font-family: "OpenSans-Regular", Arial, sans-serif;
+}
+#comments .pmobile-primary-button {
+    width: 100%;
+    background: #0077b3; /* mobile flat colour as per janrain mobile */
+    border-radius: 0; border:0;
+}
+#comments .pmobile-auth-wrap{
+	padding:0;
+	background:#004466;
+}
+#comments .pmobile-auth-wrap p, #comments .pmobile-auth-wrap span{
+	color:#fff; text-align: center; font-size: 18px; font-weight: normal;
+}
+#comments .pmobile-auth-wrap span{
+	font-size: 20px;
+}
+#comments .pmobile-primary-button{
+	width:100%; padding: 10px 0;
+}
+#comments .pmobile-primary-button{
+	padding: 10px 0;
+	box-shadow: none;
+}
+#comments .pmobile-primary-button span{
+	margin:0 auto!important; padding: 7px 0 7px 30px; width:170px;
+	text-shadow:none; font-size: 18px;
+	background: url("/assets/images/comments/miniAvatar.png") no-repeat scroll 45px center;
+}
+#comments .pmobile-abuse-actions .pmobile-primary-button span{
+	padding-left:0;
+	background-image:none;
+}
+#comments .pmobile-comments-submit-actions .pmobile-primary-button span{
+	padding-left: 0;
+	font-family: "OpenSans-Regular", Arial, sans-serif;
+	background-image: none;
+}
+#comments .pmobile-comments-filter-bar, #comments .pmobile-comments-submit-wrap{
+	background: none;
+}
+#comments .pmobile-comments-score-wrap, #comments .pmobile-pag-wrap img, #comments .pmobile-wait-msg img{
+	display:none!important;
+}
+#comments .pmobile-comments-thread-wrap{
+	position: relative;
+}
+#comments div.pmobile-comments .pmobile-comments-username{
+	position: absolute; top:-10px;
+	font-style: normal; font-size: 16px;
+}
+#comments .pmobile-comments-meta{
+	position: absolute; top: 15px;
+}
+#comments .pmobile-comments-meta .pmobile-comments-timestamp{
+	color:#adadad; font-size: 12px;
+}
+#comments .pmobile-comments-content{
+	padding-top:25px;
+}
+#comments .pmobile-comments-content > p{
+	font-size: 17px!important;
+}
+#comments .pmobile-comments-actions-wrap{
+	float: right;
+/*	width:65px;*/
+}
+#comments .pmobile-actions-wrap .pmobile-comments-vote-up .pmobile-secondary-button-text, #comments .pmobile-actions-wrap .pmobile-comments-vote-down .pmobile-secondary-button-text {
+	width:20px; height:20px; margin-top:5px;
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat scroll 0 0;
+}
+#comments .pmobile-actions-wrap .pmobile-comments-vote-down .pmobile-secondary-button-text{
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat scroll 0 bottom;	
+}
+#comments .pmobile-comments-list, .pmobile-comments-thread-wrap{
+	display:inline-block;
+	width:100%;
+}
+#comments .pmobile-comments-thread-wrap{
+	margin-bottom: 10px; padding-top:10px;
+	border-bottom:1px solid #ebebeb!important;
+}
+#comments .pmobile-comments-replies{
+	border-top:1px solid #ebebeb!important;	
+}
+#comments .pmobile-comments-reply{
+	display: inline-block;
+	width:100%;
+	background-image: none;
+	box-sizing:border-box;
+}
+#comments .pmobile-comments-thread-wrap{
+	border-bottom: 0;
+}
+#comments a.pmobile-comments-replies-open{
+	background: url("/assets/images/comments/comment-reply-hide.gif") no-repeat scroll left center;
+}
+#comments a.pmobile-comments-replies-closed{
+	background: url("/assets/images/comments/comment-reply-show.gif") no-repeat scroll left center;
+}
+#comments a.pmobile-comments-replies-closed, #comments a.pmobile-comments-replies-open{
+	padding:0 0 0 25px;
+	line-height:27px; font-size: 13px; margin-top:4px;
+}
+#comments .pmobile-auth-wrap p{
+	padding: 0 10px;
+}
+#comments .pmobile-pag-wrap{
+	margin: 10px 0 30px;
+}
+#comments .pmobile-comments-next a{
+	height: 50px; margin-top:20px;
+	line-height: 50px; font-size: 20px; color: #222!important;
+	border: 1px solid #ebebeb;
+	background: #f5f5f5;
+}
+#comments .pmobile-comments-list .pmobile-pag-wrap, #comments .pmobile-wait-msg{
+	position: absolute; left: 50%; z-index: 1;
+	height:100px; width: 200px; margin-left: -100px; border-bottom: none;
+	color: #fff;
+	background: #222 url("/assets/images/comments/Comments-loading.gif") no-repeat scroll center center;
+}
+#comments .pmobile-comments-next{
+	position: static!important;
+	margin:0!important; width:100%!important;
+	background-color:transparent!important; background-image: none!important;
+}
+#comments .pmobile-wait-msg{
+	font-family: "OpenSans-Regular", Arial, sans-serif; text-align: center;
+	background-position: center 80px;
+}
+#comments .pmobile-pag-wrap a{
+	color:#fff;
+}
+#comments .pmobile-comments-submit-wrap textarea{
+	height:150px; margin-bottom: 40px; border: 1px solid #ebebeb;
+	background: #f5f5f5;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;	
+	border-radius: 0;
+	resize:none;
+}
+#comments .pmobile-comments-submit-header{
+	position: relative; display: block;
+}
+#comments .pluck-callToAction-terms{
+	position: absolute; top: 185px;
+	width: 100%;
+	text-align: center; font-size: 14px;
+}
+.pluck-login-comment-links-directions .pluck-callToAction-terms{
+	display: none;
+}
+.pmobile-auth-wrap .pmobile-primary-button:nth-of-type(1){ /* hides the old "sign up" button */
+	display:none;
+}

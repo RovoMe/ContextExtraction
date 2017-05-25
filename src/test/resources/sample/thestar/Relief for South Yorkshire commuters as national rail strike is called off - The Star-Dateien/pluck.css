@@ -1,0 +1,2757 @@
+/*********************************
+ *
+ * CSS control - DO NOT CHANGE OR REMOVE
+ * needed to track loading of this css file
+ *
+ *********************************/
+
+.pluck-css-loaded { /* DO NOT CHANGE OR REMOVE - needed to track loading of this css file */
+	border-bottom-color: #010204;
+}
+
+/*********************************
+ * 
+ * colors
+ *
+ *********************************/
+
+p.pluck-error-message, p.pluck-confirm-message, .pluck-score-em, a.pluck-cancel-button:hover span.pluck-cancel-button-text{
+	color:#cc3333;
+}
+a.pluck-primary-button, span.pluck-confirm-btn a, .pluck-login-comment-input, .pluck-user-mp-qtip-style, span.pluck-share-item a.pluck-share-disabled-link, span.pluck-share-item a.pluck-share-disabled-link:hover{
+	color:#E0E0E0;	
+}
+a.pluck-secondary-button, div.pluck-swf-upload-button, h5.pluck-login-comment-signup-question, p.pluck-login-comment-signup-directions, p.pluck-login-comment-login-directions, .helloDiv, .pluck-dialog p.pluck-dialog-header, .pluck-dialog p.pluck-dialog-subheader, .pluck-dialog p.pluck-dialog-info, .pluck-dialog span.pluck-dialog-group label, span.pluck-score-sub-head, span.pluck-user-mp-sub-head, span.pluck-user-mp-message-subject-group label, span.pluck-user-mp-message-message-group label, span.pluck-user-mp-report-abuse-message-group label, span.pluck-user-mp-report-abuse-type-group label, a.pluck-user-mp-report-abuse-cancel, .pluck-email-dialog .pluck-wait-msg, a.pluck-dialog-cancel, a.pluck-user-mp-message-cancel, span.pluck-login-comment-group label, span.pluck-login-comment-submit-area label, .pluck-login-persona-call, span.pluck-score-text, span.pluck-user-mp-text, span.pluck-user-mp-no-bio, p.pluck-login-comment-links-directions  {
+	color: #615555;	
+}
+a.pluck-login-comment-forgot-password-link,h4.pluck-user-mp-username a,.pluck-permalink-dialog a.hover,a:hover.pluck-permalink-share-link,span.pluck-share-item a.pluck-share-link:hover,.pluck-share-dialog span.hover a.pluck-share-link {
+	color:#0066cc;
+}
+span.pluck-score-volume, span.pluck-thumb-wait, span.pluck-thumb-voted, p.pluck-user-mp-asl  {
+	color:#999999;
+}
+a.pluck-permalink-share-link, span.pluck-share-item a.pluck-share-link, .pluck-app {
+	color: #1a1414;
+}
+.pluck-login-comment-input-ie7 p.pluck-login-comment-signup-directions, .pluck-login-comment-input-ie7 p.pluck-login-comment-login-directions,
+.pluck-login-comment-input-ie7 span.pluck-login-comment-submit-area label {
+	font-size: 0.7em;
+}
+p.pluck-error-message, p.pluck-confirm-message, .pluck-dialog .pluck-wait-msg, .pluck-dialog p.pluck-dialog-subheader, .pluck-dialog p.pluck-dialog-info, .pluck-dialog span.pluck-dialog-group label, .pluck-dialog span.pluck-dialog-group select, .pluck-dialog span.pluck-dialog-group textarea, .pluck-dialog span.pluck-dialog-group input, a.pluck-dialog-submit, a.pluck-dialog-cancel, a.pluck-login-comment-signup-button, a.pluck-login-comment-submit-button, a.pluck-login-persona-signup-button, a.pluck-login-persona-submit-button, span.pluck-thumb-wait, span.pluck-thumb-voted, p.pluck-thumb-error, h4.pluck-user-mp-username a, p.pluck-user-mp-asl, p.pluck-user-mp-private-info, p.pluck-user-mp-sharedWithFriends-info, p.pluck-user-mp-abusive-info, span.pluck-user-mp-sub-head, span.pluck-user-mp-text, span.pluck-user-mp-no-bio, span.pluck-user-mp-message-subject-group label, span.pluck-user-mp-message-message-group label, span.pluck-user-mp-message-subject-group input, span.pluck-user-mp-message-message-group textarea, a.pluck-user-mp-message-submit, a.pluck-user-mp-message-cancel, span.pluck-user-mp-report-abuse-type-group label, span.pluck-user-mp-report-abuse-message-group label, span.pluck-user-mp-report-abuse-type-group select, span.pluck-user-mp-report-abuse-message-group textarea, a.pluck-user-mp-report-abuse-submit, a.pluck-user-mp-report-abuse-cancel, .pluck-user-mp-wait-msg, .pluck-user-mp-loading-msg, .pluck-email-dialog .pluck-wait-msg, a.pluck-permalink-share-link, a.pluck-permalink-share-link, .pluck-permalink-dialog a.hover, a:hover.pluck-permalink-share-link, span.pluck-share-item a.pluck-share-link, span.pluck-share-item a.pluck-share-link:hover, .pluck-comm-commentcount select.pluck-comm-comment-filters, .pluck-comm-comment-content p.pluck-comm-timestamp, .pluck-comm-comment-content p.pluck-comm-lastEditBy, h4.pluck-comm-username-url a, h4.pluck-comm-username-url span, .pluck-comm-action-controls a, .pluck-comm-action-controls span.pluck-comm-actions-element span, .pluck-comm-edit-controls span, .pluck-comm-single-comment-main .pluck-error-message, .pluck-comm-show-hide-replies a.pluck-comm-show-reply-link, .pluck-comm-show-hide-replies a.pluck-comm-hide-reply-link, .pluck-comm-show-hide-replies span.pluck-comm-wait-reply-link, .pluck-comm-report-abuse, a.pluck-comm-pagination-prev, a.pluck-comm-pagination-next, .pluck-comm-message-border textarea, .pluck-comm-reply-input .pluck-comm-message-border textarea, .pluck-comm-submitoptions label, .pluck-comm-socialoptions label, span.pluck-comm-socialoptions-posttext, a.pluck-comm-submit, a.pluck-comm-cancel, .pluck-comm-submit-wait-msg {
+	font-size:0.8em;
+}
+span.pluck-confirm-btn a, .pluck-dialog p.pluck-dialog-header, p.pluck-login-comment-signup-directions, p.pluck-login-comment-login-directions, p.pluck-login-comment-links-directions, span.pluck-login-comment-group label, span.pluck-login-comment-submit-area label, span.pluck-score-volume, span.pluck-score-sub-head, span.pluck-thumb-up a, span.pluck-thumb-down a, a.pluck-email-set, a.pluck-permalink-set, a.pluck-share-set, .pluck-comm-commentcount-actions p, .pluck-comm-comment-content p, .pluck-comm-comment-content p.pluck-comm-body {
+	font-size: 0.9em;
+}
+.pluck-login-comment-input, p.pluck-login-comment-calltoaction, h5.pluck-login-comment-signup-question, span.pluck-score-text, div.pluck-comm-commentcount, span.pluck-comm-reply-button a, p.pluck-comm-calltoaction, .pluck-comm-reply-input p.pluck-comm-calltoaction {
+	font-size: 1em;
+}
+.helloDiv {
+	font-size: 1.2em;
+}
+
+
+/*********************************
+ * 
+ * backgrounds
+ *
+ *********************************/
+ 
+a.pluck-primary-button, .pluck-app .pluck-confirm-dialog span.pluck-confirm-btn {
+	background: transparent url('/ver1.0/Content/ua/images/pluck-primary-button-right.png') no-repeat scroll top right;
+}
+span.pluck-primary-button-text, .pluck-app .pluck-confirm-dialog span.pluck-confirm-btn a {
+	background: transparent url('/ver1.0/Content/ua/images/pluck-primary-button-left.png') no-repeat;
+}
+a.pluck-secondary-button {
+	background: transparent url('/ver1.0/Content/ua/images/pluck-secondary-button-right.png') no-repeat scroll top right;
+}
+span.pluck-secondary-button-text {
+	background: transparent url('/ver1.0/Content/ua/images/pluck-secondary-button-left.png') no-repeat;
+}
+span.pluck-confirm-btn a {
+	background: transparent url('/ver1.0/Content/ua/images/login/pluck-send-pm-submit-button.png') top left no-repeat;
+}
+.pluck-login-comment-new-signup-area {
+	background: url('/ver1.0/Content/ua/images/login/pluck-input-loggedout-bg.png') top right no-repeat;
+}
+span.pluck-thumb-up a, span.pluck-thumb-up a:hover, span.pluck-thumb-down a, span.pluck-thumb-down a:hover, span.pluck-thumb-up a:active, span.pluck-thumb-down a:active {
+	background-image: url('/ver1.0/Content/ua/images/comments/pluck-comm-action-buttons.png');
+	background-repeat: no-repeat;
+}
+span.pluck-voted-up {
+	background: transparent url('/ver1.0/Content/ua/images/reactions/score/pluck-thumb-up-grayed.gif') no-repeat center right;
+}
+span.pluck-voted-down {
+	background: transparent url('/ver1.0/Content/ua/images/reactions/score/pluck-thumb-down-grayed.gif') no-repeat center right;
+}
+.pluck-user-mp-dialog.pluck-user-isSystemEditor .pluck-user-mp-avatar-seethrough {
+	background: transparent url('/ver1.0/Content/ua/images/comments/pluck-comm-editor-posts.jpg') bottom left no-repeat;
+}
+a.pluck-email-set {
+	background-image: url('/ver1.0/Content/ua/images/comments/pluck-comm-action-buttons.png');
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+a.pluck-permalink-set {
+	background-image: url('/ver1.0/Content/ua/images/comments/pluck-comm-action-buttons.png');
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+a.pluck-share-set {
+	background-image: url('/ver1.0/Content/ua/images/comments/pluck-comm-action-buttons.png');
+	background-repeat: no-repeat;
+ 	background-position: -56px -223px;
+}
+a.pluck-cancel-button, span.pluck-cancel-button-text, .pluck-dialog, .pluck-score-dialog, .pluck-comm-narrow span.pluck-voted-down, .pluck-comm-narrow span.pluck-voted-up {
+	background: transparent;
+}
+.pluck-wait-msg, .pluck-login-comment-pluck-logo, .pluck-user-mp-wait-msg, .pluck-user-mp-loading-msg {
+	background-color: #fff;
+}
+.pluck-login-comment-wrapper, .pluck-login-comment-links-wrapper {
+	background: #ddd;
+}
+.pluck-login-persona-call-out {
+	background: #cacaca;
+}
+.pluck-user-mp-qtip-style {
+	background-color: #44433e;
+}
+.pluck-dialog-wrapper, .pluck-dialog-middle, .pluck-dialog .pluck-wait-modal, .pluck-score-dialog-wrapper, .pluck-user-mp-wrap, .pluck-user-mp-wait-modal, .pluck-user-mp-loading-modal {
+	background: #f6f4ea;
+}
+.pluck-login-comment-input, .pluck-login-comment-content {
+	background: #767572;
+}
+.pluck-login-comment-pluck-logo {
+	background: transparent;
+}
+
+/*********************************
+ * 
+ * pluck
+ *
+ *********************************/
+ 
+
+p.pluck-error-message, p.pluck-confirm-message{
+	display:inline-block;
+}
+a.pluck-primary-button {
+	display:block;
+	float: left; height:25px; /* CHANGE THIS VALUE ACCORDING TO IMAGE HEIGHT */ margin-right: 6px; padding-right: 6px; /* CHANGE THIS VALUE ACCORDING TO RIGHT IMAGE WIDTH */	
+	text-align:center; text-decoration:none;
+}
+span.pluck-primary-button-text { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	display:block;
+	line-height: 12px; /* CHANGE THIS VALUE ACCORDING TO BUTTON HEIGHT */ padding: 6px 29px 7px 35px;
+	cursor: pointer;
+}
+a.pluck-secondary-button {
+	display: block;
+	float: left;
+	height: 25px; /* CHANGE THIS VALUE ACCORDING TO IMAGE HEIGHT */ margin-right: 6px; padding-right: 6px; /* CHANGE THIS VALUE ACCORDING TO RIGHT IMAGE WIDTH */	
+	text-align: center; text-decoration: none;
+}
+span.pluck-secondary-button-text {
+	cursor: pointer;
+	display: block;
+	padding: 7px 29px 8px 35px;	
+	line-height: 10px; /* CHANGE THIS VALUE ACCORDING TO BUTTON HEIGHT */
+}
+a.pluck-cancel-button {
+    display: block;
+    float: left;
+    height: 25px; margin-left: 14px;
+    text-align: center; text-decoration: none;
+}
+span.pluck-cancel-button-text {
+    display: block;
+    padding: 6px 0 7px 0;    
+    line-height: 12px; cursor: pointer;
+}
+span.pluck-confirm-btn a {
+	display:inline-block;
+	height:25px; width:83px;
+	font-weight:bold; line-height: 25px; text-decoration:none; text-align: center;
+}
+.helloDiv {
+	font-style: italic; font-weight: bold; text-align: center;
+}
+.pluckAppsDebugLog {
+	display: none;
+}
+
+/*********************************
+ * 
+ * general pluck wait
+ *
+ *********************************/
+
+/* Specify top,bottom.left,right on a per-item basis */
+.pluck-wait {
+	display:none;
+	position:absolute;
+	z-index: 10;
+}
+/* Specify background based on item being overlaid */
+.pluck-wait-modal {
+	position:absolute; bottom:0; left:0; right:0; top:0; z-index:11;
+	opacity:0.80;
+	filter:alpha(opacity=80);	
+}
+/* Specify top,bottom.left,right on a per-item basis */
+.pluck-wait-display {
+	position:absolute; z-index: 12;
+}
+/* Specify font info on a per-item basis */
+.pluck-wait-msg {
+	padding: 20px; border: 1px solid #ccc;
+	text-align: center;
+}
+
+/*********************************
+ * 
+ * pluck dialog info
+ *
+ *********************************/
+
+/* Specify width on a per-item basis */
+.pluck-dialog {
+	display:none; position:absolute; left:0; top:0; z-index:500;
+	padding-bottom: 5px;	
+}
+.pluck-dialog-wrapper, .pluck-abuse-dialog .hasBackgroundColor {
+	border: 2px solid #f5f5f5;
+}
+.pluck-comm-comment-delete-confirm .bottomContainer > div{
+	display: none;/* hides the bottom border markup */
+}
+.pluck-comm-comment-delete-confirm .hasBackgroundColor {
+	bottom:2px!important;
+	border-bottom: 2px solid #888;
+}
+.pluck-abuse-dialog {
+	border: 2px solid #888;
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);/* requested to have a shadow in this instance */
+}
+.pluck-abuse-dialog .pluck-confirm-btn a{
+	color:#fff;
+}
+.pluck-comm-comment-delete-confirm .pluck-comm-wait-msg{
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);/* requested to have a shadow in this instance */
+}
+.pluck-comm-comment-delete-confirm .topContainer{
+	top:-2px !important;
+	border-top: 2px solid #888;
+}
+.pluck-comm-comment-delete-confirm .bottomContainer div{
+	padding:0!important;
+}
+.pluck-abuse-dialog, .pluck-comm-wait-msg.pluck-confirm-middle.hasCorners{
+    padding-bottom:4px;
+}
+.pluck-abuse-dialog p, .pluck-abuse-dialog label{
+    color:#222!important;
+}
+/* Specify width on a per-item basis - generally 2px less than pluck-dialog */
+.pluck-dialog-middle {
+	position: relative;	
+	height:auto; padding-bottom: 1px;
+	background: #f5f5f5;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-wrapper .pluck-confirm-middle{
+	border-bottom: 2px solid #888!important;	
+	background: #f5f5f5!important;
+}
+.pluck-dialog .pluck-wait {
+	bottom:0; left:2px; right:2px; top:25px;
+}
+.pluck-dialog .pluck-wait-display {
+	left: 30px; right: 30px; top: 50px;
+}
+.pluck-dialog .pluck-wait-msg {
+	font-weight: bold;
+}
+.pluck-dialog p.pluck-dialog-header, .pluck-dialog p.pluck-dialog-subheader {
+	margin-top: 0; margin-left: 10px; padding-top: 10px;	
+	font-weight:normal;
+}
+.pluck-dialog p.pluck-dialog-subheader {
+	padding-top: 0;
+}
+.pluck-dialog p.pluck-dialog-info {
+	font-weight: normal;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.pluck-dialog span.pluck-dialog-group {
+	display:block;
+	margin-bottom:10px;
+}
+/* Specify width on a per-item basis */
+.pluck-dialog span.pluck-dialog-group label {
+	float:left;
+	margin-right: 10px; margin-left: 10px;	
+	font-weight:normal;
+}
+/* Specify width on a per-item basis */
+.pluck-dialog span.pluck-dialog-group select {
+	display: inline-block;	
+	border:1px solid #e2e3ea;
+}
+/* Specify width and height on a per-item basis */
+.pluck-dialog span.pluck-dialog-group textarea {
+	border:1px solid #e2e3ea;
+	overflow: auto;
+}
+/* Specify width and height on a per-item basis */
+.pluck-dialog span.pluck-dialog-group input {
+	border:1px solid #e2e3ea;
+	overflow: hidden;
+}
+.pluck-dialog p.pluck-action-error {
+	display: none;	
+	margin: 0 10px 5px 10px;
+}
+/* Specify the left-margin on a per-item basis. Usually the width of the pluck-dialog-group label + 20px */
+.pluck-dialog p.pluck-validation-error {
+	display: none;	
+	margin: 0 10px 5px 0;
+}
+/* Specify padding-left on a per-item basis. Usually the width of the pluck-dialog-group label + 20px */
+span.pluck-dialog-actions {
+	display: block;
+	height: 25px; margin-bottom:15px;
+}
+/*********************************
+ * 
+ * pluck/login/comment
+ *
+ *********************************/
+
+.pluck-login-comment-input {
+	max-width:2400px; margin:5px auto 0 5px; min-width:350px; padding-top: 0; padding-right: 0;
+	border-top:4px solid #767572; border-right:4px solid #767572; border-left:4px solid #767572;
+}
+.pluck-login-comment-form {
+	margin-bottom: 0;
+}
+.pluck-login-comment-no-comments {
+	border-bottom:4px solid #767572;
+}
+.pluck-login-comment-content {
+	width:auto; margin-right:0; margin-top:0; margin-bottom: 0; padding:0;	
+}
+p.pluck-login-comment-calltoaction {
+	padding-left: 15px;	margin-top:0;	margin-bottom:10px;	
+	font-weight: bold;
+}
+.pluck-login-comment-wrapper {
+	width:auto;	height: auto !important; /* This fixes IE6's problem with min height */ margin-left:0; margin-right:0; margin-bottom:0;
+	border-top:4px solid #ddd; border-right:4px solid #ddd; border-left:4px solid #ddd;
+}
+.pluck-login-comment-links-wrapper {
+	width:auto;margin-left:0; margin-right:0; margin-bottom:0; padding:0 20px 15px 20px;	
+	border-top:4px solid #ddd;border-right:4px solid #ddd;border-left:4px solid #ddd;
+}
+p.pluck-login-comment-links-directions {
+	margin-bottom:15px;	margin-top: 10px;	
+	font-weight:normal;
+}
+span.pluck-login-comment-links-submit-area {
+	display: block;
+	height: 25px;
+}
+.pluck-login-comment-new-signup-area {
+	float:left;	
+	margin-left:22px; padding-right: 24px; width: 150px;	
+	border:0 solid #fff;
+}
+.pluck-login-comment-narrow .pluck-login-comment-new-signup-area {
+	padding-right: 5px; margin-left: 5px; -right: 5px;	
+}
+h5.pluck-login-comment-signup-question {
+	margin-top:0; margin-bottom:0; padding-top:15px;	
+	font-weight:bold;
+}
+p.pluck-login-comment-signup-directions {
+	width: 150px; margin-top:0; margin-bottom:15px;
+	font-weight:normal;
+}
+.pluck-login-comment-member-login-area {
+	margin-left: 236px;
+}
+.pluck-login-comment-narrow .pluck-login-comment-member-login-area {
+	margin-left: 170px; margin-right: 5px;
+}
+p.pluck-login-comment-login-directions {
+	margin-top:0; margin-bottom:15px; width: 303px;	
+	font-weight:normal;
+}
+.pluck-login-comment-narrow p.pluck-login-comment-login-directions {
+	width: auto;
+}
+a.pluck-login-comment-forgot-password-link {
+	display: block;
+	float: right;
+	text-decoration:none;
+}
+span.pluck-login-comment-group {
+	display:block;
+	margin-bottom:10px;
+}
+span.pluck-login-comment-group label {
+	display: block;
+	float:left;
+	width: 75px;
+}
+span.pluck-login-comment-group input {
+	display:block;
+	margin-left: 10px; width:225px;	border:1px solid #e2e3ea;
+}
+.pluck-login-comment-narrow span.pluck-login-comment-group input {
+	margin-left: 0; width: 210px;
+}
+span.pluck-login-comment-submit-area {
+	display: block;
+	padding-left: 72px; width: 236px; height: 25px; padding-bottom: 24px;
+}
+.pluck-login-comment-narrow span.pluck-login-comment-submit-area {
+	width: auto; padding-left: 0;	
+}
+span.pluck-login-comment-submit-area label {
+	margin-right: 10px;
+}
+a.pluck-login-comment-submit-button {
+	display: block;
+	float: right;
+}
+.pluck-login-comment-narrow a.pluck-login-comment-submit-button {
+	margin-right: 0;
+}
+.pluck-login-comment-pluck-logo {
+	height: 45px; padding: 10px;
+	text-align: center;
+}
+a.pluck-fbconnect-login-button {
+	display: block;
+	float: right;
+	margin-right: 4px; border: none;
+}
+a.pluck-fbconnect-login-button img{
+	border: none;
+}
+
+/*********************************
+ * 
+ * pluck/login/persona
+ *
+ *********************************/
+
+.pluck-login-persona-call-out {
+	height: auto; margin:24px 14px 24px 10px; border: 4px solid #cacaca;
+}
+p.pluck-login-persona-call {
+	margin-top: 7px; margin-bottom: 7px; margin-left: 5px;
+}
+.pluck-login-persona-submit-area {
+	display: block;
+	height: 25px; margin-top: 7px; margin-bottom: 7px; margin-left: 5px;
+}
+a.pluck-login-persona-submit-button {
+	display: block;
+	float: right;
+}
+
+
+/*********************************
+ * 
+ * pluck/reactions/abuse/dialog
+ *
+ *********************************/
+
+.pluck-abuse-dialog { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	width: 267px;
+}
+.pluck-abuse-dialog-middle {
+	width:263px;
+}
+.pluck-abuse-dialog .pluck-wait-display {
+	top: 50px;
+}
+.pluck-abuse-dialog span.pluck-dialog-group label {
+	width: 65px;
+}
+.pluck-abuse-dialog span.pluck-dialog-group select {
+	width: 160px;
+}
+.pluck-abuse-dialog span.pluck-dialog-group textarea {
+	height:75px; width: 160px;
+}
+.pluck-abuse-dialog span.pluck-dialog-actions {
+	padding-left: 85px;
+}
+
+/*********************************
+ * 
+ * pluck/reactions/score
+ *
+ *********************************/
+
+
+/*********************************
+ * 
+ * pluck/reactions/score/dialog
+ *
+ *********************************/
+.pluck-score-dialog {
+	display: none; position:absolute; left:0; top:0; z-index: 100;
+	padding-bottom: 5px; width: 212px;	
+}
+.pluck-score-dialog-wrapper {
+	border: 2px solid #bcb49d;
+}
+.pluck-score-volume-info {
+	padding: 10px 0; margin: 0;
+ }
+span.pluck-score-sub-head {
+	float: left;
+	margin-left: 10px;	
+	font-weight:bold;
+}
+span.pluck-score-text {
+	display:block;
+	margin-top: 0; margin-left:75px; margin-bottom: 0;
+}
+.pluck-score-em {
+	font-weight:bold;
+}
+
+/*********************************
+ * 
+ * pluck/reactions/score/submit
+ *
+ *********************************/
+
+span.pluck-thumb-up {
+	height:26px; width:53px;
+}
+span.pluck-thumb-up a {
+	display:block;
+	height:26px; width:53px;
+	text-decoration:none;
+	background-color: transparent; background-position: -9px -121px;	
+}
+span.pluck-thumb-up a:hover {
+	width:53px;		
+	background-position: -9px -154px;
+}
+span.pluck-thumb-up a:active {
+	width:53px;		
+	background-position: -9px -190px;
+}
+span.pluck-thumb-down {
+	float:right;
+	height:26px; width:53px;
+}
+span.pluck-thumb-down a {
+	display:block;
+	height:26px; width:53px;
+	text-decoration:none;	
+	background-color: transparent; background-position: -66px -121px;
+}
+span.pluck-thumb-down a:hover {
+	width:53px;		
+	background-position: -66px -154px;
+}
+span.pluck-thumb-down a:active {
+	width:53px;		
+	background-position: -66px -190px;
+}
+span.pluck-thumb-wait {
+	display: none;
+	height: 26px; width: 100%;
+	line-height: 26px; text-align: center;	
+}
+span.pluck-thumb-wait img {
+	margin-right: 5px; margin-left: 0; margin-top: 2px;
+}
+span.pluck-thumb-voted {
+	display:block;
+	height: 26px; padding-right: 20px; margin-right: 18px;
+	line-height: 26px; text-align: right;
+}
+p.pluck-thumb-error {
+	display: block; display: none;
+	margin: 5px 0;
+}
+
+/*********************************
+ * 
+ * pluck/user/miniPersona/dialog
+ *
+ *********************************/
+
+.pluck-user-mp-dialog {
+	display: none; position:absolute; top:0; left:0; z-index:999;
+}
+.pluck-user-mp-wrap { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	z-index:998;
+	border: 2px solid #bcb49d; 
+	min-height: 190px; height: auto !important;	height: 190px; width: 400px;	
+}
+.pluck-user-isMe .pluck-user-mp-wrap, .pluck-user-isAnonTier .pluck-user-mp-wrap { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	min-height: 120px; height: auto !important; height: 120px;
+}
+/*      !region sidebar */
+
+.pluck-user-mp-sidebar {
+	position:absolute; left:0;
+	width: 60px;
+}
+.pluck-user-mp-avatar-seethrough {
+	width: 45px; height:49px; margin-top: 0; margin-left:10px;	
+}
+.pluck-user-mp-avatar-seethrough a {
+	border:none;
+	text-decoration:none;
+}
+.pluck-user-mp-avatar-seethrough img.pluck-user-mp-avatarimg {
+	width: 40px; height: 40px; margin-left: 0; margin-top:5px;
+	border: 2px solid #afa89c;
+}
+.pluck-user-mp-dialog.pluck-user-isFeaturedUser .pluck-user-mp-avatar-seethrough {
+	height:67px;	
+	background: transparent url('/ver1.0/Content/ua/images/comments/pluck-comm-featured-posts.jpg') bottom left no-repeat;
+}
+.pluck-user-mp-dialog.pluck-user-isFeaturedUser .pluck-user-mp-avatar-seethrough img.pluck-user-mp-avatarimg {
+	border: 2px solid #3f90f4;
+}
+.pluck-user-mp-badges {
+	margin: 7px 0 0 14px;
+}
+.pluck-user-mp-badge {
+	width: 16px; height: 16px; margin-right: 4px;
+}
+
+/*      !endregion sidebar */
+
+/*      !region content */
+
+.pluck-user-mp-content {
+	margin-left:67px;
+}
+.pluck-user-mp-wrap-nocorners .pluck-user-mp-content {
+	margin-left: 65px;
+}
+h4.pluck-user-mp-username {
+	margin-top:0; margin-bottom:0; padding-top:10px;
+}
+.pluck-user-mp-wrap-ie7 h4.pluck-user-mp-username {
+	padding-top: 14px;
+}
+h4.pluck-user-mp-username a {
+	font-weight: normal; text-decoration:none;
+}
+p.pluck-user-mp-asl {
+	display: none;	
+	margin-top: 0; margin-bottom: 0;
+}
+.pluck-user-mp-isPublic p.pluck-user-mp-asl {
+	display: block;
+}
+.pluck-user-mp-activity-area {
+	margin-right:10px; margin-top: 0; padding-bottom: 44px;
+}
+.pluck-user-mp-dialog.pluck-user-isMe .pluck-user-mp-activity-area, .pluck-user-mp-dialog.pluck-user-isAnonTier .pluck-user-mp-activity-area {
+    padding-bottom: 5px;
+}
+.pluck-user-mp-isPrivate .pluck-user-mp-activity-area {
+	margin-top: 25px;
+}
+.pluck-user-mp-isSharedWithFriends .pluck-user-mp-activity-area {
+	margin-top: 25px;
+}
+p.pluck-user-mp-info {
+	display: none;	
+	margin-top:10px; margin-bottom:0;
+}
+.pluck-user-mp-isPublic p.pluck-user-mp-info {
+	display: block;
+}
+p.pluck-user-mp-private-info {
+	display: none;
+	margin-bottom:0; margin-top:10px;	
+	font-weight: bold;
+}
+.pluck-user-mp-isPrivate p.pluck-user-mp-private-info {
+	display: block;
+}
+p.pluck-user-mp-sharedWithFriends-info {
+	display: none;
+	margin-bottom:0; margin-top:10px;
+	font-weight: bold;
+}
+.pluck-user-mp-isSharedWithFriends p.pluck-user-mp-sharedWithFriends-info {
+	display: block;
+}
+p.pluck-user-mp-abusive-info {
+	display: none;
+	margin-bottom:0; margin-top:10px;	
+	font-weight: bold;
+}
+.pluck-user-mp-isAbusive p.pluck-user-mp-abusive-info, .pluck-user-mp-isBlocked p.pluck-user-mp-abusive-info {
+	display: block;
+}
+.pluck-user-mp-isPublic p.pluck-user-mp-isEmpty {
+	display: none;
+}
+span.pluck-user-mp-sub-head {
+	float: left;
+	font-weight:bold;
+}
+span.pluck-user-mp-text {
+	display:block;
+	margin-top: 5px; margin-left:40px; margin-bottom: 0;
+}
+span.pluck-user-mp-no-bio {
+	display:block;
+	margin-top: 10px; margin-left:0; margin-bottom: 0;
+}
+.pluck-user-mp-dialog .pluck-error-message, .pluck-user-mp-dialog .pluck-confirm-message {
+	display: none;
+}
+/*      !endregion content */
+
+/*      !region actions */
+
+.pluck-user-mp-qtip-style {
+	padding: 2px;	
+	font-weight: normal;
+}
+.pluck-user-mp-action-items {
+	position: absolute; left: 0; bottom: 0;
+	height: 26px; width: 100%; padding-bottom:0; 
+}
+.pluck-user-mp-dialog.pluck-user-isMe .pluck-user-mp-action-items, .pluck-user-mp-dialog.pluck-user-isAnonymous .pluck-user-mp-action-items {
+	display: none;
+}
+.pluck-user-mp-action-items .pluck-user-mp-action-items-btns {
+	margin-left: 52px;
+}
+.pluck-user-mp-action-items-btns a, .pluck-user-mp-action-items span {
+	display: none;
+}
+.pluck-user-mp-action-items-btns a img {	
+	height: 16px; margin: 5px 15px; width: 16px; border:none;
+}
+.pluck-user-mp-action-items-btns span img {	
+	height: 16px; width: 16px; border: none; padding: 5px 15px;
+} 
+.pluck-user-mp-action-items p {
+	height: 26px; padding-left: 10px; padding-right: 10px; margin-top: 0; margin-bottom: 0;
+	line-height: 26px; text-align: center;
+}
+
+/*      !endregion actions */
+
+/*      !region messaging */
+
+.pluck-user-mp-message-area {
+	display: none;
+	margin-right: 10px; margin-top: 10px;
+}
+span.pluck-user-mp-message-subject-group {
+	display: block;
+	margin-bottom: 10px;
+}
+span.pluck-user-mp-message-message-group {
+	display: block;
+	margin-bottom: 10px;
+}
+span.pluck-user-mp-message-subject-group label {
+	float:left;
+	margin-right: 10px; width: 52px;	
+	font-weight:bold;
+}
+span.pluck-user-mp-message-message-group label {
+	float:left;
+	margin-right: 10px;	width: 52px;	
+	font-weight:bold;
+}
+span.pluck-user-mp-message-subject-group input {
+	display:inline-block;	
+	width:178px; border:1px solid #e2e3ea;	
+}
+span.pluck-user-mp-message-message-group textarea {
+	width: 178px; height: 30px; border:1px solid #e2e3ea;
+	overflow: auto;
+}
+span.pluck-user-mp-message-options {
+    display: block;
+	height: 25px; margin-bottom:15px; margin-left: 62px;	
+}
+.pluck-user-mp-message-area .pluck-error-message {
+	margin-top: -5px; margin-bottom: 10px;
+}
+.pluck-user-mp-message-no-message, .pluck-user-mp-message-no-subject { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+    padding-left: 62px;
+}
+
+/*      !endregion messaging */
+
+/*      !region abuse */
+
+.pluck-user-mp-abuse-area {
+	display: none;
+	margin-right: 10px; margin-top: 20px;
+}
+span.pluck-user-mp-report-abuse-type-group {
+	display: block;
+	margin-bottom: 10px;
+}
+span.pluck-user-mp-report-abuse-message-group {
+	display: block;
+	margin-bottom: 10px;
+}
+span.pluck-user-mp-report-abuse-type-group label {
+	float:left;
+	margin-right: 10px;	width: 61px;	
+	font-weight:bold;
+}
+
+span.pluck-user-mp-report-abuse-message-group label {
+	float:left;
+	margin-right: 10px;	width: 61px;	
+	font-weight:bold;
+}
+span.pluck-user-mp-report-abuse-type-group select {
+	display:inline-block;
+	width:178px; border:1px solid #e2e3ea;
+}
+span.pluck-user-mp-report-abuse-message-group textarea {
+	width: 178px; border:1px solid #e2e3ea;
+	overflow: auto;
+}
+span.pluck-user-mp-report-abuse-options { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+    display: block;
+	height: 25px; margin-bottom:15px; margin-left: 71px;	
+}
+.pluck-user-mp-abuse-area .pluck-error-message {
+	margin-top: -5px; margin-bottom: 10px; margin-left: 62px;
+}
+
+/*      !endregion abuse */
+
+/*      !region wait */
+.pluck-user-mp-wait { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	display:none; position:absolute; left:0; top:0; bottom:0; right:0;
+}
+.pluck-user-mp-wait-modal { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position:absolute; left:0; top:0; bottom:0; right:0; z-index:9;
+	opacity:0.80;
+	filter:alpha(opacity=80);
+ }
+.pluck-user-mp-wait-msg { /* SEE IE 6 STYLESHEET FOR MORE STYLES */ 
+	position:absolute; top: 20px; left: 30px; right: 30px; z-index: 10;
+	padding: 20px; border: 1px solid #ccc;
+	text-align: center;	font-weight: bold;
+}
+/*    !endregion wait */
+
+/*    !region loading */
+
+.pluck-user-mp-loading { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	display:none; position:absolute; left:0; top:0; bottom:0; right:0;
+}
+.pluck-user-mp-loading-modal { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position:absolute; left:0; top:0; bottom:0; right:0; z-index:9;
+	opacity:0.80;
+	filter:alpha(opacity=80);
+ }
+.pluck-user-mp-loading-msg { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position:absolute; top: 20px; left: 30px; right: 30px; z-index: 10;
+	padding: 20px; border: 1px solid #ccc;
+	text-align: center;	font-weight: bold;
+}
+/*    !endregion loading */
+
+/*    !region user states and statuses */
+.pluck-user-mp-dialog.pluck-user-isSystemEditor .pluck-user-mp-avatar-seethrough {
+	height:67px;
+}
+.pluck-user-mp-dialog.pluck-user-isSystemEditor .pluck-user-mp-avatar-seethrough img.pluck-user-mp-avatarimg {
+	border: 2px solid #3f90f4;
+}
+.pluck-user-mp-dialog.pluck-user-mp-isBlocked .pluck-user-mp-avatar-seethrough, .pluck-user-mp-dialog.pluck-user-isIgnored .pluck-user-mp-avatar-seethrough {
+	height: 49px;	
+	background: transparent;
+}
+.pluck-user-mp-dialog.pluck-user-mp-isBlocked .pluck-user-mp-avatar-seethrough img.pluck-user-mp-avatarimg, .pluck-user-mp-dialog.pluck-user-isIgnored .pluck-user-mp-avatar-seethrough img.pluck-user-mp-avatarimg {
+	border: 2px solid #d96a6a;
+}
+
+/*      !endregion user states and statuses */
+
+/*********************************
+ * 
+ * pluck/util/email
+ *
+ *********************************/
+
+a.pluck-email-set {
+	display:block;
+	width:16px;	height:16px; margin:0;
+	text-decoration:none;	
+	background-position: -25px -223px;
+}
+a.pluck-email-set:hover {
+	width:16px;	margin:0;
+	background-position: -25px -245px;
+}
+
+/*********************************
+ * 
+ * pluck/util/email/dialog
+ *
+ *********************************/
+
+.pluck-email-dialog { /* SEE IE 6 STYLESHEET FOR MORE STYLES */	
+	min-height: 222px; height: auto !important; width: 267px; height: 222px; padding-bottom: 10px;	
+}
+.pluck-email-dialog .pluck-dialog-middle {
+	width:263px;
+}
+.pluck-email-dialog .pluck-wait-display {
+	top: 30px;
+}
+.pluck-email-dialog .pluck-wait-msg {
+	font-weight: bold;
+}
+.pluck-email-dialog p.pluck-validation-error {
+	margin-left: 85px;
+}
+.pluck-email-dialog span.pluck-dialog-group label {
+	width: 65px;
+}
+.pluck-email-dialog span.pluck-dialog-group input {
+	width:160px;
+}
+.pluck-email-dialog span.pluck-dialog-group textarea {
+	height:65px;
+	width: 160px;
+}
+.pluck-email-dialog span.pluck-dialog-actions {
+	padding-left: 85px;
+}
+/*********************************
+ * 
+ * pluck/util/permalink
+ *
+ *********************************/
+a.pluck-permalink-set {
+	display:block;
+	width:16px; height:16px; margin:0;
+	text-decoration:none;
+	background-position: -85px -223px;	
+}
+
+a.pluck-permalink-set:hover {
+	width:16px;	margin:0;
+	background-position: -85px -245px;
+}
+/*********************************
+ * 
+ * pluck/util/permalink/dialog
+ *
+ *********************************/
+.pluck-permalink-dialog {
+	z-index: 50;	
+	width: 133px;
+}
+.pluck-permalink-dialog .pluck-dialog-middle {
+	width:129px;
+}
+a.pluck-permalink-share-link {
+	display:block;
+	margin-left: 0; padding: 10px 0;
+	text-align: center; text-decoration:none;
+}
+.pluck-permalink-dialog a.hover, a:hover.pluck-permalink-share-link {
+	text-decoration:none;
+}	
+/*********************************
+ * 
+ * pluck/util/share
+ *
+ *********************************/
+a.pluck-share-set {
+	display:block;
+	width:16px; height:16px;margin:0;
+	text-decoration:none;	
+}
+a.pluck-share-set:hover {
+	width:16px;	margin:0;
+	background-position: -56px -245px;
+}
+/*********************************
+ * 
+ * pluck/util/share/dialog
+ *
+ *********************************/
+.pluck-share-dialog {
+	z-index: 90;	
+	width: 287px; padding-bottom: 10px;
+}
+.pluck-share-dialog .pluck-dialog-middle {
+	width:283px;
+}
+.pluck-share-col1 {
+	float: left;
+	width:140px; padding-top:10px;	
+}
+.pluck-share-col2 {
+	width:140px; margin-left: 143px; padding-top:10px;	 
+}
+span.pluck-share-item {
+	display:block;
+	padding-bottom: 8px;
+}
+.pluck-share-col1 span.pluck-share-item, .pluck-share-col2 span.pluck-share-item{
+	margin-left:10px; margin-bottom:7px;
+}
+span.pluck-share-item a.pluck-share-link, span.pluck-share-item a.pluck-share-link:hover {
+	text-decoration:none;
+}
+span.pluck-share-item a.pluck-share-link img {
+	border: none;
+	float:left;
+	margin-top:3px; margin-right: 7px;
+	text-decoration:none;
+}
+span.pluck-share-item a.pluck-share-disabled-link, span.pluck-share-item a.pluck-share-disabled-link:hover {
+	cursor: default;
+	color: #ccc;
+}
+/*********************************
+ * 
+ * pluck/reactions/recommend
+ *
+ *********************************/
+a.pluck-reactions-recommend-like {
+	display: block;	
+	width: 64px; padding: 2px; height: 18px;
+	border: 1px solid #b3b1aa;	
+	font-size: 14px; line-height: 18px; text-decoration: none;	
+	background-image: url('/ver1.0/pluck/reactions/recommend/images/button_bg.png');
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+a.pluck-reactions-recommend-like-recommend {
+	width: 120px;
+}
+a.pluck-reactions-recommend-like:link, a.pluck-reactions-recommend-like:visited{
+	color: #999;
+} 
+a.pluck-reactions-recommend-like:hover, a.pluck-reactions-recommend-like:focus {
+	border-color: #999;
+	color: #333;	
+	background-image: url('/ver1.0/pluck/reactions/recommend/images/button_bg_hover.png');
+}
+a.pluck-reactions-recommend-like span, span.pluck-reactions-recommend-liked {
+	display: block;
+	float: left;
+	width: 16px; height: 16px;
+	margin-left: 3px; margin-right: 5px; margin-top: 0;	
+	line-height: 14px;
+	background: transparent url('/ver1.0/pluck/reactions/recommend/images/vote_yes_inactive.png') no-repeat 0 0;
+}
+a.pluck-reactions-recommend-like:hover span, a.pluck-reactions-recommend-like:focus span, span.pluck-reactions-recommend-liked {
+	background-image: url('/ver1.0/pluck/reactions/recommend/images/vote_yes.png');
+}
+span.pluck-reactions-recommend-liked {
+	padding-left: 20px;	padding-top: 2px;
+	color: #666; font-size: 14px;	
+}
+/* Updates for Confirmation windows. */
+.pluck-app .pluck-confirm-dialog .pluck-confirm-middle {
+	color: #615555;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-middle, .pluck-app .pluck-confirm-dialog span.pluck-confirm-btn, .pluck-app .pluck-confirm-dialog span.pluck-confirm-btn a, .pluck-comm > .pluck-user-mp-dialog, .pluck-comm > .pluck-dialog, .pluck-comm-wrapper, .pluck-comm-commentcount, .pluck-comm-commentcount select.pluck-comm-comment-filters, .pluck-comm-single-comment-main, .pluck-comm-errors, .pluck-comm-comment-input, p.pluck-comm-calltoaction, .pluck-comm-message-border textarea, .pluck-comm-reply-input .pluck-comm-message-border textarea {
+	font-size: 16px;
+}
+.pluck-standardfont .pluck-confirm-dialog .pluck-confirm-middle, .pluck-standardfont .pluck-confirm-dialog span.pluck-confirm-btn, .pluck-standardfont .pluck-confirm-dialog span.pluck-confirm-btn a, .pluck-standardfont.pluck-comm > .pluck-user-mp-dialog, .pluck-standardfont.pluck-comm > .pluck-dialog, .pluck-standardfont .pluck-comm-wrapper, .pluck-standardfont .pluck-comm-commentcount, .pluck-standardfont .pluck-comm-commentcount select.pluck-comm-comment-filters, .pluck-standardfont .pluck-comm-single-comment-main, .pluck-standardfont .pluck-comm-errors, .pluck-standardfont .pluck-comm-comment-input, .pluck-standardfont p.pluck-comm-calltoaction, .pluck-standardfont .pluck-comm-message-border textarea, .pluck-standardfont .pluck-comm-reply-input .pluck-comm-message-border textarea {
+	font-size: 14px;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-wrapper, .pluck-app .pluck-confirm-dialog .pluck-confirm-wrapper .pluck-confirm-middle {
+	background: #F6F4EA;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-modal {
+	position:absolute; bottom:0; left:0; right:0; top:0; z-index:11;
+	filter:alpha(opacity=80);
+	opacity:0.80;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-wrapper {
+	position: absolute;	left: 30px; right: 30px; top: 10px; z-index: 12;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-middle {
+	position: relative;	
+	height: auto; padding: 10px; border: 2px solid #888;
+	font-weight: normal; text-align: center;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-spacer {
+	height: 8px;
+}
+/* Primary Button */
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-btn a {
+	color: #E0E0E0;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-btn {
+	display:inline-block;
+	height:25px; width: auto; margin-right: 6px; margin-top: 8px; margin-bottom: 8px; padding-right: 6px;
+	font-weight: normal; text-align:center;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-btn a {
+	display:block;
+	width: auto; height: auto; padding: 6px 29px 7px 35px;
+	font-weight: normal; line-height: 12px; text-align: center; text-decoration:none;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-btn a {
+	margin:0;
+}
+/* Cancel Button */
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-cancel-btn a {
+	color: #615555;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-cancel-btn a:hover {
+	color: #CC3333;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-cancel-btn, .pluck-app .pluck-confirm-dialog span.pluck-confirm-cancel-btn a {
+	background: transparent;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-cancel-btn {
+	margin-left: 14px; margin-right: 0; padding-right: 0;	
+}	
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-cancel-btn a {
+	display: block;
+	padding: 6px 0 7px 0;	
+	line-height: 12px;
+}
+/* by default, hide throbbers */
+.pluck-app-processing {
+	display: none;
+}
+.pluck-login-withFacebook .pluck-fbconnect-login-button {
+	display: block;
+	float: none;
+	margin-left: 4px; margin-right: 4px;
+	border: medium none;	
+}
+.pluck-tracking-image {
+	display: none;	
+}
+/* // end original pluck cdn css file */
+
+/*********************************
+ *
+ * CSS control - DO NOT CHANGE OR REMOVE
+ * needed to track loading of this css file
+ *
+ *********************************/
+.pluck-comments-css-loaded { /* DO NOT CHANGE OR REMOVE - needed to track loading of this css file */
+	border-bottom-color: #010204;
+}
+/*********************************
+ * 
+ * colors
+ *
+ *********************************/
+ 
+h4.pluck-comm-username-url span, .pluck-comm-comment-content p, a.pluck-comm-pagination-prev, a.pluck-comm-pagination-next, .pluck-comm-submit-wait-msg {
+	color:#1A1414;
+}
+.pluck-comm-commentcount p.pluck-comm-commenttext, .pluck-comm-commentcount p.pluck-comm-commenttext a.pluck-comm-number-highlight-followed,
+.pluck-comm-comment-input {
+	color:#E0E0E0;
+}
+.pluck-comm-comment-content a, h4.pluck-comm-username-url a, .pluck-comm-comment-content .pluck-comm-hide-hidden-info, .pluck-comm-comment-content .pluck-comm-show-hidden-info, .pluck-comm-action-controls a, .pluck-comm-edit-controls a, .pluck-comm-show-hide-replies a.pluck-comm-show-reply-link, .pluck-comm-show-hide-replies a.pluck-comm-hide-reply-link, .pluck-comm-show-hide-replies span.pluck-comm-wait-reply-link, .pluck-comm-errors {color:#06c;
+}
+.pluck-comm-single-comment-main .pluck-error-message, a.pluck-comm-report-abuse:hover {
+	color: #c33;
+}	 
+.pluck-comm-commentcount p.pluck-comm-commenttext span.pluck-comm-comment-number-highlight, .pluck-comm-commentcount-actions p{
+	color:#ffc;
+}
+.pluck-comm-comment-content p.pluck-comm-lastEditBy, .pluck-comm-comment-content p.pluck-comm-timestamp, .pluck-comm-action-controls span.pluck-comm-actions-element span, .pluck-comm-abuse-area .pluck-abuse-reported{
+	color:#999;
+}
+a.pluck-comm-cancel, .pluck-comm-reply-input p.pluck-comm-calltoaction, span.pluck-comm-facebook-option, span.pluck-comm-twitter-option, span.pluck-comm-socialoptions-posttext, .pluck-comm-submitoptions label, .pluck-comm-socialoptions label, span.pluck-comm-reply-button a, .pluck-comm-report-abuse {
+	color:#615555;
+}
+/*********************************
+ * 
+ * backgrounds
+ *
+ *********************************/
+
+.pluck-comm-single-comment-main { 
+	background: #ffffff url('/ver1.0/Content/ua/images/comments/pluck-comm-background.png') top right repeat-y; 
+}
+.pluck-comm-comment-action-group, span.pluck-comm-reply-button a, span.pluck-comm-reply-button a:hover, span.pluck-comm-reply-button a:active {
+	background-color: transparent;
+	background-image: url('/ver1.0/Content/ua/images/comments/pluck-comm-action-buttons.png');
+	background-repeat: no-repeat;
+}
+.pluck-comm-wrapper div.pluck-user-isFeatured .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/comments/pluck-comm-featured-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-wrapper div.pluck-user-isSystemEditor .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/comments/pluck-comm-editor-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-wrapper div.pluck-user-isGroupManager .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/users/pluck-groupmanager-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-wrapper div.pluck-user-isGroupAdmin .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/users/pluck-groupadmin-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-wrapper div.pluck-comm-isDeleted .pluck-comm-sc-avatar {
+	background: transparent;
+}
+.pluck-comm-wrapper div.pluck-comm-isBlocked .pluck-comm-sc-avatar {
+	background: transparent;
+}
+.pluck-comm-wrapper div.pluck-user-isHidden .pluck-comm-sc-avatar {
+	background: transparent;
+}
+.pluck-comm-wrapper div.pluck-user-isIgnored .pluck-comm-sc-avatar {
+	background: transparent;
+}
+.pluck-comm-wrapper div.pluck-comm-isUnderReview .pluck-comm-sc-avatar {
+	background: transparent;
+}
+.pluck-comm-pagination-wrapper { 
+	background: #ffffff url('/ver1.0/Content/ua/images/pluck-pagination-bg-2.jpg') top right no-repeat;
+}
+a.pluck-comm-pagination-first {
+	background: url('/ver1.0/Content/ua/images/pluck-pagination-first-bg.png') top left no-repeat;
+}
+a.pluck-comm-pagination-prev {
+	background: url('/ver1.0/Content/ua/images/pluck-pagination-prev-bg.png') top left no-repeat;
+}
+a.pluck-comm-pagination-next {
+	background: transparent url('/ver1.0/Content/ua/images/pluck-pagination-next-bg.png') no-repeat scroll left top;
+}
+a.pluck-comm-pagination-last {
+	background: url('/ver1.0/Content/ua/images/pluck-pagination-last-bg.png') top left no-repeat;
+}
+.pluck-comm-no-comments .pluck-comm-message-border .pluck-comm-first-to-comment {
+	background: transparent url('/ver1.0/Content/ua/images/comments/pluck-comm-first-comment.gif') center center no-repeat;
+} 
+.pluck-comm-show-hide-replies, .pluck-comm-comment-action-group-arrow, .pluck-comm-report-abuse {
+	background: transparent;
+} 
+ .pluck-comm-wrapper { 
+	background: #9b9a95;
+}
+.pluck-comm-comment-input, .pluck-comm-input-content {
+	background: #767572;
+}	
+.pluck-comm-commentcount { 
+	background: #a1a09c;
+}
+.pluck-comm-single-comment-top, .pluck-comm-wait-modal, .pluck-comm-wait-msg, .pluck-comm-narrow .pluck-comm-pagination-wrapper, .pluck-comm-errors, .pluck-comm-reply-input, .pluck-comm-message-border textarea, .pluck-comm-submit-wait-msg {
+	background-color: #fff;
+}
+.pluck-comm-narrow .pluck-comm-single-comment-main {
+	background: #fff;
+}
+.pluck-comm-input-rounded-wrap,
+.pluck-comm-submit-wait-modal {
+	background: #ddd;
+}
+.pluck-comm-socialoptions {
+	background: #c2c3c8;
+}
+
+/*********************************
+ * 
+ * pluck/comments
+ *
+ *********************************/
+
+.pluck-comm-wrapper { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position: relative;
+	padding-top: 0; max-width:2400px; min-width:250px; min-height: 45px; margin:0 auto 0 5px;	
+	border-bottom: 4px solid #767572; border-left: 4px solid #767572; border-right: 4px solid #767572;
+}
+
+/*********************************
+ * 
+ * pluck/comments/list
+ *
+ *********************************/
+
+/*     !region Comment Count Area */
+.pluck-comm-ReplyLevel-1, .pluck-comm-ReplyLevel-2 { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position: relative;
+}
+.pluck-comm-commentcount { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position: relative;
+	max-width:2400px; margin:0 auto 0 0;
+	min-width:250px; min-height: 25px;	padding: 0 10px 10px; width:auto;
+}
+.pluck-comm-commentcount p.pluck-comm-commenttext {
+	padding-top:10px; margin-top:0; margin-left:3px; margin-bottom:0;	
+	font-weight:bold;
+}
+.pluck-comm-commentcount p.pluck-comm-commenttext a.pluck-comm-number-highlight-followed {
+	font-weight:bold;
+}
+.pluck-comm-commentcount .pluck-comm-commentcount-actions {
+	position: absolute; top: 2px; right: 0;
+}
+.pluck-comm-commentcount-actions p {
+	float: left;
+	margin-top:10px; margin-right: 0; margin-bottom: 0;
+}
+.pluck-comm-commentcount select.pluck-comm-comment-filters {
+	display: block;	
+	float: left;
+	margin: 8px 10px 0;
+}
+.pluck-comm-commentcount .pluck-comm-commentcount-actions a {
+	display: block;	
+	float: left;
+	border:none; margin-right:10px; margin-top:10px;
+}
+.pluck-comm-commentcount .pluck-comm-commentcount-actions a img {
+	border:none;
+}
+.pluck-comm-single-comment-top { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position: relative;
+}
+.pluck-comm-single-comment-main { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	min-height: 121px; max-width:2400px; min-width:250px; margin:0 auto 0 0; padding: 0 0 0 10px; width:auto;
+	border-top: 1px solid #a6a6a5;	
+	overflow:visible;
+}
+/*     !endregion Comment Count Area */
+
+/*     !region Comment Area */
+.pluck-comm-sc-threading {
+	position:relative;
+	padding-bottom: 10px;
+}
+/*         !region user avatar */
+.pluck-comm-sc-avatar { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	left:0; top:0;
+	float: left;
+	width: 45px; height:40px; margin-top: 10px; margin-left:3px;
+}
+img.pluck-comm-avatarimg { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	float: left;
+	width: 40px; height: 40px; margin-left:0; border: 2px solid #afa89c;
+}
+/*         !endregion user avatar */
+
+/*         !region Comment Content */
+.pluck-comm-comment-content { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	width:auto; margin:-4px 150px 10px 60px;
+	padding-top: 9px; padding-right: 0; padding-bottom: 10px;
+}
+.pluck-comm-narrow .pluck-comm-comment-content {
+	margin-right: 10px;
+}
+.pluck-comm-rate-system {
+	float:right;
+	padding-top: 8px;
+}
+h4.pluck-comm-username-url { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	margin-top:5px; margin-bottom:0; padding-top:5px;
+}
+h4.pluck-comm-username-url a, h4.pluck-comm-username-url span{
+	font-weight: normal; text-decoration:none;
+}
+.pluck-comm-comment-content p {
+	margin-top:0; margin-bottom:0;
+}
+.pluck-comm-comment-content p.pluck-comm-body {
+	overflow: hidden;
+}
+.pluck-comm-comment-content p.pluck-comm-body a {
+	text-decoration: none;
+}
+.pluck-comm-comment-content p.pluck-comm-body img {
+	padding-top:5px; max-width: 100%;
+}
+.pluck-comm-comment-content p.pluck-comm-lastEditBy {
+	padding: 10px 0 0 0;
+	text-align: right;
+}
+.pluck-comm-comment-content .pluck-comm-hide-hidden-info, .pluck-comm-comment-content .pluck-comm-show-hidden-info {
+	margin-left: 10px;
+	font-weight: normal; text-decoration:none;
+}
+.pluck-comm-hide-hidden-info {
+	display: none;
+}
+.pluck-comm-action-controls, .pluck-comm-edit-controls{
+	display: block;
+	padding: 10px 10px 0 0;
+	vertical-align: top;
+}
+.pluck-comm-action-controls a {
+	display: inline-block;
+	margin-right: 15px; margin-bottom: 5px; margin-top: 5px;
+	text-decoration: none;
+}
+.pluck-comm-action-controls .pluck-thumb-voted-action {
+	margin-right: 15px;
+}
+.pluck-comm-action-controls img {
+	border: none;
+	vertical-align: text-bottom;
+}
+.pluck-comm-edit-controls span {
+	margin-right: 15px;
+}
+.pluck-comm-edit-controls a {
+	display: inline-block;	
+	text-decoration: none;
+}
+.pluck-comm-edit-controls a img {
+	float: left;	
+	margin-right: 5px; border: 0px solid #fff;
+}
+.pluck-comm-single-comment-main .pluck-error-message {
+	display: none;	
+	margin: 0; padding: 10px 10px 0 0;
+}
+.pluck-comm-show-hide-replies {
+	margin-top:0; margin-left:60px; margin-right:150px; padding-bottom: 10px; padding-top: 10px;
+}
+.pluck-comm-narrow .pluck-comm-show-hide-replies {
+	margin-right: 10px;
+}
+.pluck-comm-show-hide-replies-links {
+	padding: 0;
+	line-height: 18px;
+}
+.pluck-comm-show-hide-replies-open {
+	margin-bottom:-20px;
+}
+.pluck-comm-show-hide-replies span.pluck-comm-show-hide-reply-toggle img {
+	float: left;
+	margin-top:2px; margin-right:5px; margin-left:0; border:none;
+}
+.pluck-comm-show-hide-replies a.pluck-comm-show-reply-link {	
+	margin-top:0;	margin-bottom:5px;
+	font-weight:normal; text-decoration:none;
+}
+.pluck-comm-show-hide-replies a.pluck-comm-hide-reply-link {
+	display: none;
+	margin-top:0;	margin-bottom:5px;
+	font-weight:normal;	text-decoration:none;
+}
+.pluck-comm-show-hide-replies span.pluck-comm-wait-reply-link {
+	display: none;
+	margin-top:0;	margin-bottom:5px;
+	font-weight:normal;	text-decoration:none;
+}
+/*         !endregion Comment Content */
+/*         !region Comment Actions */
+.pluck-comm-comment-action-group-arrow-wrapper {
+	position:relative;	
+	float:right;
+	width:130px;
+}
+.pluck-comm-comment-action-group-arrow { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position: absolute; right: 10px; top: 7px;
+	width: 110px; min-height: 50px;	
+}
+.pluck-comm-comment-action-group {
+	position: absolute;	left: 0; top: 0; width: 110px;
+	background-position: 0 275px;
+}
+span.pluck-comm-reply-button {
+	height:25px; min-width:110px; width:110px;
+}
+span.pluck-comm-reply-button a {
+	display:block;
+	height:25px; padding-top:3px; width:auto;	
+	border:none;
+	text-indent: 45px; text-decoration:none;		
+	background-position: -9px -10px;	
+}
+span.pluck-comm-reply-button a:hover {
+	background-position: -9px -45px;
+}
+span.pluck-comm-reply-button a:active {
+	border:none;	
+	background-position: -9px -82px;
+}
+.pluck-comm-rate-controls {
+	position:relative;
+	height:26px; margin-top: 0; width: 110px;
+}
+.pluck-comm-share-abuse-controls {
+	display:block;
+	width:110px;
+}
+.pluck-comm-share-abuse-controls span {
+	margin-top:10px;
+}
+.pluck-comm-share-abuse-controls-top span {
+	margin-top:0;
+}
+span.pluck-comm-email-area {
+	float:left;
+	height:16px; width:16px; margin-bottom:0; margin-left:15px; margin-right:15px;	
+}
+span.pluck-comm-share-area {
+	float:left;
+	height:16px; width:16px; margin-bottom:0; margin-left:0; margin-right:0;	
+}
+span.pluck-comm-permalink-area {
+	float:left;
+	height:16px; width:16px; margin-bottom:0; margin-left:15px; margin-right:15px;	
+}
+div.pluck-comm-abuse-area {
+	margin-bottom:10px;	margin-top:0;
+	text-align: center;
+}
+.pluck-comm-report-abuse {
+	text-decoration:none;
+}
+a.pluck-comm-report-abuse {
+	cursor:pointer;
+}
+/*         !endregion Comment Actions */
+
+/*    !endregion Comment Area */
+
+/*    !region Wait  - DJL OK */
+.pluck-comm-wait {
+	position:absolute; display: none; left:0; top:0; bottom:0; right:0; z-index: 10;
+}
+.pluck-comm-wait-modal {
+	position:absolute; left:0; top:0; bottom:0; right:0; z-index:11;
+	opacity:0.80;
+	filter:alpha(opacity=80);
+}
+.pluck-comm-wait-display {
+	position:absolute; top: 20px; left: 20%; right: 20%; z-index: 12;
+}
+.pluck-comm-wait-msg {
+	padding: 10px; border: 1px solid #ccc;
+	font-weight: bold; text-align: center; color: #1a1414;
+}
+.pluck-comm-wait-msg span a {
+	margin-top: 10px; margin-right: 5px;
+}
+/*    !endregion Wait */
+
+/*    !region Levels - DJL OK */
+.pluck-comm-ReplyLevel-2 .pluck-comm-comment-action-group-arrow-wrapper {
+	border-top: 1px solid #a6a6a5;
+}
+.pluck-comm-ReplyLevel-2 div.pluck-comm-sc-avatar { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	margin-left:60px;
+}
+.pluck-comm-ReplyLevel-2 div.pluck-comm-comment-content {
+	margin-bottom: 0; margin-left: 117px; margin-top: 0;
+	padding-bottom: 10px; padding-top: 5px;
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-single-comment-main { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	margin-top:0; margin-bottom:0; min-height: 97px; border-top: 0;
+}
+/*    !endregion Levels */
+
+
+/*    !region Comment State conditionals */
+.pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-comment-action-group-arrow, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-comment-action-group-arrow, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-comment-action-group-arrow, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-comment-action-group-arrow, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-comment-action-group-arrow, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-comment-action-group-arrow, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-comment-action-controls, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-comment-action-controls, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-comment-action-controls, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-comment-action-controls, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-comment-action-controls, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-comment-action-controls, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-sc-avatar-inactive, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-sc-avatar-inactive, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-sc-avatar-inactive, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-sc-avatar-active, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-sc-avatar-active, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-sc-avatar-active, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-sc-avatar-active, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-sc-avatar-active-persona-disabled, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-sc-avatar-active-persona-disabled, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-sc-avatar-active-persona-disabled, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-sc-avatar-active-persona-disabled, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-username-withheld, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-username-withheld, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-username-withheld, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-username-display, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-username-display, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-username-display, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-username-display, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-deletedmsg, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-deletedmsg, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-deletedmsg, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-deletedmsg, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-deletedmsg, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-deletedmsg, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-blockedmsg, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-blockedmsg, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-blockedmsg, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-blockedmsg, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-blockedmsg, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-blockedmsg, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-reviewedmsg, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-reviewedmsg, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-reviewedmsg, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-reviewedmsg, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-reviewedmsg, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-reviewedmsg, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-hiddenmsg, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-hiddenmsg, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-hiddenmsg, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-hiddenmsg, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-hiddenmsg, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-hiddenmsg, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-ignoredmsg, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-ignoredmsg, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-ignoredmsg, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-ignoredmsg, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-ignoredmsg, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-ignoredmsg, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-abusereportedmsg, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-abusereportedmsg, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-abusereportedmsg, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-abusereportedmsg, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-abusereportedmsg, .pluck-comm-wrapper .pluck-comm-isVisible .pluck-comm-abusereportedmsg, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-body, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-body, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-body, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-body, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-body, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-body, .pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-lastEditBy, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-lastEditBy, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-lastEditBy, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-lastEditBy, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-lastEditBy, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-lastEditBy, .pluck-comm-wrapper div.pluck-comm-isDeleted .pluck-comm-edit-controls, .pluck-comm-wrapper div.pluck-user-isHidden .pluck-comm-unblock, .pluck-comm-wrapper div.pluck-user-isIgnored .pluck-comm-unblock, .pluck-comm-wrapper div.pluck-comm-isAbuseReported .pluck-comm-unblock, .pluck-comm-wrapper div.pluck-comm-isUnderReview .pluck-comm-unblock, .pluck-comm-wrapper div.pluck-comm-isVisible .pluck-comm-unblock, .pluck-comm-wrapper div.pluck-comm-isBlocked .pluck-comm-block, .pluck-comm-wrapper div.pluck-comm-isDeleted .pluck-comm-show-hide-replies, .pluck-comm-wrapper div.pluck-comm-isBlocked .pluck-comm-show-hide-replies, .pluck-comm-wrapper div.pluck-user-isHidden .pluck-comm-show-hide-replies, .pluck-comm-wrapper div.pluck-comm-isUnderReview .pluck-comm-show-hide-replies, .pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-username-withheld, .pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-sc-avatar-inactive, .pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-show-hidden-info {
+	display:none;
+}
+.pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-single-comment-main, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-single-comment-main, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-single-comment-main, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-single-comment-main, .pluck-comm-wrapper .pluck-comm-isAbuseReported .pluck-comm-single-comment-main, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-single-comment-main { /* SEE IE 6 STYLESHEET FOR MORE STYLES */ 
+	min-height: 100px;
+}
+.pluck-comm-wrapper div.pluck-comm-isDeleted img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-comm-isBlocked img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isHidden img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isIgnored img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-comm-isUnderReview img.pluck-comm-avatarimg {
+	border: 2px solid #d96a6a;
+}
+.pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-username-display, .pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-sc-avatar-active, .pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-body, .pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-lastEditBy, .pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-sc-avatar-active-persona-disabled{
+	display:block;
+}
+.pluck-comm-wrapper .pluck-comm-showHiddenInfo .pluck-comm-hide-hidden-info {
+	display: inline;
+}
+/*    !endregion Comment State conditionals */
+
+/*     !region Featured Comments */
+.pluck-comm-wrapper div.pluck-user-isFeatured .pluck-comm-sc-avatar, .pluck-comm-wrapper div.pluck-user-isGroupAdmin .pluck-comm-sc-avatar, .pluck-comm-wrapper div.pluck-user-isGroupManager .pluck-comm-sc-avatar, .pluck-comm-wrapper div.pluck-user-isSystemEditor .pluck-comm-sc-avatar {
+	height:62px;
+}
+.pluck-comm-wrapper div.pluck-user-isFeatured img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isGroupAdmin img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isGroupManager img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isSystemEditor img.pluck-comm-avatarimg {
+	border: 2px solid #3f90f4;
+}
+/* This goes here since blocked/bozoed/ignored/underReview have precedence */
+.pluck-comm-wrapper div.pluck-comm-isDeleted img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-comm-isBlocked img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isHidden img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isIgnored img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-comm-isUnderReview img.pluck-comm-avatarimg {
+	height: 40px;	
+	border: 2px solid #d96a6a;
+}
+/*     !endregion */
+
+/*     !region Pagination */
+.pluck-comm-pagination-separator {
+	border-top: 1px solid #a6a6a5;
+}
+.pluck-comm-pagination-wrapper { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	height:39px; width:auto; margin-top:0; margin-bottom:0;	
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-pagination-wrapper {
+	padding-left: 65px;
+	border-top: none;
+}
+.pluck-comm-pagination-level1 {
+	border-top: 1px solid #a6a6a5;
+}
+div.pluck-comm-pagination-logo-area {
+	float:right;
+	height: 39px; width: 130px;
+	overflow: hidden;
+}
+div.pluck-comm-pagination-logo-area img {
+	margin-left: 1px; border:none;	
+}
+div.pluck-comm-pagination-back-area {
+	height: 30px; margin-left:15px; padding-top:7px;	
+}
+a.pluck-comm-pagination-first {
+	display: block;
+	float: left;
+	width: 28px; height: 25px; margin-right: 7px;	
+}
+a.pluck-comm-pagination-prev {
+	display: block;
+	float: left;
+	width:44px; height:20px; padding-top: 5px; padding-left: 25px;
+	text-decoration:none;	
+}
+div.pluck-comm-pagination-forward-area {
+	float:right;
+	width:106px; height: 25px; margin-right:15px; padding-top:7px;	
+}
+.pluck-comm-ReplyLevel-2 div.pluck-comm-pagination-forward-area { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	margin-right: 145px;
+}
+a.pluck-comm-pagination-next {
+	display: block;
+	float:right;
+	width:69px; height:20px; padding-right:0; padding-top:5px;
+	text-align: left; text-decoration:none; text-indent: 15px;	
+}
+a.pluck-comm-pagination-last {
+	display: block;
+	float: right;
+	width: 28px; height: 25px; margin-left: 7px;	
+}
+/*     !endregion Pagination */
+
+/*     !region Retrieval Errors */
+.pluck-comm-errors { /* SEE IE 6 STYLESHEET FOR MORE STYLES */
+	position:relative;
+	border-top: 3px solid #767572;
+	max-width:2400px; min-width:250px; width:auto; margin:0 auto 0 0; min-height: 25px; padding-top: 0;	
+}
+.pluck-comm-error-msg {
+	padding: 10px;
+}
+.pluck-comm-error-details {
+	display:none;
+	padding: 10px; border-top: 1px solid #a6a6a5;
+}
+/*     !endregion */
+
+/*********************************
+ * 
+ * pluck/comments/submit
+ *
+ *********************************/
+
+.pluck-comm-comment-input {
+	border-top:4px solid #767572; border-right:4px solid #767572; border-left:4px solid #767572;
+	max-width:2400px; margin:5px auto 0 5px; min-width:350px; padding-top: 0; padding-right: 0;
+}
+.pluck-comm-no-comments {
+	border-bottom:4px solid #767572;
+}
+.pluck-comm-comment-input .pluck-error-message {
+	display: none;
+	margin: 5px 0 0 10px;
+}
+.pluck-comm-comment-input .pluck-confirm-message {
+	display: none;
+	margin: 0 0 0 10px;
+}
+.pluck-comm-reply-input .pluck-error-message, .pluck-comm-reply-input .pluck-confirm-message {
+	margin-left: 15px;
+}
+.pluck-comm-reply-input {
+	position: relative;	display:none;
+	border: 0 solid #fff; margin:0 150px 0 0; min-width: 300px; width:auto; padding-top: 10px; padding-bottom: 17px;
+}
+.pluck-comm-narrow .pluck-comm-reply-input {
+	margin-right: 10px;
+}
+.pluck-comm-input-content {
+	/*position: relative;*/
+	padding:0; margin-right:0; margin-top:0; margin-bottom: 0;
+	width:auto;
+}
+p.pluck-comm-calltoaction {
+	padding-left: 15px;	margin-top:0; margin-bottom:10px;	
+	font-weight: normal;
+}
+.pluck-comm-message-border {
+	z-index:5;
+	min-width:300px; width: 130%; height: auto !important; /* This fixes IE6's problem with min height */	
+	margin:0px; margin-top:10px; padding:5px 0 0 0;
+	overflow: hidden; cursor: default;	
+}
+.pluck-comm-message-border textarea {
+	display:block; z-index:5;
+	float: left;
+	width: 310px;
+	margin: 10px 0 0 10px; padding:0;
+	border-top: 2px solid #abadb3; border-left:none; height: 110px;		
+	overflow: auto; overflow-y: auto; overflow-x: hidden;
+}
+.pluck-comm-reply-input .pluck-comm-message-border {
+	width: auto;
+	height: 80px;
+}
+.pluck-comm-reply-input .pluck-comm-message-border textarea {
+	height: 80px; width: 90%; margin-left: 15px;
+	overflow: auto; overflow-y: auto; overflow-x: hidden;
+}
+.pluck-comm-no-comments .pluck-comm-message-border .pluck-comm-first-to-comment {
+	top: 10px; bottom: 0; left: 360px;	
+	float: right;
+	width: 109px; height: 109px;
+}
+.pluck-comm-narrow .pluck-comm-message-border .pluck-comm-first-to-comment {
+	left: 325px;
+}
+.pluck-comm-submitoptions {
+	display:block;
+	height: 39px; margin-left:0; padding:5px 0 0 10px; width:auto;	
+	cursor: default;
+}
+.pluck-comm-comment-input .pluck-comm-socialoptions {
+	clear: right; display: block;
+	width: 308px; height: 20px; margin-left: 10px; margin-right: 10px; padding: 10px 0 10px 5px;
+	cursor: default;
+}
+.pluck-comm-wrapper .pluck-comm-socialoptions {
+	clear: right; display: block;
+	height: 20px; margin-left: 15px; margin-right: 10px; padding: 10px 0 10px 5px; width: 89%;
+	cursor: default;
+}
+.pluck-comm-reply-input .pluck-comm-submitoptions {
+	padding-left: 15px;
+}
+.pluck-comm-submitoptions input, .pluck-comm-socialoptions input {
+	display: inline-block;	
+	float: left;
+	margin: 0; width:21px; height:21px;
+	vertical-align: bottom;
+}
+.pluck-comm-submitoptions span, .pluck-comm-socialoptions span {
+	display: inline;
+	float:left;
+}
+span.pluck-comm-facebook-option, span.pluck-comm-twitter-option, span.pluck-comm-linkedin-option {
+	margin-top:7px; margin-right: 10px;
+}
+span.pluck-comm-socialoptions-posttext {
+	margin-right: 10px;	margin-top:5px;	
+	font-weight: bold;
+}
+.pluck-comm-socialoptions span.pluck-comm-facebook-option, .pluck-comm-socialoptions span.pluck-comm-twitter-option, .pluck-comm-socialoptions span.pluck-comm-linkedin-option {
+	margin-top:0;
+}
+form.pluck-comm-posting-form {
+	margin-top:0; margin-bottom: 0; padding-top:5px;
+}
+.pluck-comm-submitoptions label, .pluck-comm-socialoptions label {
+	font-weight:bold;
+}
+.pluck-comm-socialoptions label {
+	display: inline-block;
+}
+.pluck-comm-socialoptions label.isie {
+	margin-top: 3px;
+}
+.pluck-comm-submitoptions label img, .pluck-comm-socialoptions label img {
+	float: left;
+	margin-left: 3px; margin-right: 3px; margin-top: 3px;
+}
+span.pluck-comm-submit-option {
+    margin-top: 5px;
+}
+.pluck-comm-input-rounded-wrap {
+	width:auto; height: auto !important; margin-left:0; margin-right:0; margin-bottom:0;
+	border-top:4px solid #ddd; border-right:4px solid #ddd; border-left:4px solid #ddd;
+}
+/*    !region Wait  - DJL OK */
+.pluck-comm-submit-wait, .pluck-comm-submit-wait-fb {
+	display:none; position:absolute; left:0; top:0; bottom:0; right:0; z-index: 10;
+}
+.pluck-comm-submit-wait-modal {
+	position:absolute; left:0; top:0; bottom:0; right:0; z-index:11;
+	opacity:0.80;
+	filter:alpha(opacity=80);
+ }
+.pluck-comm-submit-wait-display {
+	position:absolute; top: 50px; left: 10%; right: 10%; z-index: 12;
+}
+.pluck-comm-submit-wait-msg {
+	padding: 20px; border: 1px solid #ccc;
+	font-weight: bold; text-align: center;
+}
+/*    !endregion Wait */
+.pluck-nocomm-logo {
+	padding-top: 10px;	
+	text-align: center;
+}
+.pluck-nocomm-logo img {
+	border: 0;
+}
+.pluck-comm-comment-input-fb-auto {
+	display: none;
+}
+.pluck-comm-commenting-as-persona-disabled, .pluck-comm-commenting-as {
+	padding-top: 15px; padding-left: 60px; margin-bottom: 20px; margin-top: 0px;
+	vertical-align: middle;
+}
+.pluck-user-isGroupAdmin .pluck-comm-commenting-as, .pluck-user-isGroupManager .pluck-comm-commenting-as, .pluck-user-isSystemEditor .pluck-comm-commenting-as, .pluck-user-isFeatured .pluck-comm-commenting-as {
+	margin-bottom: 42px;
+}
+.pluck-comm-commenting-as a, .pluck-comm-commenting-as-persona-disabled a {
+	color: #06c; font-weight: normal; text-decoration: none;
+}
+.pluck-comm-commenting-as-fb-icon {
+	float: left; 
+	padding-top: 2px; padding-left:8px;
+}
+.pluck-comm-commenting-as-fb{ 
+	width: 300px; padding-left: 30px; 
+	vertical-align: middle;
+	color: #1a1414; 
+}
+.pluck-comm-submit-loggedInUser {
+	margin-left: 6px;
+}
+/**************
+ * Updates for Pothole
+ **************/
+.pluck-comm-posting-form div.pluck-user-isFeatured .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/comments/pluck-comm-featured-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-posting-form div.pluck-user-isSystemEditor .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/comments/pluck-comm-editor-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-posting-form div.pluck-user-isGroupManager .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/users/pluck-groupmanager-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-posting-form div.pluck-user-isGroupAdmin .pluck-comm-sc-avatar {
+	background: transparent url('/ver1.0/Content/ua/images/users/pluck-groupadmin-posts.jpg') bottom left no-repeat;
+}
+.pluck-comm-posting-form div.pluck-user-isGroupAdmin .pluck-comm-sc-avatar, .pluck-comm-posting-form div.pluck-user-isGroupManager .pluck-comm-sc-avatar, .pluck-comm-posting-form div.pluck-user-isSystemEditor .pluck-comm-sc-avatar, .pluck-comm-posting-form div.pluck-user-isFeatured .pluck-comm-sc-avatar {
+	height:62px;
+}
+.pluck-comm-posting-form div.pluck-user-isGroupAdmin img.pluck-comm-avatarimg, .pluck-comm-posting-form div.pluck-user-isGroupManager img.pluck-comm-avatarimg, .pluck-comm-posting-form div.pluck-user-isSystemEditor img.pluck-comm-avatarimg, .pluck-comm-posting-form div.pluck-user-isFeatured img.pluck-comm-avatarimg {
+	border: 2px solid #3f90f4;
+}
+/*******************
+ * Updates for 2/22/11
+ *******************/
+.pluck-comm-paged-pagination a, span.pluck-comm-paged-pagination-separator {
+	color: #0066cc;
+}
+.pluck-comm-paged-pagination-page {
+	font-size: 0.8em;
+}
+.pluck-comm-paged-pagination-wrapper {
+	background: none;
+}
+.pluck-comm-paged-pagination-wrapper a.pluck-comm-paged-pagination-button-prev {
+	background: transparent url('/ver1.0/pluck/reviews/pluck-pag-prev-active.png') top left no-repeat;
+}
+.pluck-comm-paged-pagination-wrapper span.pluck-comm-paged-pagination-button-prev {
+	background: transparent url('/ver1.0/pluck/comments/list/pluck-pag-prev-disabled.png') top left no-repeat;
+}
+.pluck-comm-paged-pagination-wrapper a.pluck-comm-paged-pagination-button-next {
+	background: transparent url('/ver1.0/pluck/comments/list/pluck-pag-next-active.png') top left no-repeat;
+}
+.pluck-comm-paged-pagination-wrapper span.pluck-comm-paged-pagination-button-next {
+	background: transparent url('/ver1.0/pluck/comments/list/pluck-pag-next-disabled.png') top left no-repeat;
+}
+.pluck-comm-paged-pagination { /* See IE6 stylesheet for additional styles */
+	height: 18px; padding:10px 10px 10px 25px;
+	text-align: right;
+}
+.pluck-comm-paged-pagination-wrapper {
+	float: right;	
+	height: 18px; padding-right: 20px;
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-paged-pagination-wrapper {
+	padding-right: 140px;
+}
+.pluck-comm-paged-pagination-wrapper a {
+	text-decoration: none;
+}
+.pluck-comm-paged-pagination-wrapper img {
+	display: block;
+	border: 0;
+}
+.pluck-comm-paged-pagination-button-prev {
+	display: block;
+	float: left;
+	width: 18px; height: 18px; margin-right: 10px; 
+}
+.pluck-comm-paged-pagination-button-next {
+	display: block;
+	float: left;
+	width: 18px; height: 18px; margin-left: 5px;	
+}
+.pluck-comm-paged-pagination-page {
+	display: inline-block;
+	float: left;
+	margin-right: 5px; padding-top: 2px;
+}
+.pluck-comm-paged-pagination-separator {
+	display: inline-block;
+	float: left;
+	margin-right: 5px; padding-top: 0px;
+}
+span.pluck-comm-paged-pagination-page {
+	font-weight: bold;
+}
+p.pluck-comm-calltoaction-disabled {
+	margin-bottom:0; padding-bottom: 10px; padding-top: 5px;	
+	color: #cc6633; font-weight: bold;
+	background: #E0E0E0;
+}
+.pluck-comm-wrapper .pluck-comm-isDeleted .pluck-comm-action-controls, .pluck-comm-wrapper .pluck-comm-isBlocked .pluck-comm-action-controls, .pluck-comm-wrapper .pluck-user-isHidden .pluck-comm-action-controls, .pluck-comm-wrapper .pluck-user-isIgnored .pluck-comm-action-controls, .pluck-comm-wrapper .pluck-comm-isUnderReview .pluck-comm-action-controls {
+	display:none;
+}
+.pluck-comm-show-hide-replies div.pluck-comm-wait-reply-link {
+	display: none;
+	margin-top:0; margin-bottom:5px;	
+	color: #1a1414; font-size: 0.8em; font-weight:normal; text-decoration:none; text-align: center;
+}
+/** Updates for Quicksand **/
+.pluck-comm-commenting-as {
+	padding-top: 18px;
+}
+.pluck-comm-submit-loggedInUser {
+	height: 40px;
+}
+.pluck-comm-posting-form div.pluck-user-isGroupAdmin, .pluck-comm-posting-form div.pluck-user-isGroupManager, .pluck-comm-posting-form div.pluck-user-isSystemEditor, .pluck-comm-posting-form div.pluck-user-isFeatured {
+	height: 62px;
+}
+.pluck-comm-posting-form .pluck-comm-submit-loggedInUser h4 {
+	color: #1a1414; font-size: 0.8em; font-weight: normal;
+}
+.pluck-comm-body, .pluck-comm-body a {
+	word-wrap: break-word;
+}
+/* // end comments cdn css file */
+
+/* jp-pluck.css */
+/*********************************
+ * 
+ * pluck/login/comment
+ *
+ *********************************/
+#commentsSection {
+	margin-top:20px;
+}
+.pluck-app {
+    color: #000;
+}
+.pluck-login-comment-input {
+	border-bottom-color:#ebebeb;
+	max-width:2400px; margin:0 0 20px 0; min-width:350px; padding-top: 0; padding-right: 0;
+}
+.pluck-login-comment-content, .pluck-login-comment-wrapper, .pluck-login-comment-links-wrapper, span.pluck-primary-button-text {
+	background: none;
+}
+.pluck-login-comment-links-wrapper {
+	border:none;
+}
+p.pluck-login-comment-calltoaction {
+    margin-bottom: 10px; margin-top: 0; padding-left: 15px;	
+    font-weight: bold;
+}
+.pluck-login-comment-content p.pluck-login-comment-calltoaction {
+	display:none;
+}
+a.pluck-primary-button, span.pluck-comm-reply-button a {
+	display: block;
+    float: left;
+    height: auto; margin-right: 6px; padding:8px 10px 10px;
+    text-align: center; text-decoration: none; color:#fbdb00; font-size:1.2em;
+}
+span.pluck-primary-button-text {
+	display:inline;	
+    padding: 0;
+}
+p.pluck-login-comment-links-directions {
+	margin:0;
+}
+span.pluck-thumb-up a, span.pluck-thumb-up a:hover, span.pluck-thumb-down a, span.pluck-thumb-down a:hover, span.pluck-thumb-up a:active, span.pluck-thumb-down a:active, a.pluck-email-set, a.pluck-permalink-set, a.pluck-share-set {
+	background-image: url('http://samples.pluck.com/ver1.0/Content/ua/images/comments/pluck-comm-action-buttons.png');
+}
+/* jp-pluck.css */
+
+/* jp-comments-v2.css */
+/*********************************
+ * 
+ * pluck/login/comment
+ *
+ *********************************/
+#commentsSection {
+	margin-top:20px;	
+}
+.pluck-login-comment-pluck-logo, .pluck-nocomm-logo, .pluck-login-comment-content p.pluck-login-comment-calltoaction, img.pluck-comm-avatarimg, .pluck-comm-show-hide-replies-links a.pluck-comm-show-reply-link img, .pluck-comm-show-hide-replies-links a.pluck-comm-hide-reply-link img, .pluck-comm-submit-loggedInUser, .pluck-comm-comment-input .pluck-comm-socialoptions, div.pluck-comm-pagination-logo-area, .pluck-comm-share-abuse-controls, .pluck-comm-commentcount-actions a.pluck-comm-comments-rss, .pluck-score-volume-display, .pluck-comm-reply-input p.pluck-comm-calltoaction, .pluck-comm-isAbuseReported .pluck-comm-rate-system, .pluck-comm-isDeleted .pluck-comm-rate-system, .pluck-comm-isBlockedOrig .pluck-comm-rate-system, a.pluck-login-comment-signup-button {
+	display:none;
+}
+.pluck-login-comment-input {
+	max-width:2400px; margin:0 0 20px; min-width:350px; padding-top: 0; padding-right: 0;
+}
+.pluck-login-comment-content,.pluck-login-comment-wrapper, .pluck-login-comment-links-wrapper, span.pluck-primary-button-text, .pluck-comm-commentcount, .pluck-comm-isAbuseReported p.pluck-comm-timestamp, .pluck-comm-comment-input, .pluck-comm-input-content, .pluck-comm-socialoptions, .pluck-comm-pagination-wrapper, .pluck-comm-comment-action-group, .pluck-comm-input-rounded-wrap, .pluck-comm-submit-wait-modal {
+	background: none;
+}
+.pluck-login-comment-links-wrapper .pluck-primary-button:hover {
+	margin-right:10px;
+}
+p.pluck-login-comment-calltoaction {
+    margin-bottom: 10px; margin-top: 0; padding-left: 15px;
+    font-weight: bold;    
+}
+a.pluck-primary-button, a.pluck-primary-button:hover, a.pluck-primary-button:active, span.pluck-comm-reply-button a, span.pluck-comm-reply-button a:hover, span.pluck-comm-reply-button a:active {
+    float: left;
+    height: auto; margin-right: 0; padding-right:0;
+    text-align: center; text-decoration: none;
+}
+a.pluck-primary-button:hover, a.pluck-primary-button:active, span.pluck-comm-reply-button a:hover, span.pluck-comm-reply-button a:active {
+	text-decoration:underline;
+}
+span.pluck-primary-button-text {
+	display:block;	
+    padding: 0;
+	font-size:1.3em; line-height:100%; line-height:inherit;
+}
+.pluck-comm-wrapper {
+	margin:0; padding:5px 20px; border:none;
+	background:#fff;
+}
+.pluck-comm-single-comment-main {
+	padding:10px 0 0 0; border-top:1px solid #ccc;
+	background:none;
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-single-comment-main {
+	margin-left:94px; border-top:1px solid;
+}
+.pluck-comm-first .pluck-comm-single-comment-main {
+	border-top:none;
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-first .pluck-comm-single-comment-main {
+	padding-top:10px;
+}
+.pluck-comm-commentcount-actions p {
+    color: #000;
+}
+.pluck-comm-sc-avatar {
+	width: 55px; height: 55px; margin-left: 0;
+}
+.pluck-comm-wrapper div.pluck-user-isSystemEditor img.pluck-comm-avatarimg {
+	border-bottom:5px solid;
+}
+.pluck-comm-wrapper div.pluck-user-isSystemEditor .pluck-comm-sc-avatar {
+	height: 90px; padding-bottom:3px;
+	background-position:left 70px; background-repeat:no-repeat;
+}
+.pluck-comm-comment-content {
+    margin: 0; padding-bottom:20px;
+}
+h4.pluck-comm-username-display, p.pluck-comm-timestamp {
+	margin-left:75px;
+}
+h4.pluck-comm-username-display {
+	margin-top:0; padding-top:0; font-size:1.2em;
+}
+h4.pluck-comm-username-display a {
+	font-size:1em;
+}
+p.pluck-comm-timestamp {
+	padding-bottom:85px;
+	background-position:bottom left; background-repeat:no-repeat;
+}
+.pluck-user-isSystemEditor p.pluck-comm-timestamp {
+	padding-bottom:70px;
+}
+.pluck-comm-ReplyLevel-2 p.pluck-comm-timestamp {
+	padding-bottom:53px;	
+	background: url("/assets/images/comments/comment-body-top.gif") no-repeat 0 48px;
+}
+.pluck-comm-ReplyLevel-2 .pluck-user-isSystemEditor p.pluck-comm-timestamp {
+	padding-bottom:49px;
+}
+p.pluck-comm-body, p.pluck-comm-abusereportedmsg {
+	padding:10px;
+	line-height:1.3em;
+}
+p.pluck-comm-abusereportedmsg {
+	padding-left:0;
+}
+.pluck-comm-ReplyLevel-2 p.pluck-comm-abusereportedmsg {
+	padding-left:10px;
+}
+.pluck-comm-show-hide-replies {
+	margin-left:0; padding-bottom:21px;
+}
+.pluck-comm-show-hide-replies-links a.pluck-comm-show-reply-link, .pluck-comm-show-hide-replies-links a.pluck-comm-hide-reply-link {
+	font-size:1em;
+}
+.pluck-comm-show-hide-replies-links a.pluck-comm-show-reply-link:hover .jp-comments-reply-user .pluck-comm-child-count-single, .pluck-comm-show-hide-replies-links a.pluck-comm-hide-reply-link:hover .jp-comments-reply-user .pluck-comm-child-count-single, .pluck-comm-show-hide-replies-links a.pluck-comm-show-reply-link:hover .jp-comments-reply-user .pluck-comm-child-count-multiple, .pluck-comm-show-hide-replies-links a.pluck-comm-hide-reply-link:hover .jp-comments-reply-user .pluck-comm-child-count-multiple {
+	text-decoration:none;
+}
+.pluck-comm-show-hide-replies-links span.pluck-comm-show-hide-reply-toggle {
+	display:inline-block;	
+	padding-left:25px; min-height:16px;	
+	background: url("/assets/images/comments/comment-reply-show.gif") no-repeat left top;
+} 
+.pluck-comm-show-hide-replies-links .pluck-comm-hide-reply-link span.pluck-comm-show-hide-reply-toggle {
+	background: url("/assets/images/comments/comment-reply-hide.gif") no-repeat left top;
+}
+.pluck-comm-ReplyLevel-2 {
+	border-top: 1px solid;
+}
+.pluck-comm-ReplyLevel-2 div.pluck-comm-comment-content {
+	margin-left: 0; margin-top:0; padding-top:6px;
+}
+.pluck-comm-commentcount {
+	padding-left:0;
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-comment-action-group-arrow-wrapper {
+	border:none;
+}
+.pluck-comm-comment-input {
+    border:none; margin:0 0 19px 0;
+	padding:19px 0;
+	border-bottom:1px solid; border-top:1px solid;
+}
+.pluck-comm-reply-input {
+	border:none; padding:0; margin:0 0 5px 94px!important;
+}
+.pluck-comm-message-border textarea {
+	margin-left:0; border:2px solid;
+}
+.pluck-comm-comment-input .pluck-comm-socialoptions {
+    cursor: default;
+    display: block;
+    width: 308px; height: 20px; margin-left: 0; margin-right: 10px; padding: 10px 0 10px 0;
+}
+.pluck-comm-commenting-as-persona-disabled, .pluck-comm-commenting-as {
+    margin-bottom: 20px; margin-top: 0; padding-left: 82px; padding-top: 5px;
+    vertical-align: middle; font-size:1.6em;
+}
+.pluck-standardfont p.pluck-comm-calltoaction {
+	padding-left:0; margin-bottom:0;	
+	font-size:1.3em; font-weight:bold;
+}
+.pluck-comm-comment-input p.pluck-comm-calltoaction {
+	padding-left:0;
+}
+.pluck-comm-message-border textarea {
+	width:404px; height:116px; padding:5px 8px;
+	resize:none; border:none;	
+	background-position:0 0; background-repeat:no-repeat;
+}
+a.pluck-comm-submit, a.pluck-comm-submit:hover, a.pluck-comm-submit:active, a.pluck-comm-cancel, a.pluck-comm-cancel:hover, a.pluck-comm-cancel:active {
+	float:right;
+	font-size:1em;
+}
+.pluck-comm-message-border {
+	padding:0; margin:0;
+}
+.pluck-comm-submitoptions {
+	padding-left:0; width:420px;
+}
+.pluck-comm-commentcount p.pluck-comm-commenttext {
+	margin-left: 0;
+}
+.pluck-comm-commentcount select.pluck-comm-comment-filters {
+	margin-right:0;
+}
+.pluck-comm-pagination-level1 {
+    border:none;
+}
+.pluck-comm-pagination-wrapper {
+	position:absolute;	
+    height: 39px; width:300px;
+}
+.pluck-comm-paged-pagination {
+    padding: 0;
+}
+.pluck-comm-paged-pagination-wrapper {
+    float: left;
+}
+.pluck-comm-paged-pagination-page {
+    font-size: inherit;
+}
+.pluck-comm-comment-action-group-arrow-wrapper, .pluck-comm-comment-action-group-arrow, .pluck-comm-comment-action-group {
+    position: static;
+}
+span.pluck-comm-reply-button a, span.pluck-comm-reply-button a:hover, span.pluck-comm-reply-button a:active {
+	position:absolute; top:73px; right:0;
+	margin-right:0; padding:0 10px;
+	line-height:2em; text-indent:0; font-size:0.8em;
+}
+span.pluck-comm-reply-button a:hover, span.pluck-comm-reply-button a:active {
+	text-decoration:underline;
+}
+.pluck-comm-first .pluck-comm-single-comment-main span.pluck-comm-reply-button a {
+	top:75px;
+}
+span.pluck-thumb-up a, span.pluck-thumb-up a:hover, span.pluck-thumb-up a:active, span.pluck-thumb-down a, span.pluck-thumb-down a:hover, span.pluck-thumb-down a:active {
+	display:inline-block;
+	height:17px; min-width: 17px; width:auto; padding:3px 3px 0 20px;
+	font-size:0.75em;
+	background-position:0 0; background-repeat:no-repeat;	
+}
+span.pluck-thumb-up a:hover, span.pluck-thumb-down a:hover {
+	text-decoration:underline;
+}
+span.pluck-thumb-down a, span.pluck-thumb-down a:hover, span.pluck-thumb-down a:active {
+	background-position:bottom left;
+}
+span.pluck-thumb-down, span.pluck-thumb-up {
+	display:inline-block;		
+	float:none;
+	height:20px; min-width:40px; width:auto;
+}
+.pluck-comm-rate-controls {
+	position:relative; left:0; top:-7px;
+	float:right;	
+    height: 20px; width:auto; margin-left:10px;
+	text-align:right;
+}
+
+.pluck-comm-ReplyLevel-2 .pluck-comm-rate-controls {
+	top:-8px;
+}
+div.pluck-comm-abuse-area {
+	position:relative; top:15px;
+	clear:right;
+    margin-top: 0;
+    text-align: right;
+}
+div.pluck-comm-abuse-area a:hover {
+	text-decoration:underline;
+}
+.pluck-comm-rate-system {
+	position:relative; top:4px;	
+	padding-top:0; margin-right:5px;
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-rate-system {
+	top:7px;
+}
+.pluck-comm-ReplyLevel-2 div.pluck-comm-sc-avatar {
+    margin-left: 0;
+}
+.jp-comments-reply-user {
+	position:relative; left:-26px; top:2px;
+	display:block;
+	min-height:20px; padding:6px 0 0 27px;
+	font-size:0.8em;
+	background-position:0 0; background-repeat:no-repeat;
+}
+.pluck-comm-submitoptions span, .pluck-comm-socialoptions span {
+    display: block; position: relative;
+    float: right;
+    width:75px;
+}
+.pluck-cancel-button.pluck-comm-cancel{
+	position: absolute; right:77px; top:-2px;
+}
+.pluck-comm-submitoptions span.pluck-primary-button-text {
+	font-size:0.8em;
+}
+a.pluck-comm-submit, a.pluck-comm-submit:hover, a.pluck-comm-submit:active {
+    margin:0;
+	font-size:inherit;
+}
+a.pluck-comm-submit:hover, a.pluck-comm-submit:active, a.pluck-comm-submit:hover .pluck-primary-button-text, a.pluck-comm-submit:active .pluck-primary-button-text {
+	text-decoration:underline;
+}
+.pluck-comm-input-rounded-wrap {
+	border:none;
+}
+.pluck-comm-reply-input .pluck-comm-message-border textarea {
+	height:116px; width:404px; margin:0;
+}
+.pluck-comm-reply-input a.pluck-comm-submit {
+	float:right;
+	margin-left:5px;
+}
+.pluck-comm-reply-input .pluck-comm-submitoptions {
+	width:404px; height: 1%;
+}
+.pluck-comm-reply-input .pluck-comm-submitoptions:after {
+	content: "."; clear: both;
+	display: block;
+	height: 0; overflow: hidden;
+	visibility: hidden;
+}
+a.pluck-cancel-button {
+	font-size:inherit;
+}
+a.pluck-cancel-button span.pluck-cancel-button-text {
+	padding:7px 0; width:73px; margin-top:2px;
+	border:1px solid #ebebeb;	
+	font-size:0.8em;
+	background: #efefef;
+}
+a.pluck-cancel-button:hover span.pluck-cancel-button-text, a.pluck-comm-cancel:hover {
+	text-decoration:underline;
+}
+.pluck-comm-comment-action-group-arrow-wrapper {
+	width:110px;
+}
+.pluck-comm-comment-action-group-arrow, .pluck-comm-comment-action-group {
+	width:auto; margin-top:12px;
+}
+span.pluck-login-comment-links-submit-area {
+	height: 1%;
+}
+span.pluck-login-comment-links-submit-area:after {
+	content: "."; display: block; clear: both;
+	height: 0; overflow: hidden;
+	visibility: hidden;
+}
+.pluck-comm .pluck-user-mp-dialog {
+	display:none !important; /* left for specificity */
+}
+span.pluck-thumb-voted {
+	position:relative; top:-2px;
+	margin-right:0;
+}
+.pluck-comm-isAbuseReported .pluck-comm-single-comment-main {
+	opacity:0.5;
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-edit-controls {
+	padding-top:0;
+}
+/* end of jp-comments-v2.css */
+
+
+/* jp-comments-theme.css */
+html #commentsSection *{
+	font-family: "OpenSans-Regular", Arial, sans-serif;
+}
+.pluck-login-comment-input {
+	border:none;
+}
+a.pluck-primary-button, span.pluck-comm-reply-button a {
+	color:#fff;
+}
+.pluck-app, p.pluck-login-comment-links-directions, .pluck-comm-commentcount p.pluck-comm-commenttext span.pluck-comm-comment-number-highlight, .pluck-comm-commentcount p.pluck-comm-commenttext, .pluck-comm-commentcount p.pluck-comm-commenttext a.pluck-comm-number-highlight-followed, .pluck-comm-comment-input, .pluck-comm-commentcount-actions p {
+    color: #222;
+}
+a.pluck-email-set, a.pluck-permalink-set, a.pluck-share-set {
+	background-image: url('http://samples.pluck.com/ver1.0/Content/ua/images/comments/pluck-comm-action-buttons.png');
+}
+.pluck-comm-ReplyLevel-2 .pluck-comm-single-comment-main {
+	border-top-color:#f2f2f2;
+}
+img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isSystemEditor img.pluck-comm-avatarimg {
+    border-color:#333;
+}
+.pluck-comm-wrapper div.pluck-user-isSystemEditor img.pluck-comm-avatarimg {
+	border-bottom-color:#333;
+}
+.pluck-comm-wrapper div.pluck-user-isSystemEditor .pluck-comm-sc-avatar {
+	background-color:#333;
+	background-image:url("/assets/images/comments/pluck-avatar-editor.gif");
+}
+.pluck-comm-comment-content a, h4.pluck-comm-username-url a, .pluck-comm-comment-content .pluck-comm-hide-hidden-info, .pluck-comm-comment-content .pluck-comm-show-hidden-info, .pluck-comm-action-controls a, .pluck-comm-edit-controls a, .pluck-comm-show-hide-replies a.pluck-comm-show-reply-link, .pluck-comm-show-hide-replies a.pluck-comm-hide-reply-link, .pluck-comm-show-hide-replies span.pluck-comm-wait-reply-link, .pluck-comm-errors {
+    color: #347fbf;
+}
+p.pluck-comm-timestamp {
+	background-image:url("/assets/images/comments/comment-body-top.gif");
+}
+.pluck-comm-isUnderReview p.pluck-comm-timestamp{
+	background:none;
+	}
+p.pluck-comm-body {
+	background:#ebebeb;
+}
+.pluck-comm-show-hide-replies-links span.pluck-comm-show-hide-reply-toggle {
+	height:16px; padding-left:20px;
+	background: url("/assets/images/comments/comment-reply-show.gif") no-repeat left center;
+}
+.pluck-comm-child-count-single, .pluck-comm-child-count-multiple{
+	line-height:16px; font-size: 14px; vertical-align: top;
+	background:#fff;
+}
+.pluck-comm-child-count-single:hover, .pluck-comm-child-count-multiple:hover{
+	text-decoration: none;
+}	
+.pluck-comm-child-count-multiple{
+	padding:1px 0 0 2px;
+}
+.pluck-comm-show-hide-replies-links .pluck-comm-hide-reply-link span.pluck-comm-show-hide-reply-toggle {
+	background-image:url("/assets/images/comments/comment-reply-hide.gif") no-repeat left center;
+}
+.pluck-comm-ReplyLevel-2 {
+	border-top-color:#ccc;
+}
+.pluck-comm-comment-input {
+	position: relative;
+	border-bottom-color:#ccc; border-top-color:#ccc;
+}
+.pluck-comm-message-border textarea {
+	width: 100%;
+	border: 1px solid #ebebeb;
+	background: #f5f5f5;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
+.pluck-comm-socialoptions {
+    background-color:#ebebeb;
+}
+.pluck-comm-commenting-as-persona-disabled a, .pluck-comm-commenting-as a {
+	color: #1499d6;
+}
+.pluck-comm-paged-pagination-wrapper span.pluck-comm-paged-pagination-button-prev {
+    background-image: url("/assets/images/comments/pluck-pag-prev-disabled.png");
+}
+.pluck-comm-paged-pagination-wrapper span.pluck-comm-paged-pagination-button-next {
+	background-image: url("/assets/images/comments/pluck-pag-next-disabled.png");
+}
+.pluck-comm-paged-pagination-wrapper a.pluck-comm-paged-pagination-button-next {
+    background-image: url("/assets/images/comments/pluck-pag-next-active.png");
+}
+.pluck-comm-paged-pagination-wrapper a.pluck-comm-paged-pagination-button-prev {
+	background-image: url("/assets/images/comments/pluck-pag-prev-active.png");
+}
+span.pluck-thumb-up a, div.pluck-comm-abuse-area a, a.pluck-comm-cancel, div.pluck-comm-abuse-area a:hover, a.pluck-cancel-button:hover .pluck-cancel-button-text, a.pluck-comm-cancel, a.pluck-cancel-button:hover .pluck-cancel-button-text, .pluck-thumb-up a span,  .pluck-thumb-down a span{
+	color:#347fbf;
+}
+.jp-comments-reply-user {
+	color:#999;
+	background-image:url("/assets/images/comments/comment-reply-user.gif");
+}
+h4.pluck-comm-username-url span, .pluck-comm-comment-content p, h4.pluck-comm-username-url {
+	color:#222;
+}
+h4.pluck-comm-username-withheld span{
+	margin-left:19px; font-size:1.2em;
+}
+.pluck-comm-wrapper div.pluck-comm-isDeleted img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-comm-isBlocked img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isHidden img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-user-isIgnored img.pluck-comm-avatarimg, .pluck-comm-wrapper div.pluck-comm-isUnderReview img.pluck-comm-avatarimg{
+	border-width:10px;
+	height:55px;
+}
+div.pluck-comm-isBlocked p.pluck-comm-timestamp{
+	background-image:none;	
+}
+div.pluck-comm-isBlocked span.pluck-score-volume{
+	display:none;
+}
+a.pluck-primary-button, a.pluck-primary-button:hover, a.pluck-primary-button:active, .pluck-login-comment-links-wrapper .pluck-primary-button, .pluck-login-comment-links-wrapper .pluck-primary-button:hover, .pluck-login-comment-links-wrapper .pluck-primary-button:active{
+	text-decoration:none; line-height:14px;
+}
+span.pluck-comm-reply-button a, span.pluck-comm-reply-button a:hover, span.pluck-comm-reply-button a:active{
+	padding:4px 15px; 
+	font-size:0.7em; line-height:1.3em;
+}
+a.pluck-comm-submit:hover, a.pluck-comm-submit:active, a.pluck-comm-submit:hover .pluck-primary-button-text, a.pluck-comm-submit:active .pluck-primary-button-text{
+	text-decoration:none;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-btn a{
+	padding:7px 20px;
+	color:#fff; font-size: 13px;
+}
+.pluck-app .pluck-confirm-dialog span.pluck-confirm-btn a.pluck-comm-comment-delete-no{
+	padding:7px 17px;
+	color:#222; font-size: 12px;
+}
+.pluck-comment-container .pluck-confirm-middle .pluck-confirm-cancel-btn{
+	background:#ebebeb!important;
+}
+.pluck-comm-message-border{
+	width:auto;
+}
+span.pluck-wait-msg-txt, .pluck-comm-wait-msg, .pluck-comm-submit-wait-msg{
+	display:inline-block;
+	width:348px;
+}
+.pluck-comm-single-comment-main .pluck-comm-comment-action-group-arrow-wrapper{
+	width:155px;
+}
+.pluck-comm-rate-controls span.pluck-thumb-down, .pluck-comm-rate-controls span.pluck-thumb-up{
+	min-width:60px;
+}
+span.pluck-thumb-up a, span.pluck-thumb-up a:hover, span.pluck-thumb-up a:active, span.pluck-thumb-down a, span.pluck-thumb-down a:hover, span.pluck-thumb-down a:active, span.pluck-voted-up{
+	min-width:39px;
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat;
+}
+span.pluck-voted-up{
+	height:20px; padding-right:25px;
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat right 1px;
+}	
+span.pluck-thumb-down a, span.pluck-thumb-down a:hover, span.pluck-thumb-down a:active{
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat left bottom;	
+}
+span.pluck-voted-down{
+	height:20px; padding-right:25px;
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat right -19px;	
+}
+.pluck-comm-comment-input{
+	margin-top:16px;
+}
+.pluck-comm-share-abuse-controls{
+	display:block; 
+	float:right; clear:right; width:16px; margin:10px 0 0;
+}
+.pluck-comm-email-area, .pluck-comm-share-area{
+	display:none;
+}
+.pluck-comm-permalink-area{
+	margin:12px 0 0;
+}
+.pluck-comm-first .pluck-comm-single-comment-main span.pluck-comm-reply-button a{
+	top:88px;
+}
+div.pluck-comm-abuse-area{
+	top:0px;
+}
+span.pluck-comm-reply-button a, span.pluck-comm-reply-button a:hover, span.pluck-comm-reply-button a:active{
+	margin-top:10px;
+}
+span.pluck-comm-permalink-area{
+	float:right;
+	margin:0;
+}
+.pluck-comm-isUnderReview span.pluck-score-volume{
+	display:none;
+}
+span.pluck-callToAction-terms a{
+	color: #347fbf; font-weight: normal;
+	display:inline-block\0/;
+}
+div.pluck-comm-submitoptions{
+	position:relative; z-index:5;
+	top:-40px; float:right; width:200px!important;
+}
+.pluck-comm-posting-form{
+	width:588px; padding: 0 20px;
+}
+.pluck-app .pluck-confirm-dialog .pluck-confirm-wrapper{
+	width:348px;
+}
+.pluck-comm-submit-wait-display{
+	left:2%;
+}
+a.pluck-permalink-set{
+	background:url("/assets/images/comments/permalink.png") no-repeat center top;
+}
+a.pluck-permalink-set:hover{
+	background-position: center bottom;
+}	
+div.pluck-comm-submitoptions a.pluck-primary-button{
+	margin-right:0; padding:7px 0;
+}
+.pluck-comm-comment-input .pluck-comm-socialoptions{
+	display:block; 
+	background:none;
+/*	visibility:hidden;*/ /* UN-hidden on staging only for Kim - should be hidden for live */
+}
+span.pluck-confirm-btn .pluck-comm-comment-connect-twitter-yes{
+	color:#fff!important;
+}
+p.pluck-comm-calltoaction span, p.pluck-login-comment-links-directions span{
+	^line-height:3em;
+	^float:left;
+	^display:inline-block;
+	^clear:right;
+	^margin-left:0;
+}
+p.pluck-login-comment-links-directions span{
+	^margin-left:0;
+	^width:100%;
+}	
+p.pluck-comm-calltoaction{
+	padding: 0 0 0 20px!important;
+	color: #222; font-weight: bold;
+}
+p.pluck-comm-calltoaction span{
+	position: absolute; right: 120px; bottom: 25px; z-index: 6;/* allows click */
+	width:auto;
+	font-size: 14px; color: #222; font-weight: normal;
+}
+span.pluck-comm-socialoptions-posttext, .pluck-comm-facebook-option {
+    margin: 2px 0 0;
+}		
+.pluck-callToAction-terms{
+	clear:both; display: block;
+	width:100%;
+}
+span.pluck-comm-linkedin-option{
+	display:none;
+}
+.pluck-comm-facebook-option, .pluck-comm-twitter-option{
+	clear:left;
+}
+span.pluck-comm-socialoptions-posttext{
+	clear:left; display:inline; 
+	float:left; 
+	width:50px;
+	font-weight:400; font-size:14px;
+}
+span.pluck-comm-facebook-option, span.pluck-comm-twitter-option{
+	display:inline; clear:none;
+	float:left; width:50px;
+	}
+.pluck-comm-wrapper{
+	margin:0 0 50px;
+}
+.pluck-comm-pagination-wrapper{
+	bottom:-60px;
+	margin:20px 0 0;
+}
+/* cluster watch */
+.pluck-login-comment-links-wrapper p{
+	color: #fff;
+}
+.pluck-login-comment-input, .pluck-login-comment-content{
+	position: relative;
+	height:80px;
+}
+.pluck-login-comment-links-submit-area {
+	position: absolute; right: 0; top: 0;
+    height: 80px !important; width: 225px;
+}
+div.pluck-comm-submitoptions a.pluck-primary-button:hover, .pluck-login-comment-links-submit-area:hover, a.pluck-primary-button:hover, span.pluck-comm-reply-button a:hover, a.pluck-primary-button, .pluck-comm-reply-button-ref.pluck-png{
+	text-decoration: none;
+	background-image:none;	
+}
+.pluck-comm-reply-button-ref.pluck-png, .pluck-comm-reply-button-ref.pluck-png:hover{
+	line-height:150%;
+}
+div.topContainer div, .pluck-comm-delete a img, .pluck-comm-facebook-option label img, .pluck-comm-twitter-option label img{
+	display:none;
+}
+div.topContainer div, .pluck-comm-delete a{
+	padding-left:20px;
+	background: url("/assets/images/comments/delete.gif") no-repeat left center;
+}
+.pluck-comm-facebook-option label{
+	width:21px; height: 21px;
+	background: url("/assets/images/comments/pluck-share-fb.gif") no-repeat center center;
+}
+.pluck-comm-reply-input .pluck-comm-facebook-option label{
+	margin-top: 1px;
+}
+.pluck-comm-twitter-option label{
+	width:21px; height: 21px;
+	background: url("/assets/images/comments/pluck-share-tweet.gif") no-repeat center center;
+}
+.pluck-login-comment-links-wrapper{
+	padding: 0;
+}
+.pluck-login-comment-links-submit-area  a{
+    height: 40px; margin: 0; padding: 20px 0; width: 225px;	
+	background: none;
+}
+.pluck-login-comment-links-submit-area a span{
+	padding-left:95px;
+    line-height:40px; font-size: 20px!important;
+    background: url("/assets/images/comments/miniAvatar.png") no-repeat 50px center;
+}
+.pluck-app .pluck-comm-comment-delete-confirm.pluck-confirm-dialog span.pluck-confirm-btn{
+	padding-right:0;
+}
+p.pluck-comm-calltoaction, p.pluck-login-comment-links-directions{
+	width: 283px; padding: 14px 100px 14px 20px;
+	font-size: 19px	
+}
+.pluck-comm-reply-input {
+    margin-left: 0 !important;/* override !important as inline styled */
+}
+.pluck-comm-single-comment-main .pluck-comm-input-content .pluck-comm-posting-form {
+    width: 504px; margin-left: 64px; padding-right: 0;
+}
+.pluck-comm-single-comment-main .pluck-comm-input-content .pluck-comm-posting-form textarea {
+    width: 100%;
+}
+.pluck-comm-wait-reply-link img{
+	display: none;
+}
+.pluck-comm-wait-reply-link{
+	height:60px; margin-left:172px; padding:55px 23px 0; width:265px;	
+	color: #fff!important;
+	background: #222 url("/assets/images/comments/Comments-loading.gif") no-repeat 131px 18px;
+}
+.pluck-comm-sc-avatar-inactive{
+	background: url("/assets/images/comments/avatar_Removed.png") no-repeat left top;	
+}
+.pluck-primary-button-text {
+    width: 73px;	
+    font-size: 13px !important;
+}
+.pluck-dialog-submit.pluck-report-abuse-submit {
+    margin-top: 2px; padding: 7px 0;
+}
+.pluck-comm-comment-action-group-arrow{
+	position:absolute;
+	left:0;
+}
+#commentsSection textarea::-moz-placeholder {
+	font-style: italic; font-size: 14px;
+}
+#commentsSection textarea::-webkit-input-placeholder {
+	font-style: italic; font-size: 14px;
+}
+#commentsSection textarea:-ms-input-placeholder {
+	font-style: italic; font-size: 14px;
+}
+.pluck-comm-no-comments .pluck-comm-message-border .pluck-comm-first-to-comment{
+	display: none;
+}
+/* cluster watch */
+/* end of jp-comments-theme.css */
+
+/*Text area*/
+.pluck-comm-message-border textarea::-webkit-input-placeholder {
+	font-style: italic;
+}
+
+.pluck-comm-message-border textarea::-moz-placeholder {
+	font-style: italic;
+}
+
+.pluck-comm-message-border textarea:-moz-placeholder {
+	font-style: italic;
+}
+
+.pluck-comm-message-border textarea:-ms-input-placeholder {
+	font-style: italic;
+}

@@ -1,0 +1,447 @@
+.nav-primary,
+.nav-secondary,
+.nav-tertiary,
+#js-ticker,
+.login-register,
+.ah,
+.icnh,
+.masthead-image,
+.masthead-assets .search-container,
+.event-widget,
+.third-party-search,
+.mpu-advert,
+.adLeft,
+.search-locally,
+.top-topic form,
+.top-stories .comment-preview,
+.popular-groups .btn-primary,
+.welcome-profile,
+.rating,
+.lastest-galleries .viewMore,
+.album-list .viewMore,
+.search-people,
+#topNavWeather .forecast,
+.profile-tabs,
+.article-author .btn-primary,
+form.article-comments,
+#gContextAdsBox,
+#gContextAdsTitle,
+.gContextAds,
+.report-abuse-link,
+.social-bookmarks,
+.sort-container,
+.results-filter,
+.post-reply,
+#map_canvas,
+.playLink,
+.lastest-galleries .horizontal .paging-controls, #breakingNewsHolder, #right-row2,
+.horizontal-album .carousel .paging-controls
+object{
+	display: none;
+}
+
+
+
+body{
+	font-size: 13px;
+	font-family: arial;
+	width: 595px;
+}
+
+ .print-only .heading.heading--m.heading--grey {
+ 	display:none;
+ }
+
+.business-profile img.business-profile {
+	float:left;
+	margin-right:18px;
+}
+
+h1{ font-size: 18px; }
+h2{ font-size: 16px; }
+h3{ font-size: 13px; }
+
+
+
+#topNavWeather .hilotemp{
+	float: none;
+	width: auto;
+	display: inline;
+}
+.weather-region strong{
+	margin-left: 7px;
+	display: inline;
+}
+#topNavWeather .max,
+#topNavWeather .min{
+	display: inline;
+	margin: 0 5px;
+}
+.lastest-galleries .horizontal ul,
+.active-profiles ul,
+.interested-profiles ul,
+.horizontal-album .carousel .scroller ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+.lastest-galleries .horizontal li,
+.active-profiles li,
+.interested-profiles li,
+.horizontal-album .carousel .scroller li{
+	display: inline;
+	margin: 0 2px 5px 0;
+}
+.copyright{
+	border-top: 1px solid #ccc;
+	padding-top: 15px;
+	margin-top: 30px;
+	font-size: 11px;
+	text-align: center;
+}
+.masthead-logo,
+.mainPhotoMinHeight img{
+	text-align: center;
+}
+.popular-groups h3 p,
+.popular-groups h3 a{
+	float: none;
+	display: inline;
+	padding-right: 15px;
+}
+.album-list .gallery-preview,
+.profile-gallery li{
+	float: left;
+	width: 49.9%;
+	display: block;
+	height: 185px;
+	font-size: 12px;
+	text-align: center;
+}
+.profile-gallery li a{
+	display: block;
+}
+.profile-gallery a.thumbnail{
+	float: none;
+}
+.profile-details dd{
+	display: inline;
+	margin: 2px 10px;
+}
+.article-author .details-container p{
+	display: inline;
+	margin-right: 10px;
+}
+.region,
+.event-search-results .result{
+	padding-top: 15px;
+}
+.event-search-results .result dt{
+	font-weight: bold;
+}
+#galleryDetailImageCarouselH .horizontal-album li{
+	float: none;
+}
+
+/*	VOUCHERS */
+#vouchers {
+	color: #094f80;	
+}
+#vouchers .fnt-serif { 
+	font-family:Georgia,Utopia,Palatino,'Palatino Linotype',serif;
+}
+#vouchers p {
+	margin: 0;	
+}
+
+#vouchers .fnt-12 {
+	font-size: 12px;
+}
+#vouchers .fnt-15 {
+	font-size: 15px;
+}
+#vouchers .fnt-18 {
+	font-size: 18px;
+}
+
+#vouchers .p20 {
+	padding: 10px;	
+}
+#vouchers .p10 {
+	padding: 10px;	
+}
+#vouchers .p10-t {
+	padding-top: 10px;	
+}
+#vouchers .p10-b {
+	padding-bottom: 10px;	
+}
+
+#vouchers .m10 {
+	margin: 10px;	
+}
+#vouchers .m10-t {
+	margin-top: 10px;	
+}
+#vouchers .m10-b {
+	margin-bottom: 10px;	
+}
+#vouchers .m5-b {
+	margin-bottom: 5px;	
+}
+
+#vouchers h1 {
+	margin: 0 0 10px;	
+}
+#vouchers h2,
+#vouchers h3 {
+	margin: 0;	
+}
+#vouchers .aln-c {
+	text-align: center;	
+}
+
+
+#vouchers .print {
+	list-style: none;
+	border: 3px dashed #49717A;	
+}
+#vouchers .print .logoTable {
+	margin-left: auto;
+	margin-right: auto;
+}
+#vouchers .print .logoTable td {
+	padding: 5px;
+	vertical-align: top;
+}
+#vouchers .print .bus-border {
+	border-bottom: 1px solid #DAE7EA;
+	border-top: 1px solid #DAE7EA;
+	margin: 10px 0px;
+	padding: 10px 0px;
+	position: relative;
+}
+#vouchers .print .bus-image {
+	margin-right: 10px;
+    position: absolute;
+    left: 0px;
+    top: 10px;
+}
+#vouchers .print .bus-details {
+	margin-bottom: 10px;
+	padding-left: 120px;
+	width: 420px;
+}
+
+/*************** PANARAMA PRINT CSS *****************/
+
+.stats-print {
+	float: left;
+	margin: 0 1%;
+	width: 48%;
+}
+
+#total-response-date-c1, #total-response-month {
+	border: 2px solid #595959;
+	border-radius: 5px;
+	background:none;
+}
+
+.table-stats tr td {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	border-color: #595959 #595959 -moz-use-text-color;
+	border-image: none;
+	border-style: solid solid none;
+	border-width: 1px 1px medium;
+	font-family: arial;
+	font-size: 12px;
+	text-align: center;
+}
+
+.table-stats tr td.last-row {
+  border-bottom:1px solid #595959;
+}
+
+.tabs-holder, .response-date {
+  border: 1px solid #595959;
+  border-radius: 5px;
+  box-shadow: none;
+  color: #4B4B4B;
+  float: left;
+  font-family: arial;
+  font-size: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 98%;
+}
+
+
+.h49 {
+  height: auto !important;
+}
+
+table img {
+  max-height: 50px;
+  width: 30px;
+}
+
+.stats {
+  float: left;
+  margin: 0 22px 10px;
+  width: 170px;
+}
+
+#total-response-date-c1-holder {
+  float: left;
+  margin-top: 0;
+  min-height: 125px;
+  width: auto;
+}
+
+#total-response-date-c1-title {
+  font-family: arial;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 29px;
+  text-align: center;
+}
+
+#total-response-date-c1-value {
+  font-family: arial;
+  font-size: 40px;
+  text-align: center;
+}
+
+#total-response-date-c2 {
+  float: left;
+  margin-left: 10px;
+  margin-top: 0;
+  width: 400px;
+}
+.stats {
+  float: left;
+  margin: 0 20px 10px 10px;
+  width: 190px;
+}
+
+#total-response-date-c1 {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+  border: 2px solid #595959;
+  border-radius: 5px;
+  height: 125px;
+  margin-left: 0;
+  margin-top: 0;
+  width: 125px;
+  margin-right:25px;
+}
+
+#total-response-month {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+  border: 5px solid #595959;
+  border-radius: 5px;
+  margin-left: 50px;
+  margin-right: 40px;
+  margin-top: 0;
+}
+
+.response-date h3 {
+  border-bottom: 2px solid #595959;
+  color: #595959;
+  font-family: Arial;
+  font-size: 25px;
+  margin: 10px 0;
+  padding: 0 0 5px;
+  width: 100%;
+}
+
+.response-date h3, .tabs-holder.print-only h3 {
+  border-bottom: 1px solid #595959;
+  color: #595959;
+  font-family: Arial;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 15px 0 5px;
+  padding: 0 0 5px;
+  text-transform: uppercase;
+  width: 100%;
+}
+.tabs-holder h3 {
+  margin-bottom: 30px;
+  margin-top: 20px;
+  width: 877px;
+}
+
+ .month-col3 {
+	float:left;
+	width:170px;
+	margin-left:30px;
+}
+
+.month-col1, .month-col2 {
+	float:left;
+	width:150px;
+}
+
+#tabs-1, #tabs-2, #tabs-3 {
+	clear: left;
+	float: left;
+	width: 100%;
+}
+
+#month-response-date-c1 {
+  background: none;
+  border: 2px solid #595959;
+  border-radius: 5px;
+  height: 125px;
+  margin-left: 25px;
+  margin-top: 0;
+  width: 125px;
+}
+
+.month-col3 table tr {
+	padding: 0 0 10px 5px;
+}
+
+.screen-only {
+	display:none !important;
+	
+}
+
+.month-col3 tr {margin-bottom:3px;}
+.total-response-date-c2 img, .month-col3 img, h3 img {width:25px;}
+img.business-profile {height: 20px !important;    width: auto;}
+
+
+.display-box {
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+  border: 2px solid #595959;
+  border-radius: 5px;
+  height: 125px;
+  margin-left: 25px;
+  margin-top: 0;
+  width: 125px;
+  float:left;
+}
+
+.display-box-description {
+  font-family: arial;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 29px;
+  text-align: center;
+}
+
+.display-box-value {
+  font-family: arial;
+  font-size: 25px;
+  text-align: center;
+}
+
+.display-internal-table ul, li.campaign-data-display-row, .display-overal-totals {list-style:none; margin:0 0 0 5px;}
+.display-overal-totals li {float:left; padding:0 10px 0 0;}
+.campaign-data-display {padding:0 0 0 10px;}
+.width100 {width:100%;}

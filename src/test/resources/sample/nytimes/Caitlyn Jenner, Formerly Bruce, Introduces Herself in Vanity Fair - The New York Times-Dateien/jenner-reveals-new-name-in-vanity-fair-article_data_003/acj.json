@@ -1,0 +1,162 @@
+OX_8539263023({
+  "ads":{
+    "medium":"w",
+    "record_tmpl":"http://ox-d.medianet.servedbyopenx.com/{medium}/1.0/{rtype}?bi=314214d1-0607-45bb-bb81-237bbff1c7a5&ts={txn_state}",
+    "adunits" : [
+      {
+        "auid":"538127082",
+        "chain_revenue":"",
+        "chain":[
+          {
+            "is_fallback":0,
+            "framed":1,
+            "ad_id":"537171585",
+            "adv_acct_id":"537073246",
+            "is_ng":1,
+            "adv_id":"152d07b1-da41-4c40-ad18-fe74c269534a:537073246",
+            "brand_id":"",
+            "cpipc":1010,
+            "auct_win_is_deal":0,
+            "pub_rev":"1010",
+            "width":"728",
+            "height":"90",
+            "html":"<div class=\"GoogleActiveViewClass\" id=\"DfaVisibilityIdentifier_474670171\"><script type='text/javascript'>\nfunction getHREF() {\ntry {\nif (window === top) {\nurl = document.location.href;\n} else if (parent.window === top) {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n} else {\nurl = document.referrer;\n}\n} else {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n}\n}\n } catch (e) {\nurl = \"\";\n }\n return url;\n}\n\nvar sm_random = Math.ceil(1000000*Math.random());\nvar u = '';\nvar r = '';\nvar d = ''\ntry\n{\nu = '<page_url_escaped>';\nr = '<referrer_escaped>';\nd =  escape(getHREF());\n}catch(e){}\ndocument.write(\"<scr\"+\"ipt type='text/javascript' src='https://x.vindicosuite.com/imp/?l=442745&t=j&u=\"+u+\"&r=\"+r+\"&dsd=\"+d+\"&rnd=\"+sm_random+\"&surl=https://www.nytimes.com&puid=9&tagid=11736&pasmc=http%3A%2F%2Fox-d.medianet.servedbyopenx.com%2Fw%2F1.0%2Frc%3Fbi%3D314214d1-0607-45bb-bb81-237bbff1c7a5%26ts%3D1fHJpZD03MTg0ZGY1YS1jOGYzLTRlNDEtOTgzOS0zMzM1M2RlN2Q4M2Z8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEyNzA4MnxhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3MTcxNTg1fHQ9MTJ8YXM9NzI4eDkwfGxpZD01MzcxMzM1Njh8b2lkPTUzNzA5NjA5OHxwPTEwMTB8cHI9MTAxMHxhdGI9MTA1MHxhZHY9NTM3MDczMjQ2fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9MTUyZDA3YjEtZGE0MS00YzQwLWFkMTgtZmU3NGMyNjk1MzRhfG1jPVVTRHxtcj0wfHBpPTEwMTB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtYT02NDU5YWRkNy0wYWYyLTQ0YjMtYWVmMi0zNWI2MzkwYjVhNTV8bXJ0PTE0NTExODIyMDZ8bXJjPVNSVF9XT058bXdhPTUzNzA3MzI0Nnxjaz0xfG13Yj0xMDUwfG1hcD0xMDEwfGVsZz0xfG1vYz1VU0R8bW9yPTB8bXBjPVVTRHxtcHI9MTAxMHxtcGY9NTUwfG1tZj01NTB8bXBuZj0xMTAwfG1tbmY9MTEwMHxwY3Y9OTEwfG1vPU9YfGVjPTE0MjM5ODI3fG1wdT0xMDEwfG1jcD0xMDEwfG13Yz01MzcwOTYwOTh8bXdwPTUzNzEzMzU2OHxtd2NyPTUzNzE3MTU4NXxtd2lzPTF8bXdwdD1veF9wcm90b3x1cj03TEdUTUlpbWtD%26r%3Dhttps://bid.g.doubleclick.net/xbbe/creative/click%253Fd%253DAPEucNXqQ28iZMQDC91m3Hnop0-Tzj_zUhq8xhvJ1qY5cTRlDzyTLnNqtgCjgqVymjvL6sntXjKwGjWHKV-BrinKbdKMh3lBKw%2526r1%253D'></scr\"+\"ipt>\");\n</script><script type=\"text/javascript\">  if ('') {  document.write('<script src=\"https://c.betrad.com/surly.js?;ad_w=728;ad_h=90;coid=322;nid=4311;cps=\"></sc' + 'ript>');  }</script><iframe src=\"https://googleads.g.doubleclick.net/xbbe/pixel?d=CPYDEJX3MBjTkOUG&v=APEucNXE69ed5IxIBuWH2vL-nqEkRoPumbXN3YBfZSf4Mx3nPEZDZ76QNb6GDB-cBOmUrQyMEe-DqiMCVuZLmPhIw9PcosAZmQlMArbxWLOBAMkbU4NN1z0\" style=\"display:none\"></iframe></div><SCRIPT language='JavaScript1.1' SRC=\"https://bid.g.doubleclick.net/xbbe/creative/adj?d=APEucNWxcwJMydFCOhgiBwg_3vS9FpN9cleN0WI1WnV5L1HryCT9TMcFPGIynyHgAlJQg-SC_eS2raAOSoP2_YK6ys66z0QC_WBZy-ZMB_WoDVTXTkl8QCNqvVYfHnutqibRLkL8t4xcJX4IdOdVJqkss3gBowqlkdSY4NKA7SVAOaT3ya2-l-OJ-MgNAcfN8UT5ECyMq7ZqdLthBhzJlxojE4WVNZyRLw_6ECjst3ThUzVzXSrXfcb8_ubG1z92x7npvUmSaVH3CQq4domcajpB7Ikw3LOzSpKaMcsTMYZgqLpG6OvsvObWI5zZTJ9pwXGK4pMXcAG1nehXwEsTUhiNZgcapk2cnw&pr=AAABUeEzMhFl92Fj3MFqRAX3L-D6Wx9JmCtO1w\"></SCRIPT><DIV STYLE=\"position: absolute; left: 0px; top: 0px; visibility: hidden;\"><IMG SRC=\"https://bid.g.doubleclick.net/xbbe/beacon?data=APEucNXqQ28iZMQDC91m3Hnop0-TzKkjofhBb6JU9t5vxqhhaTjR47u1z8sDJLak7_y2C1auBTBfyvjlY08JCpSalZnXjQVYcg\" BORDER=0 WIDTH=1 HEIGHT=1 ALT=\"\" STYLE=\"display:none\"></DIV>",
+            "target":"_blank",
+            "ts":"1fHJpZD03MTg0ZGY1YS1jOGYzLTRlNDEtOTgzOS0zMzM1M2RlN2Q4M2Z8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEyNzA4MnxhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3MTcxNTg1fHQ9MTJ8YXM9NzI4eDkwfGxpZD01MzcxMzM1Njh8b2lkPTUzNzA5NjA5OHxwPTEwMTB8cHI9MTAxMHxhdGI9MTA1MHxhZHY9NTM3MDczMjQ2fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9MTUyZDA3YjEtZGE0MS00YzQwLWFkMTgtZmU3NGMyNjk1MzRhfG1jPVVTRHxtcj0wfHBpPTEwMTB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtYT02NDU5YWRkNy0wYWYyLTQ0YjMtYWVmMi0zNWI2MzkwYjVhNTV8bXJ0PTE0NTExODIyMDZ8bXJjPVNSVF9XT058bXdhPTUzNzA3MzI0Nnxjaz0xfG13Yj0xMDUwfG1hcD0xMDEwfGVsZz0xfG1vYz1VU0R8bW9yPTB8bXBjPVVTRHxtcHI9MTAxMHxtcGY9NTUwfG1tZj01NTB8bXBuZj0xMTAwfG1tbmY9MTEwMHxwY3Y9OTEwfG1vPU9YfGVjPTE0MjM5ODI3fG1wdT0xMDEwfG1jcD0xMDEwfG13Yz01MzcwOTYwOTh8bXdwPTUzNzEzMzU2OHxtd2NyPTUzNzE3MTU4NXxtd2lzPTF8bXdwdD1veF9wcm90b3x1cj03TEdUTUlpbWtD",
+            "type":"html",
+            "ad_url":"<div class=\"GoogleActiveViewClass\" id=\"DfaVisibilityIdentifier_474670171\"><script type='text/javascript'>\nfunction getHREF() {\ntry {\nif (window === top) {\nurl = document.location.href;\n} else if (parent.window === top) {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n} else {\nurl = document.referrer;\n}\n} else {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n}\n}\n } catch (e) {\nurl = \"\";\n }\n return url;\n}\n\nvar sm_random = Math.ceil(1000000*Math.random());\nvar u = '';\nvar r = '';\nvar d = ''\ntry\n{\nu = '<page_url_escaped>';\nr = '<referrer_escaped>';\nd =  escape(getHREF());\n}catch(e){}\ndocument.write(\"<scr\"+\"ipt type='text/javascript' src='https://x.vindicosuite.com/imp/?l=442745&t=j&u=\"+u+\"&r=\"+r+\"&dsd=\"+d+\"&rnd=\"+sm_random+\"&surl=https://www.nytimes.com&puid=9&tagid=11736&pasmc=http%3A%2F%2Fox-d.medianet.servedbyopenx.com%2Fw%2F1.0%2Frc%3Fbi%3D314214d1-0607-45bb-bb81-237bbff1c7a5%26ts%3D1fHJpZD03MTg0ZGY1YS1jOGYzLTRlNDEtOTgzOS0zMzM1M2RlN2Q4M2Z8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEyNzA4MnxhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3MTcxNTg1fHQ9MTJ8YXM9NzI4eDkwfGxpZD01MzcxMzM1Njh8b2lkPTUzNzA5NjA5OHxwPTEwMTB8cHI9MTAxMHxhdGI9MTA1MHxhZHY9NTM3MDczMjQ2fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9MTUyZDA3YjEtZGE0MS00YzQwLWFkMTgtZmU3NGMyNjk1MzRhfG1jPVVTRHxtcj0wfHBpPTEwMTB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtYT02NDU5YWRkNy0wYWYyLTQ0YjMtYWVmMi0zNWI2MzkwYjVhNTV8bXJ0PTE0NTExODIyMDZ8bXJjPVNSVF9XT058bXdhPTUzNzA3MzI0Nnxjaz0xfG13Yj0xMDUwfG1hcD0xMDEwfGVsZz0xfG1vYz1VU0R8bW9yPTB8bXBjPVVTRHxtcHI9MTAxMHxtcGY9NTUwfG1tZj01NTB8bXBuZj0xMTAwfG1tbmY9MTEwMHxwY3Y9OTEwfG1vPU9YfGVjPTE0MjM5ODI3fG1wdT0xMDEwfG1jcD0xMDEwfG13Yz01MzcwOTYwOTh8bXdwPTUzNzEzMzU2OHxtd2NyPTUzNzE3MTU4NXxtd2lzPTF8bXdwdD1veF9wcm90b3x1cj03TEdUTUlpbWtD%26r%3Dhttps://bid.g.doubleclick.net/xbbe/creative/click%253Fd%253DAPEucNXqQ28iZMQDC91m3Hnop0-Tzj_zUhq8xhvJ1qY5cTRlDzyTLnNqtgCjgqVymjvL6sntXjKwGjWHKV-BrinKbdKMh3lBKw%2526r1%253D'></scr\"+\"ipt>\");\n</script><script type=\"text/javascript\">  if ('') {  document.write('<script src=\"https://c.betrad.com/surly.js?;ad_w=728;ad_h=90;coid=322;nid=4311;cps=\"></sc' + 'ript>');  }</script><iframe src=\"https://googleads.g.doubleclick.net/xbbe/pixel?d=CPYDEJX3MBjTkOUG&v=APEucNXE69ed5IxIBuWH2vL-nqEkRoPumbXN3YBfZSf4Mx3nPEZDZ76QNb6GDB-cBOmUrQyMEe-DqiMCVuZLmPhIw9PcosAZmQlMArbxWLOBAMkbU4NN1z0\" style=\"display:none\"></iframe></div><SCRIPT language='JavaScript1.1' SRC=\"https://bid.g.doubleclick.net/xbbe/creative/adj?d=APEucNWxcwJMydFCOhgiBwg_3vS9FpN9cleN0WI1WnV5L1HryCT9TMcFPGIynyHgAlJQg-SC_eS2raAOSoP2_YK6ys66z0QC_WBZy-ZMB_WoDVTXTkl8QCNqvVYfHnutqibRLkL8t4xcJX4IdOdVJqkss3gBowqlkdSY4NKA7SVAOaT3ya2-l-OJ-MgNAcfN8UT5ECyMq7ZqdLthBhzJlxojE4WVNZyRLw_6ECjst3ThUzVzXSrXfcb8_ubG1z92x7npvUmSaVH3CQq4domcajpB7Ikw3LOzSpKaMcsTMYZgqLpG6OvsvObWI5zZTJ9pwXGK4pMXcAG1nehXwEsTUhiNZgcapk2cnw&pr=AAABUeEzMhFl92Fj3MFqRAX3L-D6Wx9JmCtO1w\"></SCRIPT><DIV STYLE=\"position: absolute; left: 0px; top: 0px; visibility: hidden;\"><IMG SRC=\"https://bid.g.doubleclick.net/xbbe/beacon?data=APEucNXqQ28iZMQDC91m3Hnop0-TzKkjofhBb6JU9t5vxqhhaTjR47u1z8sDJLak7_y2C1auBTBfyvjlY08JCpSalZnXjQVYcg\" BORDER=0 WIDTH=1 HEIGHT=1 ALT=\"\" STYLE=\"display:none\"></DIV>"
+          }
+        ]
+      },
+      {
+        "auid":"538127083",
+        "chain_revenue":"",
+        "chain":[
+          {
+            "is_fallback":0,
+            "framed":1,
+            "ad_id":"537171585",
+            "adv_acct_id":"537073246",
+            "is_ng":1,
+            "adv_id":"152d07b1-da41-4c40-ad18-fe74c269534a:537073246",
+            "brand_id":"3868",
+            "cpipc":1050,
+            "auct_win_is_deal":0,
+            "pub_rev":"1050",
+            "width":"728",
+            "height":"90",
+            "html":"<div class=\"GoogleActiveViewClass\" id=\"DfaVisibilityIdentifier_281285626\"><script type='text/javascript'>\nfunction getHREF() {\ntry {\nif (window === top) {\nurl = document.location.href;\n} else if (parent.window === top) {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n} else {\nurl = document.referrer;\n}\n} else {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n}\n}\n } catch (e) {\nurl = \"\";\n }\n return url;\n}\n\nvar sm_random = Math.ceil(1000000*Math.random());\nvar u = '';\nvar r = '';\nvar d = ''\ntry\n{\nu = '<page_url_escaped>';\nr = '<referrer_escaped>';\nd =  escape(getHREF());\n}catch(e){}\ndocument.write(\"<scr\"+\"ipt type='text/javascript' src='https://x.vindicosuite.com/imp/?l=442772&t=j&u=\"+u+\"&r=\"+r+\"&dsd=\"+d+\"&rnd=\"+sm_random+\"&surl=https://www.nytimes.com&puid=9&tagid=11736&pasmc=http%3A%2F%2Fox-d.medianet.servedbyopenx.com%2Fw%2F1.0%2Frc%3Fbi%3D314214d1-0607-45bb-bb81-237bbff1c7a5%26ts%3D1fHJpZD02OWZhZmMyYy1jYmI5LTQ3NGItOWIwZC02ZDQzZjJhM2UzYWJ8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEyNzA4M3xhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3MTcxNTg1fHQ9MTJ8YXM9NzI4eDkwfGxpZD01MzcxMzM1Njh8b2lkPTUzNzA5NjA5OHxwPTEwNTB8cHI9MTA1MHxhdGI9MTA1MHxhZHY9NTM3MDczMjQ2fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9MTUyZDA3YjEtZGE0MS00YzQwLWFkMTgtZmU3NGMyNjk1MzRhfG1jPVVTRHxtcj0wfHBpPTEwNTB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtYT03NzY3OTdiOS05MjdhLTQxMmYtOWM3My01Y2MzZDJhOTIzMjZ8bXJ0PTE0NTExODIyMDZ8bXJjPVNSVF9XT058bXdhPTUzNzA3MzI0Nnxjaz0xfG13Ymk9Mzg2OHxtd2I9MTA1MHxtYXA9MTA1MHxlbGc9MXxtb2M9VVNEfG1vcj0wfG1wYz1VU0R8bXByPTEwNTB8bXBmPTU1MHxtbWY9NTUwfG1wbmY9MTEwMHxtbW5mPTExMDB8cGN2PTkxMHxtbz1PWHxlYz0xNDIzOTgzMHxtcHU9MTA1MHxtY3A9MTA1MHxtd2M9NTM3MDk2MDk4fG13cD01MzcxMzM1Njh8bXdjcj01MzcxNzE1ODV8bXdpcz0xfG13cHQ9b3hfcHJvdG98dXI9bmlHQnVkMmY0dw%26r%3Dhttps://bid.g.doubleclick.net/xbbe/creative/click%253Fd%253DAPEucNXR22VvbW-u_0cAZV_K8WEb3VQNZcRSlb8wD8pShhBhxRyayqo0-iEFOvQ33h-l5kGIb7pJtMDZiBV2ndIuAsL1W8G0nQ%2526r1%253D'></scr\"+\"ipt>\");\n</script><script type=\"text/javascript\">  if ('') {  document.write('<script src=\"https://c.betrad.com/surly.js?;ad_w=728;ad_h=90;coid=322;nid=4311;cps=\"></sc' + 'ript>');  }</script><iframe src=\"https://googleads.g.doubleclick.net/xbbe/pixel?d=CPYDEJX3MBjWkOUG&v=APEucNWMC1FO5eY5MAbR24pbL7BzGUaDIUyKHP6wwE7ZkXn3ZNb9_IZHZIk6uteHAqMQEWra3CxbBCOMAX0uOxGgRTmwQumdxd0kw0K0uaBBj3rL1tY7BvY\" style=\"display:none\"></iframe></div><SCRIPT language='JavaScript1.1' SRC=\"https://bid.g.doubleclick.net/xbbe/creative/adj?d=APEucNUTGmSZYHzJ9Zo8pLmZuJo5WCy3TBLfASRwqu01skrfd5pRD0PBi7rfiRBN1MY8oRD-7rICoUoSlWe53poA18DktW6SXDXKqnrglwWnoN6QxK2KxDdSszE5HFTAlyvIEZ50XoZC6qiCFXdraBgS8BUzL1fLJjHNbOJObxn7wDvgq5ldSVT4XNbns0ZkC0qxw6T7adPEHgfiAbE47YUnIZ1_bwqj0Y28isz-B0-jKuZEJkQB99t6qZDmbIqwsOaV6lsMag93FKJa3qmdvdSA7EKd1fD5irqj-w6L1ElCB_xvEsmJDO0GKSxzqc9qVhH3ZNvr49O-TEk0KfDD4_106iXycYHSNg&pr=AAABUeEzMhPXstdk7ctS5181SD1SBBX5CBaBoA\"></SCRIPT><DIV STYLE=\"position: absolute; left: 0px; top: 0px; visibility: hidden;\"><IMG SRC=\"https://bid.g.doubleclick.net/xbbe/beacon?data=APEucNXR22VvbW-u_0cAZV_K8WEbSZ3BEzYMJu7jQNtcWjvGrS2kc610BxrbKA35Ex4i_y9IJpG8xUfZFODh0s3Yj94DVChxzw\" BORDER=0 WIDTH=1 HEIGHT=1 ALT=\"\" STYLE=\"display:none\"></DIV>",
+            "target":"_blank",
+            "ts":"1fHJpZD02OWZhZmMyYy1jYmI5LTQ3NGItOWIwZC02ZDQzZjJhM2UzYWJ8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEyNzA4M3xhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3MTcxNTg1fHQ9MTJ8YXM9NzI4eDkwfGxpZD01MzcxMzM1Njh8b2lkPTUzNzA5NjA5OHxwPTEwNTB8cHI9MTA1MHxhdGI9MTA1MHxhZHY9NTM3MDczMjQ2fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9MTUyZDA3YjEtZGE0MS00YzQwLWFkMTgtZmU3NGMyNjk1MzRhfG1jPVVTRHxtcj0wfHBpPTEwNTB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtYT03NzY3OTdiOS05MjdhLTQxMmYtOWM3My01Y2MzZDJhOTIzMjZ8bXJ0PTE0NTExODIyMDZ8bXJjPVNSVF9XT058bXdhPTUzNzA3MzI0Nnxjaz0xfG13Ymk9Mzg2OHxtd2I9MTA1MHxtYXA9MTA1MHxlbGc9MXxtb2M9VVNEfG1vcj0wfG1wYz1VU0R8bXByPTEwNTB8bXBmPTU1MHxtbWY9NTUwfG1wbmY9MTEwMHxtbW5mPTExMDB8cGN2PTkxMHxtbz1PWHxlYz0xNDIzOTgzMHxtcHU9MTA1MHxtY3A9MTA1MHxtd2M9NTM3MDk2MDk4fG13cD01MzcxMzM1Njh8bXdjcj01MzcxNzE1ODV8bXdpcz0xfG13cHQ9b3hfcHJvdG98dXI9bmlHQnVkMmY0dw",
+            "type":"html",
+            "ad_url":"<div class=\"GoogleActiveViewClass\" id=\"DfaVisibilityIdentifier_281285626\"><script type='text/javascript'>\nfunction getHREF() {\ntry {\nif (window === top) {\nurl = document.location.href;\n} else if (parent.window === top) {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n} else {\nurl = document.referrer;\n}\n} else {\nvar ancestor_origins = document.location.ancestorOrigins;\nif (ancestor_origins && ancestor_origins.length > 0) {\nurl = ancestor_origins[ancestor_origins.length - 1];\n}\n}\n } catch (e) {\nurl = \"\";\n }\n return url;\n}\n\nvar sm_random = Math.ceil(1000000*Math.random());\nvar u = '';\nvar r = '';\nvar d = ''\ntry\n{\nu = '<page_url_escaped>';\nr = '<referrer_escaped>';\nd =  escape(getHREF());\n}catch(e){}\ndocument.write(\"<scr\"+\"ipt type='text/javascript' src='https://x.vindicosuite.com/imp/?l=442772&t=j&u=\"+u+\"&r=\"+r+\"&dsd=\"+d+\"&rnd=\"+sm_random+\"&surl=https://www.nytimes.com&puid=9&tagid=11736&pasmc=http%3A%2F%2Fox-d.medianet.servedbyopenx.com%2Fw%2F1.0%2Frc%3Fbi%3D314214d1-0607-45bb-bb81-237bbff1c7a5%26ts%3D1fHJpZD02OWZhZmMyYy1jYmI5LTQ3NGItOWIwZC02ZDQzZjJhM2UzYWJ8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEyNzA4M3xhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3MTcxNTg1fHQ9MTJ8YXM9NzI4eDkwfGxpZD01MzcxMzM1Njh8b2lkPTUzNzA5NjA5OHxwPTEwNTB8cHI9MTA1MHxhdGI9MTA1MHxhZHY9NTM3MDczMjQ2fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9MTUyZDA3YjEtZGE0MS00YzQwLWFkMTgtZmU3NGMyNjk1MzRhfG1jPVVTRHxtcj0wfHBpPTEwNTB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtYT03NzY3OTdiOS05MjdhLTQxMmYtOWM3My01Y2MzZDJhOTIzMjZ8bXJ0PTE0NTExODIyMDZ8bXJjPVNSVF9XT058bXdhPTUzNzA3MzI0Nnxjaz0xfG13Ymk9Mzg2OHxtd2I9MTA1MHxtYXA9MTA1MHxlbGc9MXxtb2M9VVNEfG1vcj0wfG1wYz1VU0R8bXByPTEwNTB8bXBmPTU1MHxtbWY9NTUwfG1wbmY9MTEwMHxtbW5mPTExMDB8cGN2PTkxMHxtbz1PWHxlYz0xNDIzOTgzMHxtcHU9MTA1MHxtY3A9MTA1MHxtd2M9NTM3MDk2MDk4fG13cD01MzcxMzM1Njh8bXdjcj01MzcxNzE1ODV8bXdpcz0xfG13cHQ9b3hfcHJvdG98dXI9bmlHQnVkMmY0dw%26r%3Dhttps://bid.g.doubleclick.net/xbbe/creative/click%253Fd%253DAPEucNXR22VvbW-u_0cAZV_K8WEb3VQNZcRSlb8wD8pShhBhxRyayqo0-iEFOvQ33h-l5kGIb7pJtMDZiBV2ndIuAsL1W8G0nQ%2526r1%253D'></scr\"+\"ipt>\");\n</script><script type=\"text/javascript\">  if ('') {  document.write('<script src=\"https://c.betrad.com/surly.js?;ad_w=728;ad_h=90;coid=322;nid=4311;cps=\"></sc' + 'ript>');  }</script><iframe src=\"https://googleads.g.doubleclick.net/xbbe/pixel?d=CPYDEJX3MBjWkOUG&v=APEucNWMC1FO5eY5MAbR24pbL7BzGUaDIUyKHP6wwE7ZkXn3ZNb9_IZHZIk6uteHAqMQEWra3CxbBCOMAX0uOxGgRTmwQumdxd0kw0K0uaBBj3rL1tY7BvY\" style=\"display:none\"></iframe></div><SCRIPT language='JavaScript1.1' SRC=\"https://bid.g.doubleclick.net/xbbe/creative/adj?d=APEucNUTGmSZYHzJ9Zo8pLmZuJo5WCy3TBLfASRwqu01skrfd5pRD0PBi7rfiRBN1MY8oRD-7rICoUoSlWe53poA18DktW6SXDXKqnrglwWnoN6QxK2KxDdSszE5HFTAlyvIEZ50XoZC6qiCFXdraBgS8BUzL1fLJjHNbOJObxn7wDvgq5ldSVT4XNbns0ZkC0qxw6T7adPEHgfiAbE47YUnIZ1_bwqj0Y28isz-B0-jKuZEJkQB99t6qZDmbIqwsOaV6lsMag93FKJa3qmdvdSA7EKd1fD5irqj-w6L1ElCB_xvEsmJDO0GKSxzqc9qVhH3ZNvr49O-TEk0KfDD4_106iXycYHSNg&pr=AAABUeEzMhPXstdk7ctS5181SD1SBBX5CBaBoA\"></SCRIPT><DIV STYLE=\"position: absolute; left: 0px; top: 0px; visibility: hidden;\"><IMG SRC=\"https://bid.g.doubleclick.net/xbbe/beacon?data=APEucNXR22VvbW-u_0cAZV_K8WEbSZ3BEzYMJu7jQNtcWjvGrS2kc610BxrbKA35Ex4i_y9IJpG8xUfZFODh0s3Yj94DVChxzw\" BORDER=0 WIDTH=1 HEIGHT=1 ALT=\"\" STYLE=\"display:none\"></DIV>"
+          }
+        ]
+      },
+      {
+        "auid":"538135540",
+        "chain_revenue":"",
+        "chain":[
+          {
+            "is_fallback":0,
+            "market":1,
+            "framed":1,
+            "ad_id":"537523391",
+            "adv_acct_id":"537088119",
+            "is_ng":1,
+            "adv_id":"51441a01-96c7-454d-aa5c-206e948a91d7:537088119",
+            "brand_id":"",
+            "cpipc":3323,
+            "auct_win_is_deal":0,
+            "pub_rev":"3323",
+            "width":"300",
+            "height":"250",
+            "html":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=aEzUpG7N6P&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n",
+            "target":"_blank",
+            "ts":"1fHJpZD03ZjIzYTZjMC02YjY1LTRkNTctODRkNi0xM2QyYWEyMTBmYjB8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEzNTU0MHxhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3NTIzMzkxfHQ9NXxhcz0zMDB4MjUwfGxpZD01MzczMzkyNDN8b2lkPTUzNzE2MjcyMnxwPTMzMjN8cHI9MzMyM3xhdGI9MzUwMHxhZHY9NTM3MDg4MTE5fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9NTE0NDFhMDEtOTZjNy00NTRkLWFhNWMtMjA2ZTk0OGE5MWQ3fG1jPVVTRHxtcj0wfHBpPTMzMjN8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtdz0xNDQwfG1hPTk1OWIzNmMwLWE2MGItNGQ5Yi1hODVlLWIwNWZhMmIyYTBjMXxtcnQ9MTQ1MTE4MjIwNnxtcmM9V09OfG13YT01MzcwODgxMTl8bXdiPTM1MDB8bWFwPTMzMjN8ZWxnPTF8bW9jPVVTRHxtb3I9MHxtcGM9VVNEfG1wcj0zMzIzfG1wZj01MDB8bW1mPTUwMHxtcG5mPTEwMDB8bW1uZj0xMDAwfHBjdj05MTB8bW89T1h8bXB1PTMzMjN8bWNwPTMzMjN8bXdjPTUzNzE2MjcyMnxtd3A9NTM3MzM5MjQzfG13Y3I9NTM3NTIzMzkxfHVyPTduRnFOWlUxZnY",
+            "type":"thirdparty",
+            "ad_url":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=aEzUpG7N6P&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n"
+          }
+        ]
+      },
+      {
+        "auid":"538135542",
+        "chain_revenue":"",
+        "chain":[
+          {
+            "is_fallback":0,
+            "market":1,
+            "framed":1,
+            "ad_id":"537523391",
+            "adv_acct_id":"537088119",
+            "is_ng":1,
+            "adv_id":"51441a01-96c7-454d-aa5c-206e948a91d7:537088119",
+            "brand_id":"",
+            "cpipc":2184,
+            "auct_win_is_deal":0,
+            "pub_rev":"2184",
+            "width":"300",
+            "height":"250",
+            "html":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=Dn8zUvElRe&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n",
+            "target":"_blank",
+            "ts":"1fHJpZD0zNjkyOGM0My02YjlkLTRmY2YtYTAxZi1iMDE2YzZmOThmNjh8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODEzNTU0MnxhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3NTIzMzkxfHQ9NXxhcz0zMDB4MjUwfGxpZD01MzczMzkyNDN8b2lkPTUzNzE2MjcyMnxwPTIxODR8cHI9MjE4NHxhdGI9MzUwMHxhZHY9NTM3MDg4MTE5fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9NTE0NDFhMDEtOTZjNy00NTRkLWFhNWMtMjA2ZTk0OGE5MWQ3fG1jPVVTRHxtcj0wfHBpPTIxODR8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtdz0xNDQwfG1hPTllNTY4NTNhLTZmOWUtNGJjOS05ZjE1LTZmY2UyZmEwMDQ1OHxtcnQ9MTQ1MTE4MjIwNnxtcmM9V09OfG13YT01MzcwODgxMTl8bXdiPTM1MDB8bWFwPTIxODR8ZWxnPTF8bW9jPVVTRHxtb3I9MHxtcGM9VVNEfG1wcj0yMTg0fG1wZj01MDB8bW1mPTUwMHxtcG5mPTEwMDB8bW1uZj0xMDAwfHBjdj05MTB8bW89T1h8bXB1PTIxODR8bWNwPTIxODR8bXdjPTUzNzE2MjcyMnxtd3A9NTM3MzM5MjQzfG13Y3I9NTM3NTIzMzkxfHVyPUN5WEtySlFuSzY",
+            "type":"thirdparty",
+            "ad_url":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=Dn8zUvElRe&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n"
+          }
+        ]
+      },
+      {
+        "auid":"538152972",
+        "chain_revenue":"",
+        "chain":[
+          {
+            "is_fallback":0,
+            "market":1,
+            "framed":1,
+            "ad_id":"537523391",
+            "adv_acct_id":"537088119",
+            "is_ng":1,
+            "adv_id":"51441a01-96c7-454d-aa5c-206e948a91d7:537088119",
+            "brand_id":"",
+            "cpipc":2610,
+            "auct_win_is_deal":0,
+            "pub_rev":"2610",
+            "width":"300",
+            "height":"250",
+            "html":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=ScRBo5sjpY&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n",
+            "target":"_blank",
+            "ts":"1fHJpZD05ZjY2MmIwZS0yMjhiLTQ0ODMtOWRjMy03ZGNhNTcwY2ZkNzV8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODE1Mjk3MnxhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3NTIzMzkxfHQ9NXxhcz0zMDB4MjUwfGxpZD01MzczMzkyNDN8b2lkPTUzNzE2MjcyMnxwPTI2MTB8cHI9MjYxMHxhdGI9MzUwMHxhZHY9NTM3MDg4MTE5fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9NTE0NDFhMDEtOTZjNy00NTRkLWFhNWMtMjA2ZTk0OGE5MWQ3fG1jPVVTRHxtcj0wfHBpPTI2MTB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtdz0xNDQwfG1hPTc2MWNlZDRmLTIyYTMtNDViYS05M2M5LTVmNDdmZGU3NjNlNHxtcnQ9MTQ1MTE4MjIwNnxtcmM9V09OfG13YT01MzcwODgxMTl8bXdiPTM1MDB8bWFwPTI2MTB8ZWxnPTF8bW9jPVVTRHxtb3I9MHxtcGM9VVNEfG1wcj0yNjEwfG1wZj01MDB8bW1mPTUwMHxtcG5mPTEwMDB8bW1uZj0xMDAwfHBjdj05MTB8bW89T1h8bXB1PTI2MTB8bWNwPTI2MTB8bXdjPTUzNzE2MjcyMnxtd3A9NTM3MzM5MjQzfG13Y3I9NTM3NTIzMzkxfHVyPVppSlhLVlBHUGM",
+            "type":"thirdparty",
+            "ad_url":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=ScRBo5sjpY&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n"
+          }
+        ]
+      },
+      {
+        "auid":"538163562",
+        "chain_revenue":"",
+        "chain":[
+          {
+            "is_fallback":0,
+            "market":1,
+            "framed":1,
+            "ad_id":"537523391",
+            "adv_acct_id":"537088119",
+            "is_ng":1,
+            "adv_id":"51441a01-96c7-454d-aa5c-206e948a91d7:537088119",
+            "brand_id":"",
+            "cpipc":3360,
+            "auct_win_is_deal":0,
+            "pub_rev":"3360",
+            "width":"300",
+            "height":"250",
+            "html":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=un9ek0Y8RC&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n",
+            "target":"_blank",
+            "ts":"1fHJpZD02Y2M1ZmNlYi01ZjNiLTQ4ZTMtOTgwOS04ZTlmMTdhOTczMTl8cnQ9MTQ1MTE4MjIwNnxhdWlkPTUzODE2MzU2MnxhdW09RE1JRC5XRUJ8c2lkPTUzNzE1MTQwNnxwdWI9NTM3MTAwMTg4fHBjPVVTRHxyYWlkPTNmM2NhNmY1LWRhYzgtNDMwMi04NDBmLThiNmQ4M2ZhZTQxYnxhaWQ9NTM3NTIzMzkxfHQ9NXxhcz0zMDB4MjUwfGxpZD01MzczMzkyNDN8b2lkPTUzNzE2MjcyMnxwPTMzNjB8cHI9MzM2MHxhdGI9MzUwMHxhZHY9NTM3MDg4MTE5fGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9NTE0NDFhMDEtOTZjNy00NTRkLWFhNWMtMjA2ZTk0OGE5MWQ3fG1jPVVTRHxtcj0wfHBpPTMzNjB8bXVpPWNiNDkwODk1LWNhZTktNGU2Mi0wYTBkLWNiNWQxNDM0NTA0NHxtdz0xNDQwfG1hPTUwZjMzODdiLTk1YmQtNGFlNS04MGM4LTBkODJhODdmNDIwOXxtcnQ9MTQ1MTE4MjIwNnxtcmM9V09OfG13YT01MzcwODgxMTl8bXdiPTM1MDB8bWFwPTMzNjB8ZWxnPTF8bW9jPVVTRHxtb3I9MHxtcGM9VVNEfG1wcj0zMzYwfG1wZj01MDB8bW1mPTUwMHxtcG5mPTEwMDB8bW1uZj0xMDAwfHBjdj05MTB8bW89T1h8bXB1PTMzNjB8bWNwPTMzNjB8bXdjPTUzNzE2MjcyMnxtd3A9NTM3MzM5MjQzfG13Y3I9NTM3NTIzMzkxfHVyPVVCRlBsbkdBN0M",
+            "type":"thirdparty",
+            "ad_url":"<!-- BEGIN JS TAG - general_US_news ROS high < - DO NOT MODIFY -->\n<SCRIPT SRC=\"http://ib.adnxs.com/ttj?id=3924884&cb=un9ek0Y8RC&referrer=[REFERRER_URL]\" TYPE=\"text/javascript\"></SCRIPT>\n<!-- END TAG -->\n"
+          }
+        ]
+      }
+    ]
+  }
+});

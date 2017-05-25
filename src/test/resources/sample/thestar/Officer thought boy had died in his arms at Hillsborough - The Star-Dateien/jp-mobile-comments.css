@@ -1,0 +1,690 @@
+/*********************************
+ *
+ * CSS control - DO NOT CHANGE OR REMOVE
+ * needed to track loading of this css file
+ *
+ *********************************/
+
+.pmobile-css-loaded { /* DO NOT CHANGE OR REMOVE - needed to track loading of this css file */
+	border-bottom-color: #010204;
+}
+.wf-loading .pmobile-app {
+	font-size: 14px;
+}
+.wf-inactive .pmobile-app {
+	font-size: 14px;
+}
+.wf-active .pmobile-app {
+	font-size: 14px;
+}
+.wf-active .pmobile-app input, .wf-active .pmobile-app textarea, .wf-active .pmobile-app select {
+	font-size: 1.0em;
+}
+.pmobile-app {
+	position: relative;
+	color: #1a1414;
+}
+.pmobile-wait {
+	position:absolute; display:none; z-index: 10; bottom: 0; left: 0; right: 0; top: 0;
+}
+.pmobile-wait-modal {
+	position:absolute; right:0; top:0; bottom:0; left:0; z-index:11;
+	background-color: #fff;	
+	filter:alpha(opacity=80);	
+	opacity:0.80;
+}
+.pmobile-wait-display {
+	position:absolute; top: 30px; left: 30px; right: 30px; z-index: 12;
+}
+.pmobile-wait-msg {	
+	padding: 20px; border: 1px solid #ccc;
+	text-align: center;	
+	background-color: #fff;
+}
+a.pmobile-primary-button {
+	display:block;
+	height:40px; margin-right:6px; padding:0px 5px 0px 5px;
+	color:#e0e0e0; text-align:center; text-decoration:none;
+	background-image: url("/ver1.0/mobile/images/pluck-primary-button-left-edge-big.png"), url("/ver1.0/mobile/images/pluck-primary-button-right-edge-big.png");
+	background-repeat: no-repeat, no-repeat;
+	background-position: top left, top right;
+}
+span.pmobile-primary-button-text {
+	display: block;
+	height: 27px; margin: 0px; padding: 9px 0px 4px 0px;	
+	background: url("/ver1.0/mobile/images/pluck-primary-button-center-big.png") top left repeat-x;
+	cursor: pointer;
+}
+a.pmobile-secondary-button {
+	display: block;
+	height:40px; padding:0px 5px 0px 5px;
+	color:#786952; text-align:center; text-decoration:none;
+	background-image: url("/ver1.0/mobile/images/pluck-secondary-button-left-edge-big.png"), url("/ver1.0/mobile/images/pluck-secondary-button-right-edge-big.png");
+	background-repeat: no-repeat, no-repeat;
+	background-position: top left, top right;
+}
+span.pmobile-secondary-button-text {
+	display: block;
+	height: 30px; margin: 0; padding: 10px 0 0;
+	cursor: pointer;	
+	background: url("/ver1.0/mobile/images/pluck-secondary-button-center-big.png") top left repeat-x;
+}
+a.pmobile-cancel-button {
+	margin-left: 10px;	
+	color: #999; font-size: 0.9em; text-decoration: none;
+}
+.pmobile-process-error {
+	padding: 10px;	
+	font-size: 0.9em;	
+	background: #ddd;
+}
+p.pmobile-error-message {
+	display: none;
+	margin: 0;	
+	color: #c3333;
+}
+p.pmobile-info-message {
+	display: none;
+	margin: 0px;	
+	color: #c63
+}
+.pmobile-pag-wrap {
+	display: none;
+	margin: 0; padding: 5px 5px;
+	text-align: center;
+}
+.pmobile-pag-wrap a {
+	display: block;
+	height: 35px;
+	color: #06c; font-size: 0.9em; line-height: 35px; text-align: center; text-decoration: none;
+}
+.pmobile-pag-wrap img {
+	display: none;
+}
+.pmobile-actions-wrap {
+	height: 40px; margin: 0px 5px;
+}
+.pmobile-actions-wrap div {
+	display: none;
+	height: 40px; padding: 0px; margin: 0px;
+}
+.pmobile-actions-count-0 {
+	display: none;
+}
+.pmobile-actions-count-1 div {
+	width: 25%;
+}
+.pmobile-actions-count-2 div {
+	width: 50%;
+}
+.pmobile-actions-count-3 div {
+	width: 33%;
+}
+.pmobile-actions-count-4 div {
+	width: 25%;
+}
+.pmobile-actions-count-5 div {
+	width: 20%;
+}
+.pmobile-actions-count-2 div.pmobile-double-span {
+	width: 100%;
+}
+.pmobile-actions-count-3 div.pmobile-double-span {
+	width: 70%;
+}
+.pmobile-actions-count-4 div.pmobile-double-span {
+	width: 50%;
+}
+.pmobile-actions-count-5 div.pmobile-double-span {
+	width: 40%;
+}
+.pmobile-actions-wrap a {
+	float: none;
+	margin-left: 5px; margin-right: 5px; width: auto;
+}
+.pmobile-actions-wrap img {
+	border: 0;
+	float: none;
+	margin: 0; height: 16px; padding: 0;
+}
+.pmobile-actions-wrap p {
+	display: block;
+	margin: 0; padding: 0;	
+	color: #786952; font-size: 1em; text-align: center;
+}
+.pmobile-app label.pmobile-error-field {
+	color: #c33;
+}
+.pmobile-required-indicator {
+	color: #c63;
+}
+/** Abuse Submit **/
+.pmobile-abuse {
+	position: relative; display: none;
+	min-height: 100px; padding: 10px; border: 4px solid #bd2626;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+.pmobile-abuse .pmobile-wait {
+	bottom: 4px; left: 4px; right: 4px; top: 4px;
+}
+.pmobile-abuse h4 {
+	margin: 0 0 15px 0; padding: 0;
+	color: #999; font-size: 0.9em; font-weight: normal;
+}
+.pmobile-abuse p {
+	margin: 0; padding: 0;	
+	color: #999;
+}
+.pmobile-abuse select {
+	margin-bottom: 15px;
+}
+.pmobile-abuse-textarea {
+	height: 100px; margin: 0 0 15px 0; width: 99%;	
+	border: 1px solid #afb1b7;
+	border-radius: 4px;
+}
+.pmobile-abuse-actions {
+	display: inline;
+	height: 25px; margin-bottom: 10px;
+}
+.pmobile-abuse .pmobile-primary-button {
+	display: inline-block;	
+	width: 60px;
+}
+.pmobile-powered-by-wrap {
+	height: 30px; text-align: right;	
+	background-color: #999;
+}
+.pmobile-powered-by-wrap a {
+	display: inline-block;
+	margin-top: 3px; margin-right: 5px;
+}
+.pmobile-powered-by-wrap img {
+	border: 0;
+}
+/* // end pluck mobile.css */
+
+/*********************************
+ *
+ * CSS control - DO NOT CHANGE OR REMOVE
+ * needed to track loading of this css file
+ *
+ *********************************/
+
+.pmobile-comments-css-loaded { /* DO NOT CHANGE OR REMOVE - needed to track loading of this css file */
+	border-bottom-color: #010204;
+}
+.pmobile-comments {
+	border: 1px solid #999; margin: 0px auto; max-width: 480px; min-width: 318px; padding: 0px auto; width: auto;
+}
+.pmobile-comments-submit-wrap {
+	position: relative;	
+	min-height: 100px; padding: 10px;
+}
+.pmobile-comments-reply-wrap {
+	display: none;
+	margin: 10px 0;	
+	border: 4px solid #d9d1a4;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+.pmobile-comments-reply-wrap .pmobile-wait {
+	bottom: 4px; left: 4px; right: 4px; top: 4px;
+}
+.pmobile-comments-submit-wrap h4 {
+	margin: 0 0 15px 0; padding: 0;
+	color: #999; font-size: 1.0em; font-weight: normal;
+}
+.pmobile-comments-submit-wrap textarea {
+	height: 50px; margin: 0px 0px 15px 0px; width: 99%;border: 1px solid #afb1b7;
+	border-radius: 4px;
+}
+.pmobile-comments-submit-wrap textarea.pmobile-comments-submit-active {
+	height: 100px;
+}
+.pmobile-comments-submit-actions {
+	height: 40px; margin-bottom: 10px;
+}
+.pmobile-comments-submit-actions .pmobile-primary-button {
+	display: inline-block;	
+	width: 60px;
+}
+.pmobile-auth-wrap {
+	background: #ddd;
+	min-height: 55px; padding-left: 0px; width: 100%;
+}
+.pmobile-auth-wrap a.pmobile-primary-button {
+	display: inline-block;
+	margin-top: 5px; margin-left: 7px; width: 60px;
+}
+.pmobile-comments-noComments {
+	min-height: 30px; padding: 10px;
+	font-size: 0.9em;
+}
+.pmobile-comments-filter-bar {
+	min-height: 30px;	
+	font-size: 0.9em;	
+	background: #a3a29e;
+}
+select.pmobile-comments-filter-select {
+	float: right;
+	margin-right: 10px; margin-top: 3px;
+}
+span.pmobile-comments-filter-sortBy {
+	display: block;
+	float: right;
+	margin-right: 5px; margin-top: 5px;	
+	color: #ffc;
+}
+span.pmobile-comments-filter-txt {
+	display: inline-block;
+	margin-left: 10px; padding-top: 5px;
+	color: #e0e0e0;
+}
+.pmobile-comments-replies .pmobile-pag-wrap {
+	margin-left: 40px;
+}
+.pmobile-comments-prev {
+	border-bottom: 2px solid #a6a6a5;
+}
+.pmobile-comments-replies .pmobile-comments-prev {
+	border-bottom: 0 solid #a6a6a5;
+}
+.pmobile-comments-newPageInfo {
+	display: none;
+}
+.pmobile-comments-thread-wrap {
+	border-bottom: 2px solid #a6a6a5; margin-top: 15px;
+}
+.pmobile-comments-single-wrap {
+	position: relative;	
+	margin-bottom: 15px;
+}
+.pmobile-comments-reply {
+	padding-left: 35px;	
+	background: url('/ver1.0/mobile/images/reply-arrow.png') 17px 21px no-repeat;
+}
+.pmobile-comments-warning {
+	margin: 10px 10px;	
+	font-size: 0.9em; font-style: italic;
+}
+.pmobile-comments-reply .pmobile-comments-warning {
+	margin: 0 10px; padding: 20px 0 0 0;
+}
+.pmobile-comments-meta {
+	font-size: 0.8em;
+}
+span.pmobile-comments-timestamp {
+	margin-left: 10px;	
+	color: #999;
+}
+.pmobile-comments-score-wrap {
+	float: right;
+	margin-right: 10px;	
+	color: #a6a6a5;
+}
+.pmobile-comments-score-wrap p {
+	margin: 0;
+}
+.pmobile-comments-score-wrap img {
+	margin: 0 3px;
+	vertical-align: bottom;
+}
+.pmobile-comments-total-score-number, .pmobile-comments-up-score-number, .pmobile-comments-down-score-number {
+	color: #934c34;
+}
+.pmobile-comments-content {
+	margin-bottom: 15px;
+}
+.pmobile-comments-content p {
+	margin: 10px 0; padding: 0px 10px;	
+	font-size: 0.9em; line-height: 1.9em;
+}
+.pmobile-comments-content p.pmobile-comments-edited {
+	color: #999; text-align: right;
+}
+a.pmobile-comments-username {
+	color: #06c; text-decoration: none;
+}
+span.pmobile-comments-username {
+	font-weight: bold;
+}
+span.pmobile-comments-content-filler {
+	color: #999;
+}
+div.pmobile-comments-comment-reply, .pmobile-comments-can-score div.pmobile-comments-vote-up, .pmobile-comments-can-score div.pmobile-comments-vote-down, .pmobile-comments-scored-up div.pmobile-comments-voted-up, .pmobile-comments-scored-down div.pmobile-comments-voted-down, .pmobile-comments-reported-abuse div.pmobile-comments-reported, .pmobile-comments-report-abuse div.pmobile-comments-report {
+	display: inline-block;
+}
+.pmobile-comments-replies-wrap {
+	height: 35px; margin: 10px 0px 10px 0px;
+}
+a.pmobile-comments-replies-closed {
+	display: inline-block;
+	height: 25px; margin-left: 10px; padding-left: 20px;
+	color: #06c; font-size: 0.9em; text-decoration: none;
+	background: url('/ver1.0/mobile/images/reply-closed.gif') 0px 2px no-repeat;
+}
+a.pmobile-comments-replies-open {
+	display: inline-block;
+	height: 25px; margin-left: 10px; padding-left: 20px;
+	color: #0066cc; font-size: 0.9em; text-decoration: none;
+	background: url('/ver1.0/mobile/images/reply-open.gif') 0px 2px no-repeat;
+}
+.pmobile-comments-replies-wait {
+	display: none;
+	padding-top: 10px;
+	text-align: center;
+}
+.pmobile-comments-reply-count {
+	margin-right: 5px;
+}
+.pmobile-comments-replies-single .pmobile-comments-replies-count-label, .pmobile-comments-replies-multiple .pmobile-comments-reply-count-label, .pmobile-comments-isIgnored .pmobile-comments-abuseReported, .pmobile-comments-isIgnored .pmobile-comments-meta, .pmobile-comments-isIgnored .pmobile-comments-content, .pmobile-comments-isIgnored .pmobile-comments-actions-wrap, .pmobile-comments-isIgnored .pmobile-comments-replies-wrap, .pmobile-comments-isIgnored .pmobile-comments-replies, .pmobile-comments-isAbuseReported .pmobile-comments-meta, .pmobile-comments-isAbuseReported .pmobile-comments-content, .pmobile-comments-isAbuseReported .pmobile-comments-actions-wrap, .pmobile-comments-isAbuseReported .pmobile-comments-replies-wrap, .pmobile-comments-isAbuseReported .pmobile-comments-replies {
+	display: none;
+}
+.pmobile-comments-ignored, .pmobile-comments-abuseReported {
+	cursor: pointer;
+	display: none;
+}
+.pmobile-comments-isIgnored .pmobile-comments-ignored, .pmobile-comments-isAbuseReported .pmobile-comments-abuseReported {
+	display: block;
+}
+/************************
+ * Changes for 5.2
+ ************************/
+.pmobile-comments-content > p {
+	overflow: hidden;
+	word-wrap: break-word;
+}
+/*  // end mobile comments.css */
+.pmobile-comments-introtext {
+	margin:19px 0 0 0 !important; padding:10px 0;
+	border-top-style:solid; border-top-width:1px;	
+    font-size: 11px !important;  font-weight: bold;
+}
+.pmobile-comments {
+	border:none;
+	margin:0; max-width:inherit; min-width:inherit;
+	line-height:normal;
+}
+.wf-active .pmobile-app {
+	font-size: inherit;
+	line-height:normal;
+}
+a.pmobile-primary-button, .pmobile-comments-comment-reply .pmobile-secondary-button {
+	width:auto;	padding:0 15px;	height:auto;
+	font-size:13px;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+.pmobile-comments-submit-actions .pmobile-primary-button {
+    display: inline-block;
+    width: auto;
+}
+.pmobile-auth-wrap, .pmobile-comments-filter-bar, .pmobile-comments-submit-wrap {
+	padding:6px 10px 10px 0; min-height:20px; height:auto; width:auto; margin-bottom:10px; margin-top:20px;
+    background: none;
+}
+.pmobile-comments-filter-bar{
+	margin-top:70px;
+}
+.pmobile-auth-wrap{
+	margin-top:0;
+}
+.pmobile-cancel-button{
+	display: block;
+	margin:10px 0 0!important; padding: 10px 0; border:1px solid #f5f5f5;
+	font-size: 17px!important; font-family: "OpenSans-Regular", Arial, sans-serif; text-align: center;
+	background: #ebebeb;
+}
+.pmobile-comments-reply-wrap {
+	margin-bottom:80px;
+}
+span.pmobile-primary-button-text, .pmobile-comments-comment-reply span.pmobile-secondary-button-text, .pmobile-comments-report span.pmobile-secondary-button-text {
+	height:24px; padding: 4px 0 1px;	
+	font-size: 14px;
+	background:none;
+}
+.pmobile-comments-report span.pmobile-secondary-button-text {
+	position:relative; left:-8px;
+	font-size: 13px; font-family: "OpenSans-Regular", Arial, sans-serif; text-align: center;
+}
+.pmobile-auth-wrap a.pmobile-primary-button {
+	margin:0 10px 0 0;  width: auto;
+}
+span.pmobile-comments-filter-txt {
+	position:relative; top:-1px;
+	margin:0; padding:0;
+	font-weight:bold; font-size:13px;
+}
+span.pmobile-comments-timestamp {
+	position:relative; top:2px;
+	margin-left: 0;
+	font-weight:bold; font-size:10px;
+}
+a.pmobile-comments-username {
+	display:block;	
+    text-decoration: none;
+}
+span.pmobile-comments-content-filler {
+	display:none;
+}
+div.pmobile-comments .pmobile-comments-content p {
+    padding:0;
+	font-size:14px;	
+}
+div.pmobile-comments .pmobile-comments-username {
+	font-style:italic;
+}
+.pmobile-comments-score-wrap img {
+	display:none !important;
+}
+.pmobile-comments-up-score, .pmobile-comments-down-score {
+	display: inline-block; position: relative;	top: 0;
+	height: 18px;	margin: 0 0 0 3px;	min-width: inherit;	padding: 7px 3px 0 20px;width: auto;
+	background-position: 0 4px; background-repeat: no-repeat; border-bottom-style:solid; border-bottom-width:3px;	
+}
+.pmobile-comments-down-score, .pmobile-actions-wrap .pmobile-comments-vote-down .pmobile-secondary-button-text {
+	margin-right:3px;	
+	background-position:bottom left;
+}
+.pmobile-comments-score-wrap {
+    margin-right: 0;
+}
+.pmobile-comments-score-wrap p {
+	margin:0 !important;	
+	font-size:10px !important;
+}
+.pmobile-powered-by-wrap {
+	display:none;
+}
+a.pmobile-comments-replies-closed, a.pmobile-comments-replies-open {
+    display: inline-block;
+    height: 27px;  margin-left: 0; padding:5px 0 0 40px;	
+	background-position:0 0; background-repeat:no-repeat;
+    font-size: 0.9em; text-decoration: none;
+}
+a.pmobile-cancel-button {
+	margin-left: 10px;	
+    font-size: 13px; text-decoration: none;
+}
+span.pmobile-comments-filter-sortBy {
+    display: block;
+    float: right;
+    margin-right: 5px; margin-top: 5px;
+    color: #505050;
+}
+.pmobile-comments-submit-wrap h4 {
+	margin: 0 0 5px;
+	color: #505050; font-size: 14px; font-weight: bold;
+}
+.pmobile-comments-submit-actions {
+    height: 33px;  margin-bottom: 0;
+}
+.pmobile-actions-count-4 div {
+	width:auto;
+}
+.pmobile-comments-thread-wrap {
+	border-bottom-style: solid; border-bottom-width: 1px;
+}
+.pmobile-actions-wrap {
+    height: auto; margin: none;
+	vertical-align:top;
+}
+a.pmobile-secondary-button {
+	background:none;
+}
+.pmobile-actions-wrap img {
+	display:none !important;
+}
+.pmobile-actions-wrap {
+	margin-left:0;
+}
+.pmobile-actions-wrap div {
+	height:auto; clear:none;
+}
+.pmobile-comments-comment-reply{
+	float:right;
+}
+.pmobile-actions-wrap .pmobile-comments-comment-reply a {
+	margin-left:0;
+}
+a.pmobile-secondary-button {
+	height:auto;
+}
+span.pmobile-secondary-button-text {
+	height:auto;
+	background:none;
+}
+.pmobile-actions-wrap {
+	height: 1%;
+	padding-bottom:20px;	
+}
+.pmobile-actions-wrap:after {
+	display: block;
+	height: 0;
+	clear: both;
+	content: "."; visibility: hidden; overflow: hidden;
+}
+.pmobile-comments-report a.pmobile-secondary-button {
+	font-size:13px;
+}
+.pmobile-comments-submit-wrap textarea {
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+}
+select.pmobile-comments-filter-select {
+    margin-right: 0;
+}
+span.pmobile-comments-filter-sortBy {
+	display:none;
+}
+select.pmobile-comments-filter-select {
+    margin-right: 0;
+    margin-top: 0;
+}
+.pmobile-actions-wrap .pmobile-comments-vote-up .pmobile-secondary-button-text, .pmobile-actions-wrap .pmobile-comments-vote-down .pmobile-secondary-button-text {
+	width:32px; height:32px; padding:0;
+	background-repeat:no-repeat;
+	background:0 0;
+}
+.pmobile-actions-wrap .pmobile-comments-vote-down .pmobile-secondary-button-text {
+	background-position:bottom left;
+}
+.pmobile-actions-wrap .pmobile-comments-vote-up .pmobile-secondary-button, .pmobile-actions-wrap .pmobile-comments-vote-down .pmobile-secondary-button {
+	padding:0;
+}
+.pmobile-comments-single-wrap {
+    margin-bottom: 0;
+}
+.pmobile-comments-replies-wrap {
+    height: auto; margin: 0 0 20px 0;
+}
+.pmobile-comments-replies {
+	border-top-style:dashed; border-top-width:1px; padding-top:15px;
+}
+.pmobile-comments-total-score {
+	display:none;
+}
+.pmobile-actions-count-2 div {
+    width: auto;
+}
+.pmobile-actions-count-4 div.pmobile-double-span {
+	float: left;
+    width: auto;
+}
+.pmobile-actions-wrap .pmobile-comments-voted-up p img, .pmobile-actions-wrap .pmobile-comments-voted-down p img {
+	display:none;
+}
+.pmobile-actions-wrap .pmobile-comments-voted-up p, .pmobile-actions-wrap .pmobile-comments-voted-down p {
+	margin:0 5px; height:16px; padding: 0 0 3px 35px;
+	font-family: "OpenSans-Regular", Arial, sans-serif; text-align: center;
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat scroll 0 bottom;
+}
+.pmobile-actions-wrap .pmobile-comments-voted-up p{
+	background: url("/assets/images/comments/comment-rate-icon.gif") no-repeat scroll 0 top;	
+}
+#article .post .pmobile-actions-wrap p {
+	margin:0;
+}
+#article .post .pmobile-actions-wrap p img {
+	display:none;
+}
+.pmobile-actions-wrap .pmobile-comments-voted-down p {
+	background-position:left bottom;
+}
+#article .post .pmobile-actions-wrap .pmobile-comments-voted-up p, #article .post .pmobile-actions-wrap .pmobile-comments-voted-down p {
+	margin:0 5px;
+}
+.pmobile-actions-count-3 div {
+	width:auto;
+}
+.pmobile-comments-replies .pmobile-comments-isAbuseReported {
+	background-position:2px 7px;
+	padding:10px 0 10px 35px;
+}
+.pmobile-comments-isAbuseReported .pmobile-comments-abuseReported {
+	opacity:0.5;
+}
+.pmobile-comments-replies .pmobile-comments-isAbuseReported .pmobile-comments-abuseReported {
+	padding:0;
+	margin:0;
+}
+.pmobile-comments-replies .pmobile-comments-reply {
+	margin-bottom:10px;
+}
+.pmobile-actions-wrap .pmobile-comments-vote-up .pmobile-secondary-button-text{ 
+	background-position:0 0; 
+	background-repeat:no-repeat;
+}
+#comments .pmobile-comments-submit-wrap textarea::-moz-placeholder {
+	font-style: italic; font-size: 14px;
+}
+#comments .pmobile-comments-submit-wrap textarea::-webkit-input-placeholder {
+	font-style: italic; font-size: 14px;
+}
+#comments .pmobile-comments-submit-wrap textarea:-ms-input-placeholder {
+	font-style: italic; font-size: 14px;
+}
+.pmobile-comments-single-wrap .pmobile-comments-actions-wrap .pmobile-double-span,
+.pmobile-comments-single-wrap .pmobile-comments-actions-wrap .pmobile-comments-reported
+ {
+	margin-top:6px;
+}
+
+.pmobile-comments-single-wrap .pmobile-comments-actions-wrap .pmobile-comments-reported {
+  margin-right: 8px;
+}
+
+.pmobile-comments-single-wrap .pmobile-comments-actions-wrap .pmobile-double-span p{
+	padding-bottom:6px;
+}
+.pmobile-comments-single-wrap .pmobile-comments-actions-wrap  .pmobile-comments-vote-down, .pmobile-comments-single-wrap .pmobile-comments-actions-wrap  .pmobile-comments-vote-up{
+	height:22px;
+}
+
+.pmobile-comments-submit-actions {
+	height: auto;
+}

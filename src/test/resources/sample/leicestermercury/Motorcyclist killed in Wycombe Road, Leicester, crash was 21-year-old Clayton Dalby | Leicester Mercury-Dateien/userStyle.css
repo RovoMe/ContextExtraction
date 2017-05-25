@@ -1,0 +1,272 @@
+
+.image-holder {
+	position: relative;
+	display:block;
+}
+.overlay-share {
+	position: absolute;
+	height:auto;
+    padding: 0px;
+    line-height: 25px;
+	bottom: 10px;
+	right: 10px;
+	cursor:pointer;
+	z-index:2;
+}
+.flex-active-slide .overlay-share, .single-image .overlay-share  {
+	top: 52px;
+	right: 40px;
+}
+.top-align {
+    margin-top: 50px;
+}
+.span-color {
+	color: #ffffff;
+	font-weight: bold;
+}
+.hide-shareOverlay {
+	display: none;
+}
+.show-shareOverlay {
+	display: block;
+}
+.mail-container-holder {
+	position: relative
+}
+.mail-container {
+	position: absolute;
+    width: 250px;
+    padding: 6px;
+    bottom: 10px;
+    /* z-index: 1001; */
+    background: #fff;
+    right: -100px;
+}
+.hide-mail-container {
+	display: none;
+}
+.show-mail-container {
+	display: block;
+}
+.ul-trans {
+    width: 66px;
+    margin:0;
+}
+.ul-trans li {
+    /* padding: 2px; */
+    /*width: 60px;*/
+    /*opacity: .9;*/
+    color: #fff;
+}
+.ul-trans li.text {
+    background: #645f5f;
+    font-size: 11px;
+    line-height: 14px;
+    height: 40px;
+    padding:5px 0px;
+    width: 66px;
+    position: relative;
+    left: 0px;
+    margin-bottom: 0px;
+}
+.share-pictures-icon {
+    /* background-image: url(../../images/newspaperV2/sprite_image_sharing.png); */
+    width: 66px;
+    height: 57px;
+    margin-bottom: 0px;
+}
+.share-fb {
+    /* background-position: 0 -40px; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/face_off.png);
+}
+.share-fb:hover {
+    /* background-position: 0 0; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/face_on.png);
+}
+.share-tw {
+    /* background-position: -51px -40px; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/tweet_off.png);
+}
+.share-tw:hover {
+    /* background-position: -51px 0; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/tweet_on.png);
+}
+.share-pin {
+    /* background-position: -340px -40px; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/pin_off.png);
+}
+.share-pin:hover {
+    /* background-position: -340px 0; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/pin_on.png);
+}
+.share-google {
+    /* background-position: -102px -40px; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/insta_off.png);
+}
+.share-google:hover {
+    /* background-position: -102px 0; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/insta_on.png);
+}
+.share-mail {
+    /* background-position: -153px -40px; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/mail_off.png);
+}
+.share-mail:hover {
+    /* background-position: -153px 0; */
+    background-image: url(../../images/newspaperV2/Shared-buttons/png/mail_on.png);
+}
+.overlay-icons {
+    text-align: center;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+.images-share {
+    position: absolute;
+   /* opacity: .7;*/
+    background-color: rgba(0,0,0,.5);
+    bottom: 10px;
+	right: 15px;
+	/*z-index: 1000;*/
+    /*background: #000000;*/
+    box-sizing: border-box;
+    display: table;
+    height: 36px;
+    line-height: 34px;
+    font-size: 16px;
+    text-align: left;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.camera-icon-holder {
+   /* background-image: url(../images/icon_camera_90x68.png);*/
+    background: url(../images/icon_camera_90x68.png) no-repeat 10px;
+    height: 20px;
+    width: 24px;
+    float: none;
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 7px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background-size: 27px;
+    box-sizing: content-box;
+}
+.images-share span {
+    float: none;
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 10px;
+    padding-top: 2px;
+    color: #fff;
+}
+.url-share {
+    height: 26px;
+}
+.share-pictures-links.image-share-horizontal {
+    right: 10px; 
+    height: 54px;
+}
+.share-pictures-links.image-share-horizontal {
+bottom: 10px;
+}
+.share-pictures-links.image-share-horizontal ul {
+    width: 240px;
+}
+.share-pictures-links.image-share-horizontal li {
+width: 30px;
+height: 30px;
+display: inline-block;
+zoom: 1;
+}
+.share-pictures-icon.text {
+background: 0;
+font-size: 11px;
+line-height: 14px;
+height: 30px;
+width: 60px;
+position: relative;
+left: -10px;
+}
+.share-pictures-links.image-share-horizontal li.text {
+width: 44px;
+position: relative;
+bottom: 13px;
+margin-left: 10px;
+}
+.share-pictures-links.image-share-horizontal li.facebook {
+/* background-position: 0 -120px; */
+background-image: url(../../images/newspaperV2/Shared-buttons/face_off.png);
+}
+.share-pictures-links.image-share-horizontal li.facebook:hover {
+/* background-position: 0 -90px; */
+background-image: url(../../images/newspaperV2/Shared-buttons/face_on.png);
+}
+.share-pictures-links.image-share-horizontal li.twitter {
+background-position: -40px -120px;
+}
+.share-pictures-links.image-share-horizontal li.twitter:hover {
+background-position: -40px -90px;
+}
+.share-pictures-links.image-share-horizontal li.pinterest {
+background-position: -160px -120px;
+}
+.share-pictures-links.image-share-horizontal li.pinterest:hover {
+background-position: -160px -90px;
+}
+.share-pictures-links.image-share-horizontal li.google {
+background-position: -80px -120px;
+}
+.share-pictures-links.image-share-horizontal li.google:hover {
+background-position: -80px -90px;
+}
+.share-pictures-links.image-share-horizontal li.email {
+background-position: -120px -120px;
+}
+.share-pictures-links.image-share-horizontal li.email:hover {
+background-position: -120px -90px;
+}
+.image-share-url-lightbox {
+right:0;
+display: none;
+position: absolute;
+font-size: 13px;
+background-color: #fff;
+z-index: 99998;
+border: 1px solid silver;
+padding: 10px 10px 0;
+}
+#share-url-lightbox-content {
+height: 54px;
+padding: 5px;
+width: 250px;
+text-align: right;
+}
+#share-url-lightbox-content #share-url-input {
+border: 1px solid silver;
+padding: 3px;
+width: 98%;
+background:  no-repeat;
+background-position: -100px -40px;
+line-height: 1px;
+}
+#share-url-lightbox-content p {
+color: #000 !important;
+/*margin-top: 5px;*/
+font-size: 12px !important;
+}
+#image-share-url-lightbox-arrow {
+left: 131px;
+top: -11px;
+position: absolute;
+z-index: 99999;
+width: 20px;
+height: 11px;
+background-position: -600px 0;
+
+}
+.share-pictures-links.image-share-horizontal .image-share-url-lightbox {
+left: 87px;
+bottom: -67px;
+}

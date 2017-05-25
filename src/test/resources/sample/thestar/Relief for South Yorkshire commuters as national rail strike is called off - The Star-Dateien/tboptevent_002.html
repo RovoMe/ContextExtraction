@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script>
+(function(){
+    var cookieName = 'ytuextpv';
+    var cookieDays = 90;
+
+    setCookie=function(n,v,a) { var d = new Date(); d.setTime(d.getTime() + (a*24*60*60*1000)); var e = "expires="+d.toUTCString(); document.cookie = n + "=" + v + "; " + e + "; path=/; domain=perfectmarket.com"; };
+
+    getCookie=function(v) {var i,x,y,c=document.cookie.split(';');for(i=0;i<c.length;i++){x=c[i].substr(0,c[i].indexOf('='));y=c[i].substr(c[i].indexOf('=')+1);x=x.replace(/^\s+|\s+$/g,'');if(x==v){return unescape(y);}}};
+
+    setup=function() {
+        var v=2;
+
+        switch (v) {
+            case 1: v1();
+            case 2: v2();
+        }
+    };
+
+    out=function(jj) {
+        jj = JSON.stringify(jj); 
+        if (window.postMessage) top.postMessage(jj,'*');
+        jj = typeof btoa === 'function' ? btoa(jj) : jj;
+        setCookie(cookieName, jj, cookieDays);
+    };
+
+    v2=function() {
+        var a=getCookie(cookieName);
+        var da='{"stp":{"v":1}}';
+        var ac='u';
+        var jj={'tbopt' : {'v':0, 'm':{}}};
+        if (ac == 'r') {
+            out(jj);
+            return;
+        }
+        if (a != null) {
+            a = typeof atob === 'function' ? atob(a) : a;
+            var k = JSON.parse(a);
+            if (k.tbopt == null) k = jj;
+            if (typeof k.tbopt.m === 'undefined') {
+                k.tbopt.m = {};
+                if (typeof k.tbopt.s !== 'undefined') {k.tbopt.m.stp = {}; k.tbopt.m.stp.c = k.tbopt.s}
+                if (typeof k.tbopt.tc !== 'undefined') {k.tbopt.m.tts = {}; k.tbopt.m.tts.c = k.tbopt.tc}
+                if (typeof k.tbopt.tp !== 'undefined') {k.tbopt.m.tts.c2 = k.tbopt.tp}
+            }
+            jj = k;
+        }
+        if (ac == 'v') {
+            jj.tbopt.v++;
+            out(jj);
+        }
+        else if (ac == 'u') {
+            var dd=decodeURIComponent(da);
+            if (dd.length == 0) return;
+            var dm=JSON.parse(dd);
+            for (var i in dm) {
+                if (typeof jj.tbopt.m[i] == 'undefined') jj.tbopt.m[i] = {};
+                for (var x in dm[i]) {
+                    if (typeof jj.tbopt.m[i][x] == 'undefined') jj.tbopt.m[i][x] = 0;
+                    jj.tbopt.m[i][x] += dm[i][x];
+                }
+            }
+            out(jj);
+        }
+    };
+
+    v1=function() {
+        var a=getCookie(cookieName);
+        var m='';
+        if (m == null || (m != 'v' && m != 's' && m != 'tc' && m != 'tp' && m != 'r')) return;
+        var j = { 'tbopt' : { 'v': 0, 's': 0, 'tc': 0, 'tp': 0 }};
+        if (m != 'r') {
+            if (a != null) {
+                a = typeof atob === 'function' ? atob(a) : a;
+                var k = JSON.parse(a);
+                if (k.tbopt == null) k = j;
+                if (typeof k.tbopt.tc === 'undefined') k.tbopt.tc = 0;
+                if (typeof k.tbopt.tp === 'undefined') k.tbopt.tp = 0;
+                j = k;
+            }
+        }
+        if (m == 'v') j['tbopt']['v']++;
+        else if (m == 's') j['tbopt']['s']++;  
+        else if (m == 'tc') j['tbopt']['tc']++;
+        else if (m == 'tp') j['tbopt']['tp']++;
+        j = JSON.stringify(j); 
+        
+        if (window.postMessage) {
+            top.postMessage(j,'*');
+        }
+
+        j = typeof btoa === 'function' ? btoa(j) : j;
+        setCookie(cookieName, j, cookieDays);
+    };
+    setup();
+})();
+</script>
+</head>
+<body>
+
+</body></html>

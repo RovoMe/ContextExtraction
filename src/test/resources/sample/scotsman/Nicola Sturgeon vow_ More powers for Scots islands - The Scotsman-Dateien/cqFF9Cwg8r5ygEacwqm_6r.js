@@ -1,0 +1,1 @@
+Tynt.sc({"d":true,"w":"TheScotsman","f":"TheScotsmanNewspaper","domain":"scotsman.com"})

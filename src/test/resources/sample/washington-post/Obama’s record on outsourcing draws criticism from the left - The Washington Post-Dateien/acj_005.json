@@ -1,0 +1,33 @@
+OX_4153356253({
+  "ads":{
+    "medium":"w",
+    "record_tmpl":"https://ox-d.washingtonpost.servedbyopenx.com/{medium}/1.0/{rtype}?bi=bf5c3cf0-6f76-4c53-ad52-06edd8657a39&ts={txn_state}",
+    "adunits" : [
+      {
+        "auid":"537991762",
+        "chain_revenue":"",
+        "chain":[
+          {
+            "is_fallback":0,
+            "framed":1,
+            "ad_id":"537149871",
+            "adv_acct_id":"537073301",
+            "is_ng":1,
+            "adv_id":"152d07b1-da41-4c40-ad18-fe74c269534a:537073301",
+            "brand_id":"3869",
+            "cpipc":840,
+            "auct_win_is_deal":0,
+            "pub_rev":"840",
+            "width":"160",
+            "height":"600",
+            "html":"<script type=\"text/javascript\" src=\"https://pr-bucket.ybp.yahoo.com/ab/secure/true/imp/ljkF1rt8V5sanFI5kGyGvIVBgaVOBSCqDxYtvs3QWuwQ9ePu3uY4hVWzIyPUQxGwRb3ZytPwRE8mGk2vOv0aoFR6f_JIHh_iFvcjdLPJ4j7iHSvLrDksYH8GhBXVAtCKEQPiFj1rXP_WvhQ8NoArCb1lYxOOCLgaM9lVd9ymYzWGOrNQfEug8F2dShAEU_99_wPNgVocTgWdHAFtpMqgzfzRBJ0Hm0NloHln-7K40xUDjQ2je4ZBeC-GDZ2J3TIsSvOl00L68YtWBJW4wMedh00L6J8YImmCMALpBbo695Cqk9HnCQNyANXuqvTqJjwq02EgILV3FxqLfDrUJO67gjdqLOkMWV-v4AUd6omAR4IriCCLUkKjUJeD7OiWUpbusymoFoyb6BZVqpsXPBZxTBkmQ19u-xn5Ap_6aiLPcfXFozAdN0jC2nyeLwb6VAzZ0nJ1TQ4ZXe2Xu3D-6X5Rv3HQg_Z33X0_QPRxI2uEVD6rRnLBGzDEb2b1i9fNO_fef2blQIEhQIEL0YnypbgT3mt3xtKv35r0td3AhKSPuV5yOiCstwZdNyjasX0NYIOZDGWMuk91gP0OvJqLrH7f8QAw96x3ZB9a2qhO988-XvvLf8rcrQV1WRtdcfbG8Q9imsTmu_JsyPtwNREp_prNBdK_7Bai3470oQsKjYDgNzNQRzaS2VcWBwlnPHygm5dH0e9eV1dPSlzD38CSV2L42BY7sGT5Pm7tOGX01EOs1KQjl9CsQAk0XVFb0sqe6sk-SITqtZmebhVgp3Pp9VvGMR81NIp-ZcPlle3zc2qLFl0OYZ_4xmrp-zHSI6gI9mlaA_yXk9MgyqFf9VWN28k31QiV_Jj7N5w-BUNnlu3OLDYsLLLHXRkKi_qEf3QTVo1W5FfW_VKr7Icc6e4jNR6EXDp-CnVvTrYjUHDNcxpIpZS5tJYEPflTgBuJW7CHlYWZ1kF_cliGYcLIXUZJ_d596bEMiSMq8DTx93XQKoFGHnTcHQzScX65Dh6RodazhmUe-NYUkg8pEyDCNgiu1nE-u2mlxww64dH-aUik4LOTeQzGK-1PVrSMYOvoVyGXIbKbNPgqos6-1g09EWd3K1KBKw/wp/AAABUeEqcLx3faJw8cCEyCNupvHvIpgTrNdIhQ\"></script>",
+            "target":"_blank",
+            "ts":"1fHJpZD1hMzM0MjZlZi01NjNiLTRkOTItOTcxNy05MTY4MGFjZGI5YzB8cnQ9MTQ1MTE4MTYzM3xhdWlkPTUzNzk5MTc2MnxhdW09RE1JRC5XRUJ8c2lkPTUzNzE4OTExOXxwdWI9NTM3MTA4MzU5fHBjPVVTRHxyYWlkPTA1YjVjNTc3LWE5NjQtNGViYi04ODhkLTA2ZmE5YWQ2MjgyOXxhaWQ9NTM3MTQ5ODcxfHQ9MTJ8YXM9MTYweDYwMHxsaWQ9NTM3MTIwNjE3fG9pZD01MzcwOTYzMTh8cD0xMDUwfHByPTg0MHxhdGI9Mzc5OXxhZHY9NTM3MDczMzAxfGFjPVVTRHxwbT1QUklDSU5HLkNQTXxtPTF8YWk9MTUyZDA3YjEtZGE0MS00YzQwLWFkMTgtZmU3NGMyNjk1MzRhfG1jPVVTRHxtcj0yMTB8cGk9ODQwfG11aT1jYjQ5MDg5NS1jYWU5LTRlNjItMGEwZC1jYjVkMTQzNDUwNDR8bWE9NWY0ZmNjYmUtMWYyMy00Y2NjLTkwNmEtOWZiYzYwZmJkMGZlfG1ydD0xNDUxMTgxNjMzfG1yYz1TUlRfV09OfG13YT01MzcwNzMzMDF8bXdiaT0zODY5fG13Yj0zNzk5fG1hcD0xMDUwfGVsZz0xfG1vYz1VU0R8bW9yPTIxMHxtcGM9VVNEfG1wcj04NDB8bXBmPTc1fG1tZj03NXxtcG5mPTE0OXxtbW5mPTE0OXxwY3Y9Mjh8bW89T1h8ZWM9MjQ3MzkyfG13cz04OTkyZWUyZS03NDgzLTRhOTAtYTRhYS0zYjIyNTE3ZGY1OTh8bXB1PTg0MHxtY3A9MTA1MHxhcXQ9cnRifG13Yz01MzcwOTYzMTh8bXdwPTUzNzEyMDYxN3xtd2NyPTUzNzE0OTg3MXxtd2lzPTF8bXdwdD1veF9wcm90b3x1cj1NQzRkWjB6WDZKfGxkPW5vYXR0YWNrcy5vcmc",
+            "type":"html",
+            "ad_url":"<script type=\"text/javascript\" src=\"https://pr-bucket.ybp.yahoo.com/ab/secure/true/imp/ljkF1rt8V5sanFI5kGyGvIVBgaVOBSCqDxYtvs3QWuwQ9ePu3uY4hVWzIyPUQxGwRb3ZytPwRE8mGk2vOv0aoFR6f_JIHh_iFvcjdLPJ4j7iHSvLrDksYH8GhBXVAtCKEQPiFj1rXP_WvhQ8NoArCb1lYxOOCLgaM9lVd9ymYzWGOrNQfEug8F2dShAEU_99_wPNgVocTgWdHAFtpMqgzfzRBJ0Hm0NloHln-7K40xUDjQ2je4ZBeC-GDZ2J3TIsSvOl00L68YtWBJW4wMedh00L6J8YImmCMALpBbo695Cqk9HnCQNyANXuqvTqJjwq02EgILV3FxqLfDrUJO67gjdqLOkMWV-v4AUd6omAR4IriCCLUkKjUJeD7OiWUpbusymoFoyb6BZVqpsXPBZxTBkmQ19u-xn5Ap_6aiLPcfXFozAdN0jC2nyeLwb6VAzZ0nJ1TQ4ZXe2Xu3D-6X5Rv3HQg_Z33X0_QPRxI2uEVD6rRnLBGzDEb2b1i9fNO_fef2blQIEhQIEL0YnypbgT3mt3xtKv35r0td3AhKSPuV5yOiCstwZdNyjasX0NYIOZDGWMuk91gP0OvJqLrH7f8QAw96x3ZB9a2qhO988-XvvLf8rcrQV1WRtdcfbG8Q9imsTmu_JsyPtwNREp_prNBdK_7Bai3470oQsKjYDgNzNQRzaS2VcWBwlnPHygm5dH0e9eV1dPSlzD38CSV2L42BY7sGT5Pm7tOGX01EOs1KQjl9CsQAk0XVFb0sqe6sk-SITqtZmebhVgp3Pp9VvGMR81NIp-ZcPlle3zc2qLFl0OYZ_4xmrp-zHSI6gI9mlaA_yXk9MgyqFf9VWN28k31QiV_Jj7N5w-BUNnlu3OLDYsLLLHXRkKi_qEf3QTVo1W5FfW_VKr7Icc6e4jNR6EXDp-CnVvTrYjUHDNcxpIpZS5tJYEPflTgBuJW7CHlYWZ1kF_cliGYcLIXUZJ_d596bEMiSMq8DTx93XQKoFGHnTcHQzScX65Dh6RodazhmUe-NYUkg8pEyDCNgiu1nE-u2mlxww64dH-aUik4LOTeQzGK-1PVrSMYOvoVyGXIbKbNPgqos6-1g09EWd3K1KBKw/wp/AAABUeEqcLx3faJw8cCEyCNupvHvIpgTrNdIhQ\"></script>"
+          }
+        ]
+      }
+    ]
+  }
+});
